@@ -3,7 +3,10 @@ package bei.m3c.activities;
 import android.os.Bundle;
 
 import bei.m3c.R;
+import bei.m3c.fragments.ACFragment;
+import bei.m3c.fragments.LightsFragment;
 import bei.m3c.fragments.MusicFragment;
+import bei.m3c.fragments.TVFragment;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -35,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MusicFragment(), getString(R.string.music_title));
-        adapter.addFragment(new MusicFragment(), getString(R.string.tv_title));
-        adapter.addFragment(new MusicFragment(), getString(R.string.lights_title));
-        adapter.addFragment(new MusicFragment(), getString(R.string.ac_title));
+        adapter.addFragment(new TVFragment(), getString(R.string.tv_title));
+        adapter.addFragment(new LightsFragment(), getString(R.string.lights_title));
+        adapter.addFragment(new ACFragment(), getString(R.string.ac_title));
         viewPager.setAdapter(adapter);
     }
 

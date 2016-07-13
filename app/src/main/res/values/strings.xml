@@ -4,7 +4,4 @@
     <string name="tv_title">TV</string>
     <string name="lights_title">Luces</string>
     <string name="ac_title">Aire</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

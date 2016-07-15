@@ -1,7 +1,14 @@
 <resources>
+    <!--Common-->
     <string name="app_name">M3C</string>
     <string name="music_title">Música</string>
     <string name="tv_title">TV</string>
     <string name="lights_title">Luces</string>
     <string name="ac_title">Aire</string>
+
+    <!--Media-->
+    <string name="artist">Artista</string>
+    <string name="album">Álbum</string>
+    <string name="song">Canción</string>
+    <string name="time_default">--:--</string>
 </resources>

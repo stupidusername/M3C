@@ -20,6 +20,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final int COLOR_ACCENT = 0xFFFFFFFF;
+
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.setSelectedTabIndicatorColor(COLOR_ACCENT);
         tabLayout.setupWithViewPager(viewPager);
     }
 

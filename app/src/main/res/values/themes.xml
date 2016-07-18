@@ -2,5 +2,6 @@
 <resources>
     <style name="appTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:colorBackground">@color/gray_dark</item>
+        <item name="colorAccent">@color/default_accent_color</item>
     </style>
 </resources>

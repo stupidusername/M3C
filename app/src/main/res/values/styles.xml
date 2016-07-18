@@ -10,4 +10,12 @@
         <item name="android:scaleType">fitCenter</item>
         <item name="android:adjustViewBounds">true</item>
     </style>
+
+    <!--Widget styles-->
+    <style name="listview">
+        <item name="android:divider">@android:color/transparent</item>
+        <item name="android:dividerHeight">5dp</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:overScrollMode">never</item>
+    </style>
 </resources>

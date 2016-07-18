@@ -20,7 +20,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final int COLOR_ACCENT = 0xFFFFFFFF;
+    public static final int COLOR_ACCENT = 0xFF00FDFD;
 
     private TabLayout tabLayout;
     private ViewPager viewPager;

@@ -6,12 +6,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SeekBar;
 
+import java.util.ArrayList;
+
 import bei.m3c.R;
 import bei.m3c.activities.MainActivity;
+import bei.m3c.adapters.RadioAdapter;
+import bei.m3c.models.Radio;
 
 /**
  * Music fragment
@@ -33,14 +36,25 @@ public class MusicFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        radiosListView = (ListView) view.findViewById(R.id.media_listview);
-        timeSeekbar = (SeekBar) view.findViewById(R.id.media_time_seekbar);
-        volumeSeekbar = (SeekBar) view.findViewById(R.id.media_volume_seekbar);
+        radiosListView = (ListView) view.findViewById(R.id.music_listview);
+        timeSeekbar = (SeekBar) view.findViewById(R.id.music_time_seekbar);
+        volumeSeekbar = (SeekBar) view.findViewById(R.id.music_volume_seekbar);
 
         // Load demo data to the radio list view
-        String[] radios = {"Rock", "Pop", "Electrónica", "Clásicos",
-                "Latino", "Reggae", "Baladas", "Jazz", "Hip-Hop", "Tango", "80s", "90s"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, radios);
+        ArrayList<Radio> radios = new ArrayList<>();
+        radios.add(new Radio(1, "Rock"));
+        radios.add(new Radio(1, "Pop"));
+        radios.add(new Radio(1, "Electrónica"));
+        radios.add(new Radio(1, "Clásicos"));
+        radios.add(new Radio(1, "Latino"));
+        radios.add(new Radio(1, "Reggae"));
+        radios.add(new Radio(1, "Baladas"));
+        radios.add(new Radio(1, "Jazz"));
+        radios.add(new Radio(1, "Hip-Hop"));
+        radios.add(new Radio(1, "Tango"));
+        radios.add(new Radio(1, "80s"));
+        radios.add(new Radio(1, "90s"));
+        RadioAdapter adapter = new RadioAdapter(getContext(), R.layout.listview_row, radios);
         radiosListView.setAdapter(adapter);
 
         timeSeekbar.setProgressTintList(ColorStateList.valueOf(MainActivity.COLOR_ACCENT));

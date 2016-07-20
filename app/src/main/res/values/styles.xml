@@ -14,6 +14,16 @@
         <item name="android:adjustViewBounds">true</item>
     </style>
 
+    <!--Button styles-->
+    <style name="imageButton" parent="image">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    <style name="imageButtonLarge" parent="imageButton">
+        <item name="android:layout_width">75dp</item>
+        <item name="android:layout_height">75dp</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
     <!--Widget styles-->
     <style name="listview">
         <item name="android:divider">@android:color/transparent</item>

@@ -22,14 +22,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:gravity="center"
-            android:layout_marginLeft="10dp">
+            android:gravity="center">
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingLeft="10dp">
 
                 <ImageView
                     android:layout_width="0dp"
@@ -37,7 +37,7 @@
                     android:id="@+id/music_albumart"
                     android:layout_weight="1"
                     android:src="@drawable/albumart_placeholder"
-                    android:adjustViewBounds="true" />
+                    style="@style/image" />
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="10dp">
+                    android:paddingLeft="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -102,47 +102,33 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:gravity="center"
+                android:layout_marginTop="10dp">
 
                 <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:id="@+id/music_play_button"
                     android:src="@drawable/play"
-                    style="@style/image" />
+                    style="@style/imageButtonLarge" />
 
                 <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:id="@+id/music_previous_button"
                     android:src="@drawable/previous"
-                    style="@style/image" />
+                    style="@style/imageButtonLarge" />
 
                 <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:id="@+id/music_stop_button"
                     android:src="@drawable/stop"
-                    style="@style/image"  />
+                    style="@style/imageButtonLarge"  />
 
                 <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:id="@+id/music_next_button"
                     android:src="@drawable/next"
-                    style="@style/image" />
+                    style="@style/imageButtonLarge" />
 
                 <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:id="@+id/music_volume_button"
                     android:src="@drawable/volume_high"
-                    style="@style/image" />
+                    style="@style/imageButtonLarge" />
 
                 <SeekBar
                     android:layout_width="0dp"

@@ -7,6 +7,7 @@ import bei.m3c.fragments.ACFragment;
 import bei.m3c.fragments.LightsFragment;
 import bei.m3c.fragments.MusicFragment;
 import bei.m3c.fragments.TVFragment;
+import bei.m3c.helpers.ThemeHelper;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -20,8 +21,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final int COLOR_ACCENT = 0xFF00FDFD;
-
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.setSelectedTabIndicatorColor(COLOR_ACCENT);
+        tabLayout.setSelectedTabIndicatorColor(ThemeHelper.getAccentColor());
         tabLayout.setupWithViewPager(viewPager);
     }
 

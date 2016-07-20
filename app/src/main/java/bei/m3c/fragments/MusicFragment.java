@@ -12,8 +12,8 @@ import android.widget.SeekBar;
 import java.util.ArrayList;
 
 import bei.m3c.R;
-import bei.m3c.activities.MainActivity;
 import bei.m3c.adapters.RadioAdapter;
+import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.models.Radio;
 
 /**
@@ -56,10 +56,11 @@ public class MusicFragment extends Fragment {
         radios.add(new Radio(1, "90s"));
         RadioAdapter adapter = new RadioAdapter(getContext(), R.layout.listview_row, radios);
         radiosListView.setAdapter(adapter);
+        radiosListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-        timeSeekbar.setProgressTintList(ColorStateList.valueOf(MainActivity.COLOR_ACCENT));
-        timeSeekbar.setThumbTintList(ColorStateList.valueOf(MainActivity.COLOR_ACCENT));
-        volumeSeekbar.setProgressTintList(ColorStateList.valueOf(MainActivity.COLOR_ACCENT));
-        volumeSeekbar.setThumbTintList(ColorStateList.valueOf(MainActivity.COLOR_ACCENT));
+        timeSeekbar.setProgressTintList(ColorStateList.valueOf(ThemeHelper.getAccentColor()));
+        timeSeekbar.setThumbTintList(ColorStateList.valueOf(ThemeHelper.getAccentColor()));
+        volumeSeekbar.setProgressTintList(ColorStateList.valueOf(ThemeHelper.getAccentColor()));
+        volumeSeekbar.setThumbTintList(ColorStateList.valueOf(ThemeHelper.getAccentColor()));
     }
 }

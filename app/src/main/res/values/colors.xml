@@ -2,5 +2,4 @@
 <resources>
     <color name="gray_dark">#070707</color>
     <color name="default_accent_color">#00FDFD</color>
-    <color name="default_accent_color_dark">#007F7F</color>
 </resources>

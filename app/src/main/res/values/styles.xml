@@ -2,6 +2,9 @@
 <resources>
     <!--Text styles-->
     <style name="textNormal">
+        <item name="android:textSize">18dp</item>
+    </style>
+    <style name="textTab" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">20dp</item>
     </style>
 

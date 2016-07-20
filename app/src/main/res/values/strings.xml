@@ -5,6 +5,8 @@
     <string name="tv_title">TV</string>
     <string name="lights_title">Luces</string>
     <string name="ac_title">Aire</string>
+    <string name="bar_title">Bar</string>
+    <string name="bill_title">Cuenta</string>
 
     <!--Music-->
     <string name="artist">Artista</string>

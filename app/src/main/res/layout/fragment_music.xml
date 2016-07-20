@@ -103,7 +103,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="25dp">
 
                 <ImageButton
                     android:id="@+id/music_play_button"

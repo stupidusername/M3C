@@ -52,6 +52,7 @@ public class MusicFragment extends Fragment {
         radios.add(new Radio(1, "Jazz"));
         radios.add(new Radio(1, "Hip-Hop"));
         radios.add(new Radio(1, "Tango"));
+        radios.add(new Radio(1, "Blues"));
         radios.add(new Radio(1, "80s"));
         radios.add(new Radio(1, "90s"));
         RadioAdapter adapter = new RadioAdapter(getContext(), R.layout.listview_row, radios);

@@ -1,8 +1,5 @@
 package bei.m3c.activities;
 
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 
 import bei.m3c.R;
@@ -34,12 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        // Set tab layout according to the color theme
-        tabLayout.setSelectedTabIndicatorColor(ThemeHelper.getAccentColor());
-        LayerDrawable layerDrawable = (LayerDrawable) getDrawable(R.drawable.tablayout_background);
-        Drawable tabLayoutUnderline = layerDrawable.getDrawable(0);
-        tabLayoutUnderline.setColorFilter(ThemeHelper.getDarkAccentColor(), PorterDuff.Mode.SRC);
-        tabLayout.setBackground(layerDrawable);
+        ThemeHelper.setTabLayoutTheme(tabLayout);
         // Add tabs
         tabLayout.setupWithViewPager(viewPager);
     }

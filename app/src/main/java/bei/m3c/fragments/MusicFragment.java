@@ -1,6 +1,5 @@
 package bei.m3c.fragments;
 
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -59,9 +58,7 @@ public class MusicFragment extends Fragment {
         radiosListView.setAdapter(adapter);
         radiosListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-        timeSeekbar.setProgressTintList(ColorStateList.valueOf(ThemeHelper.getAccentColor()));
-        timeSeekbar.setThumbTintList(ColorStateList.valueOf(ThemeHelper.getAccentColor()));
-        volumeSeekbar.setProgressTintList(ColorStateList.valueOf(ThemeHelper.getAccentColor()));
-        volumeSeekbar.setThumbTintList(ColorStateList.valueOf(ThemeHelper.getAccentColor()));
+        ThemeHelper.setSeekBarTheme(timeSeekbar);
+        ThemeHelper.setSeekBarTheme(volumeSeekbar);
     }
 }

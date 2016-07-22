@@ -9,15 +9,15 @@ import android.view.ViewGroup;
 import bei.m3c.R;
 
 /**
- * Lights fragment
+ * Lights and AC fragment
  */
-public class LightsFragment extends Fragment {
+public class LightsACFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lights, container, false);
+        return inflater.inflate(R.layout.fragment_lights_ac, container, false);
     }
 
 }

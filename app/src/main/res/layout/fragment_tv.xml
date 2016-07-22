@@ -24,30 +24,43 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <ImageButton
+                android:id="@+id/tv_power_button"
+                style="@style/imageButtonLarge"
+                android:src="@drawable/power" />
+
             <GridLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:columnCount="3">
-
-                <ImageButton
-                    android:id="@+id/tv_power_button"
-                    style="@style/imageButtonLarge"
-                    android:src="@drawable/power" />
+                android:columnCount="2"
+                android:layout_marginTop="20dp">
 
                 <ImageButton
                     android:id="@+id/tv_plus_button"
                     style="@style/imageButtonNormal"
-                    android:layout_column="0"
                     android:layout_gravity="center"
-                    android:layout_row="1"
                     android:src="@drawable/plus" />
 
                 <ImageButton
                     android:id="@+id/tv_up_button"
                     style="@style/imageButtonNormal"
-                    android:layout_column="2"
-                    android:layout_row="1"
                     android:src="@drawable/up" />
+
+                <TextView
+                    style="@style/textNormal"
+                    android:textAllCaps="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/volume" />
+
+                <TextView
+                    style="@style/textNormal"
+                    android:textAllCaps="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/channel" />
 
                 <ImageButton
                     android:id="@+id/tv_minus_button"
@@ -58,7 +71,6 @@
                 <ImageButton
                     android:id="@+id/tv_down_button"
                     style="@style/imageButtonNormal"
-                    android:layout_column="2"
                     android:src="@drawable/down" />
 
                 <ImageButton
@@ -70,7 +82,6 @@
                 <Button
                     android:id="@+id/tv_info_button"
                     style="@style/buttonNormal"
-                    android:layout_column="2"
                     android:text="@string/info" />
 
             </GridLayout>
@@ -85,60 +96,61 @@
             android:orientation="vertical">
 
             <GridLayout
+                android:id="@+id/tv_number_gridlayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:columnCount="3">
 
                 <Button
-                    android:id="@+id/tv_one_button"
-                    android:text="@string/one"
-                    style="@style/buttonLarge" />
+                    android:id="@+id/tv_1_button"
+                    style="@style/buttonLarge"
+                    android:text="@string/one" />
 
                 <Button
-                    android:id="@+id/tv_two_button"
-                    android:text="@string/two"
-                    style="@style/buttonLarge" />
+                    android:id="@+id/tv_2_button"
+                    style="@style/buttonLarge"
+                    android:text="@string/two" />
 
                 <Button
-                    android:id="@+id/tv_three_button"
-                    android:text="@string/three"
-                    style="@style/buttonLarge" />
+                    android:id="@+id/tv_3_button"
+                    style="@style/buttonLarge"
+                    android:text="@string/three" />
 
                 <Button
-                    android:id="@+id/tv_four_button"
-                    android:text="@string/four"
-                    style="@style/buttonLarge" />
+                    android:id="@+id/tv_4_button"
+                    style="@style/buttonLarge"
+                    android:text="@string/four" />
 
                 <Button
-                    android:id="@+id/tv_five_button"
-                    android:text="@string/five"
-                    style="@style/buttonLarge" />
+                    android:id="@+id/tv_5_button"
+                    style="@style/buttonLarge"
+                    android:text="@string/five" />
 
                 <Button
-                    android:id="@+id/tv_six_button"
-                    android:text="@string/six"
-                    style="@style/buttonLarge" />
+                    android:id="@+id/tv_6_button"
+                    style="@style/buttonLarge"
+                    android:text="@string/six" />
 
                 <Button
-                    android:id="@+id/tv_seven_button"
-                    android:text="@string/seven"
-                    style="@style/buttonLarge" />
+                    android:id="@+id/tv_7_button"
+                    style="@style/buttonLarge"
+                    android:text="@string/seven" />
 
                 <Button
-                    android:id="@+id/tv_eight_button"
-                    android:text="@string/eight"
-                    style="@style/buttonLarge" />
+                    android:id="@+id/tv_8_button"
+                    style="@style/buttonLarge"
+                    android:text="@string/eight" />
 
                 <Button
-                    android:id="@+id/tv_nine_button"
-                    android:text="@string/nine"
-                    style="@style/buttonLarge" />
+                    android:id="@+id/tv_9_button"
+                    style="@style/buttonLarge"
+                    android:text="@string/nine" />
 
                 <Button
-                    android:id="@+id/tv_zero_button"
+                    android:id="@+id/tv_0_button"
+                    style="@style/buttonLarge"
                     android:layout_column="1"
-                    android:text="@string/zero"
-                    style="@style/buttonLarge" />
+                    android:text="@string/zero" />
 
             </GridLayout>
 

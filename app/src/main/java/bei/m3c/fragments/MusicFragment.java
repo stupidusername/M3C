@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SeekBar;
 
@@ -21,6 +22,11 @@ import bei.m3c.models.Radio;
 public class MusicFragment extends Fragment {
 
     private ListView radiosListView;
+    private ImageButton playPauseButton;
+    private ImageButton previousButton;
+    private ImageButton stopButton;
+    private ImageButton nextButton;
+    private ImageButton volumeButton;
     private SeekBar timeSeekbar;
     private SeekBar volumeSeekbar;
 
@@ -36,6 +42,11 @@ public class MusicFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         radiosListView = (ListView) view.findViewById(R.id.music_listview);
+        playPauseButton = (ImageButton) view.findViewById(R.id.music_play_pause_button);
+        previousButton = (ImageButton) view.findViewById(R.id.music_previous_button);
+        stopButton = (ImageButton) view.findViewById(R.id.music_stop_button);
+        nextButton = (ImageButton) view.findViewById(R.id.music_next_button);
+        volumeButton = (ImageButton) view.findViewById(R.id.music_volume_button);
         timeSeekbar = (SeekBar) view.findViewById(R.id.music_time_seekbar);
         volumeSeekbar = (SeekBar) view.findViewById(R.id.music_volume_seekbar);
 
@@ -58,6 +69,11 @@ public class MusicFragment extends Fragment {
         radiosListView.setAdapter(adapter);
         radiosListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
+        ThemeHelper.setImageButtonTheme(playPauseButton);
+        ThemeHelper.setImageButtonTheme(previousButton);
+        ThemeHelper.setImageButtonTheme(stopButton);
+        ThemeHelper.setImageButtonTheme(nextButton);
+        ThemeHelper.setImageButtonTheme(volumeButton);
         ThemeHelper.setSeekBarTheme(timeSeekbar);
         ThemeHelper.setSeekBarTheme(volumeSeekbar);
     }

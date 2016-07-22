@@ -5,9 +5,145 @@
     android:layout_height="match_parent"
     tools:context=".fragments.TVFragment">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/tv_title" />
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ListView
+            android:id="@+id/tv_listview"
+            style="@style/listview"
+            android:layout_width="0dp"
+            android:layout_weight="2" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:columnCount="3">
+
+                <ImageButton
+                    android:id="@+id/tv_power_button"
+                    style="@style/imageButtonLarge"
+                    android:src="@drawable/power" />
+
+                <ImageButton
+                    android:id="@+id/tv_plus_button"
+                    style="@style/imageButtonNormal"
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:layout_row="1"
+                    android:src="@drawable/plus" />
+
+                <ImageButton
+                    android:id="@+id/tv_up_button"
+                    style="@style/imageButtonNormal"
+                    android:layout_column="2"
+                    android:layout_row="1"
+                    android:src="@drawable/up" />
+
+                <ImageButton
+                    android:id="@+id/tv_minus_button"
+                    style="@style/imageButtonNormal"
+                    android:layout_gravity="center"
+                    android:src="@drawable/minus" />
+
+                <ImageButton
+                    android:id="@+id/tv_down_button"
+                    style="@style/imageButtonNormal"
+                    android:layout_column="2"
+                    android:src="@drawable/down" />
+
+                <ImageButton
+                    android:id="@+id/tv_mute_button"
+                    style="@style/imageButtonNormal"
+                    android:layout_gravity="center"
+                    android:src="@drawable/volume_muted" />
+
+                <Button
+                    android:id="@+id/tv_info_button"
+                    style="@style/buttonNormal"
+                    android:layout_column="2"
+                    android:text="@string/info" />
+
+            </GridLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:columnCount="3">
+
+                <Button
+                    android:id="@+id/tv_one_button"
+                    android:text="@string/one"
+                    style="@style/buttonLarge" />
+
+                <Button
+                    android:id="@+id/tv_two_button"
+                    android:text="@string/two"
+                    style="@style/buttonLarge" />
+
+                <Button
+                    android:id="@+id/tv_three_button"
+                    android:text="@string/three"
+                    style="@style/buttonLarge" />
+
+                <Button
+                    android:id="@+id/tv_four_button"
+                    android:text="@string/four"
+                    style="@style/buttonLarge" />
+
+                <Button
+                    android:id="@+id/tv_five_button"
+                    android:text="@string/five"
+                    style="@style/buttonLarge" />
+
+                <Button
+                    android:id="@+id/tv_six_button"
+                    android:text="@string/six"
+                    style="@style/buttonLarge" />
+
+                <Button
+                    android:id="@+id/tv_seven_button"
+                    android:text="@string/seven"
+                    style="@style/buttonLarge" />
+
+                <Button
+                    android:id="@+id/tv_eight_button"
+                    android:text="@string/eight"
+                    style="@style/buttonLarge" />
+
+                <Button
+                    android:id="@+id/tv_nine_button"
+                    android:text="@string/nine"
+                    style="@style/buttonLarge" />
+
+                <Button
+                    android:id="@+id/tv_zero_button"
+                    android:layout_column="1"
+                    android:text="@string/zero"
+                    style="@style/buttonLarge" />
+
+            </GridLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>

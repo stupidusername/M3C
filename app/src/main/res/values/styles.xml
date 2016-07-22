@@ -4,8 +4,9 @@
     <style name="textNormal">
         <item name="android:textSize">18dp</item>
     </style>
+
     <style name="textTab" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">22dp</item>
     </style>
 
     <!--Image styles-->
@@ -15,20 +16,47 @@
     </style>
 
     <!--Button styles-->
+    <style name="button">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/gray_light</item>
+        <item name="android:layout_margin">15dp</item>
+    </style>
+
+    <style name="buttonNormal" parent="button">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textSize">22dp</item>
+    </style>
+
+    <style name="buttonLarge" parent="button">
+        <item name="android:layout_width">75dp</item>
+        <item name="android:layout_height">75dp</item>
+        <item name="android:textSize">33dp</item>
+    </style>
+
     <style name="imageButton" parent="image">
         <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_margin">15dp</item>
     </style>
+
+    <style name="imageButtonNormal" parent="imageButton">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+    </style>
+
     <style name="imageButtonLarge" parent="imageButton">
         <item name="android:layout_width">75dp</item>
         <item name="android:layout_height">75dp</item>
-        <item name="android:layout_margin">10dp</item>
     </style>
 
     <!--Widget styles-->
     <style name="listview">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
         <item name="android:divider">@android:color/transparent</item>
         <item name="android:dividerHeight">5dp</item>
         <item name="android:scrollbars">none</item>
+        <item name="android:listSelector">@android:color/transparent</item>
         <item name="android:overScrollMode">never</item>
     </style>
 </resources>

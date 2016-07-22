@@ -9,15 +9,15 @@ import android.view.ViewGroup;
 import bei.m3c.R;
 
 /**
- * Bill fragment
+ * Info fragment
  */
-public class BillFragment extends Fragment {
+public class InfoFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bill, container, false);
+        return inflater.inflate(R.layout.fragment_info, container, false);
     }
 
 }

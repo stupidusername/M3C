@@ -6,7 +6,7 @@
     <string name="lights_title">Luces</string>
     <string name="ac_title">Aire</string>
     <string name="bar_title">Bar</string>
-    <string name="bill_title">Cuenta</string>
+    <string name="info_title">Info</string>
 
     <!--Music-->
     <string name="artist">Artista</string>

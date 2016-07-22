@@ -6,7 +6,7 @@ import bei.m3c.R;
 import bei.m3c.adapters.ViewPagerAdapter;
 import bei.m3c.fragments.ACFragment;
 import bei.m3c.fragments.BarFragment;
-import bei.m3c.fragments.BillFragment;
+import bei.m3c.fragments.InfoFragment;
 import bei.m3c.fragments.LightsFragment;
 import bei.m3c.fragments.MusicFragment;
 import bei.m3c.fragments.TVFragment;
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new LightsFragment(), getString(R.string.lights_title));
         adapter.addFragment(new ACFragment(), getString(R.string.ac_title));
         adapter.addFragment(new BarFragment(), getString(R.string.bar_title));
-        adapter.addFragment(new BillFragment(), getString(R.string.bill_title));
+        adapter.addFragment(new InfoFragment(), getString(R.string.info_title));
         viewPager.setAdapter(adapter);
     }
 

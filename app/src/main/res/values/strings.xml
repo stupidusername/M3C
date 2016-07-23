@@ -27,4 +27,18 @@
     <string name="seven">7</string>
     <string name="eight">8</string>
     <string name="nine">9</string>
+
+    <!--Lights-->
+
+    <!--AC-->
+    <string name="ac_title">Aire</string>
+    <string name="ac_temp_unit">°C</string>
+    <string name="ac_status">Estado: </string>
+    <string name="ac_status_on">encendido</string>
+    <string name="ac_status_off">apagado</string>
+    <string name="ac_status_stand_by">en espera</string>
+    <string name="ac_mode">Modo:</string>
+    <string name="ac_mode_auto">auto</string>
+    <string name="ac_mode_heat">calor</string>
+    <string name="ac_mode_cool">apagado</string>
 </resources>

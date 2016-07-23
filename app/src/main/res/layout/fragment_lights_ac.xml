@@ -5,9 +5,117 @@
     android:layout_height="match_parent"
     tools:context=".fragments.LightsACFragment">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/lights_ac_title" />
+        android:gravity="center"
+        android:orientation="horizontal">
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/lights_master_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"></LinearLayout>
+
+            <ListView
+                android:id="@+id/lights_listview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ac_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="50dp"
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                style="@style/textLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:text="@string/ac_title"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/ac_power_button"
+                style="@style/imageButtonLarge"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/power" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/ac_minus_button"
+                    style="@style/imageButtonNormal"
+                    android:src="@drawable/minus" />
+
+                <TextView
+                    android:id="@+id/ac_temp_textview"
+                    style="@style/textLarge"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+
+                <ImageButton
+                    android:id="@+id/ac_plus_button"
+                    style="@style/imageButtonNormal"
+                    android:src="@drawable/plus" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/textNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ac_status" />
+
+                <TextView
+                    android:id="@+id/ac_status_textview"
+                    style="@style/textNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/textNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ac_mode" />
+
+                <TextView
+                    android:id="@+id/ac_mode_textview"
+                    style="@style/textNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </FrameLayout>

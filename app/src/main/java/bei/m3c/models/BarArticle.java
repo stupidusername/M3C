@@ -9,4 +9,14 @@ public class BarArticle {
     public String description;
     public BigDecimal price;
     public String pictureUrl;
+
+    public BarArticle(int id, String name, BigDecimal price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getPriceFormatted() {
+        return "$" + this.price;
+    }
 }

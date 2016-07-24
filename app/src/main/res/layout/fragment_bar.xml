@@ -5,9 +5,33 @@
     android:layout_height="match_parent"
     tools:context=".fragments.BarFragment">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/bar_title" />
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ListView
+            android:id="@+id/bar_listview"
+            style="@style/listview"
+            android:layout_width="0dp"
+            android:layout_weight="1" />
+
+        <GridView
+            android:id="@+id/bar_gridview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_weight="3"
+            android:columnWidth="150dp"
+            android:gravity="center"
+            android:horizontalSpacing="25dp"
+            android:numColumns="auto_fit"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="25dp" />
+
+    </LinearLayout>
 
 </FrameLayout>

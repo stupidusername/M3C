@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import bei.m3c.R;
 import bei.m3c.adapters.BarArticleAdapter;
 import bei.m3c.adapters.BarGroupAdapter;
-import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.models.BarArticle;
 import bei.m3c.models.BarGroup;
 

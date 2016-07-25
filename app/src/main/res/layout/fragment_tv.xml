@@ -47,7 +47,7 @@
                     android:src="@drawable/up" />
 
                 <TextView
-                    style="@style/textNormal"
+                    android:textSize="@dimen/textNormal"
                     android:textAllCaps="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                     android:text="@string/volume" />
 
                 <TextView
-                    style="@style/textNormal"
+                    android:textSize="@dimen/textNormal"
                     android:textAllCaps="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,8 @@ public class MusicFragment extends Fragment {
     private ImageButton stopButton;
     private ImageButton nextButton;
     private ImageButton volumeButton;
+    private TextView timeElapsedTextView;
+    private TextView timeRemainingTextView;
     private SeekBar timeSeekbar;
     private SeekBar volumeSeekbar;
 
@@ -47,8 +50,14 @@ public class MusicFragment extends Fragment {
         stopButton = (ImageButton) view.findViewById(R.id.music_stop_button);
         nextButton = (ImageButton) view.findViewById(R.id.music_next_button);
         volumeButton = (ImageButton) view.findViewById(R.id.music_volume_button);
+        timeElapsedTextView = (TextView) view.findViewById(R.id.music_time_elapsed_textview);
+        timeRemainingTextView = (TextView) view.findViewById(R.id.music_time_remaining_textview);
         timeSeekbar = (SeekBar) view.findViewById(R.id.music_time_seekbar);
         volumeSeekbar = (SeekBar) view.findViewById(R.id.music_volume_seekbar);
+
+        // Set default texts
+        timeElapsedTextView.setText(getString(R.string.time_default));
+        timeRemainingTextView.setText(getString(R.string.time_default));
 
         // Load demo data to the radio list view
         ArrayList<Radio> radios = new ArrayList<>();

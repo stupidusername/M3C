@@ -53,18 +53,18 @@ public class BarFragment extends Fragment {
 
         // Load bar articles demo data
         ArrayList<BarArticle> barArticles = new ArrayList<>();
-        barArticles.add(new BarArticle(1, "Test 1", new BigDecimal("1")));
-        barArticles.add(new BarArticle(1, "Test 2", new BigDecimal("2")));
-        barArticles.add(new BarArticle(1, "Test 3", new BigDecimal("3")));
-        barArticles.add(new BarArticle(1, "Test 4", new BigDecimal("4")));
-        barArticles.add(new BarArticle(1, "Test 5", new BigDecimal("5")));
-        barArticles.add(new BarArticle(1, "Test 6", new BigDecimal("6")));
-        barArticles.add(new BarArticle(1, "Test 7", new BigDecimal("7")));
-        barArticles.add(new BarArticle(1, "Test 8", new BigDecimal("8")));
-        barArticles.add(new BarArticle(1, "Test 9", new BigDecimal("9")));
-        barArticles.add(new BarArticle(1, "Test 10", new BigDecimal("10")));
-        barArticles.add(new BarArticle(1, "Test 11", new BigDecimal("11")));
-        barArticles.add(new BarArticle(1, "Test 12", new BigDecimal("12")));
+        barArticles.add(new BarArticle(1, "Test 1", new BigDecimal(1)));
+        barArticles.add(new BarArticle(1, "Test 2", new BigDecimal(2)));
+        barArticles.add(new BarArticle(1, "Test 3", new BigDecimal(3)));
+        barArticles.add(new BarArticle(1, "Test 4", new BigDecimal(4)));
+        barArticles.add(new BarArticle(1, "Test 5", new BigDecimal(5)));
+        barArticles.add(new BarArticle(1, "Test 6", new BigDecimal(6)));
+        barArticles.add(new BarArticle(1, "Test 7", new BigDecimal(7)));
+        barArticles.add(new BarArticle(1, "Test 8", new BigDecimal(8)));
+        barArticles.add(new BarArticle(1, "Test 9", new BigDecimal(9)));
+        barArticles.add(new BarArticle(1, "Test 10", new BigDecimal(10)));
+        barArticles.add(new BarArticle(1, "Test 11", new BigDecimal(11)));
+        barArticles.add(new BarArticle(1, "Test 12", new BigDecimal(12)));
         BarArticleAdapter barArticleAdapter = new BarArticleAdapter(getContext(), R.layout.gridview_item, barArticles);
         articlesGridView.setAdapter(barArticleAdapter);
     }

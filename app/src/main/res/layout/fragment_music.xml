@@ -51,21 +51,21 @@
                         android:layout_height="wrap_content"
                         android:text="@string/song"
                         android:id="@+id/music_title_textview"
-                        style="@style/textNormal" />
+                        android:textSize="@dimen/textNormal" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/artist"
                         android:id="@+id/music_artist_textview"
-                        style="@style/textNormal" />
+                        android:textSize="@dimen/textNormal" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/album"
                         android:id="@+id/music_album_textview"
-                        style="@style/textNormal" />
+                        android:textSize="@dimen/textNormal" />
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -76,9 +76,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/time_default"
                             android:id="@+id/music_time_elapsed_textview"
-                            style="@style/textNormal" />
+                            android:textSize="@dimen/textNormal" />
 
                         <SeekBar
                             android:layout_width="0dp"
@@ -89,9 +88,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/time_default"
                             android:id="@+id/music_time_remaining_textview"
-                            style="@style/textNormal" />
+                            android:textSize="@dimen/textNormal" />
                     </LinearLayout>
 
                 </LinearLayout>

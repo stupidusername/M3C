@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Common-->
     <string name="app_name">M3C</string>
@@ -6,12 +7,13 @@
     <string name="lights_ac_title">Luces/Aire</string>
     <string name="bar_title">Bar</string>
     <string name="info_title">Info</string>
+    <string name="time_default">--:--</string>
+    <string name="no_value">----</string>
 
     <!--Music-->
     <string name="artist">Artista</string>
     <string name="album">Álbum</string>
     <string name="song">Canción</string>
-    <string name="time_default">--:--</string>
 
     <!--TV-->
     <string name="volume">Vol</string>
@@ -41,4 +43,19 @@
     <string name="ac_mode_auto">auto</string>
     <string name="ac_mode_heat">calor</string>
     <string name="ac_mode_cool">apagado</string>
+
+    <!--Info-->
+    <string name="info_special_offer">Promoción</string>
+    <string name="info_shift_start">Ingreso</string>
+    <string name="info_shift_end">Fin de turno</string>
+    <string name="info_alarm">Despertador</string>
+    <string name="info_bill_lodging">Alojamiento</string>
+    <string name="info_bill_surcharge">Recargos/Pernocte</string>
+    <string name="info_bill_bar">Bar</string>
+    <string name="info_bill_bonus">Bonificaciones</string>
+    <string name="info_bill_discount">Descuentos</string>
+    <string name="info_bill_paid">Pagado a cuenta</string>
+    <string name="info_bill_total">Total</string>
+    <string name="info_services">Servicios</string>
+    <string name="info_tariffs">Tarifas</string>
 </resources>

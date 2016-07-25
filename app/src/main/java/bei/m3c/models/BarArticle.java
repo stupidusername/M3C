@@ -15,8 +15,4 @@ public class BarArticle {
         this.name = name;
         this.price = price;
     }
-
-    public String getPriceFormatted() {
-        return "$" + this.price;
-    }
 }

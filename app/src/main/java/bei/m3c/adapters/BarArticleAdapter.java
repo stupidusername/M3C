@@ -1,7 +1,6 @@
 package bei.m3c.adapters;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import bei.m3c.R;
-import bei.m3c.helpers.ThemeHelper;
+import bei.m3c.helpers.FormatHelper;
 import bei.m3c.models.BarArticle;
-import bei.m3c.models.BarGroup;
 
 public class BarArticleAdapter extends ArrayAdapter<BarArticle> {
 
@@ -49,7 +47,7 @@ public class BarArticleAdapter extends ArrayAdapter<BarArticle> {
                 titleTextView.setText(p.name);
             }
             if (priceTextView != null) {
-                priceTextView.setText(p.getPriceFormatted());
+                priceTextView.setText(FormatHelper.asCurrency(p.price));
             }
         }
 

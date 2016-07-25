@@ -42,7 +42,7 @@
             android:padding="15dp">
 
             <TextView
-                style="@style/textLarge"
+                android:textSize="@dimen/textLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
@@ -69,7 +69,7 @@
 
                 <TextView
                     android:id="@+id/ac_temp_textview"
-                    style="@style/textLarge"
+                    android:textSize="@dimen/textLarge"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:gravity="center" />
@@ -87,14 +87,14 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/textNormal"
+                    android:textSize="@dimen/textNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ac_status" />
 
                 <TextView
                     android:id="@+id/ac_status_textview"
-                    style="@style/textNormal"
+                    android:textSize="@dimen/textNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -105,14 +105,14 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/textNormal"
+                    android:textSize="@dimen/textNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ac_mode" />
 
                 <TextView
                     android:id="@+id/ac_mode_textview"
-                    style="@style/textNormal"
+                    android:textSize="@dimen/textNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>

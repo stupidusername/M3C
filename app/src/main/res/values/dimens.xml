@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="textNormal">18dp</dimen>
+    <dimen name="textLarge">22dp</dimen>
+    <dimen name="textExtraLarge">33dp</dimen>
+    <dimen name="textGiant">64dp</dimen>
+</resources>

@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Text styles-->
-    <style name="textNormal">
-        <item name="android:textSize">18dp</item>
-    </style>
-
-    <style name="textLarge">
-        <item name="android:textSize">22dp</item>
-    </style>
-
     <style name="textTab" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">22dp</item>
+        <item name="android:textSize">@dimen/textLarge</item>
+    </style>
+
+    <style name="textInfo">
+        <item name="android:textSize">@dimen/textNormal</item>
+        <item name="android:layout_margin">10dp</item>
     </style>
 
     <!--Image styles-->
@@ -29,13 +26,13 @@
     <style name="buttonNormal" parent="button">
         <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">50dp</item>
-        <item name="android:textSize">22dp</item>
+        <item name="android:textSize">@dimen/textLarge</item>
     </style>
 
     <style name="buttonLarge" parent="button">
         <item name="android:layout_width">75dp</item>
         <item name="android:layout_height">75dp</item>
-        <item name="android:textSize">33dp</item>
+        <item name="android:textSize">@dimen/textExtraLarge</item>
     </style>
 
     <style name="imageButton" parent="image">

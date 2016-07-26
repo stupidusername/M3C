@@ -9,6 +9,11 @@
     <string name="info_title">Info</string>
     <string name="time_default">--:--</string>
     <string name="no_value">----</string>
+    <string name="ok">Aceptar</string>
+    <string name="cancel">cancelar</string>
+    <string name="version">Versión</string>
+    <string name="password">Contraseña</string>
+    <string name="wrong_password">Contraseña incorrecta</string>
 
     <!--Music-->
     <string name="artist">Artista</string>
@@ -58,4 +63,15 @@
     <string name="info_bill_total">Total</string>
     <string name="info_services">Servicios</string>
     <string name="info_tariffs">Tarifas</string>
+
+    <!--Settings-->
+    <string name="settings_room_number">Número de habitación</string>
+    <string name="settings_sgh_address">Dirección del servidor SGH</string>
+    <string name="settings_m3s_address">Dirección del servidor M3S</string>
+    <string name="settings_start_on_boot">Ejecutar al iniciar dispositivo</string>
+    <string name="settings_show_ac_controls">Mostrar controles del aire</string>
+    <string name="settings_message_volume_percentage">Volumen para los mensajes (%)</string>
+    <string name="settings_tv_remote_code">Código del control de TV</string>
+    <string name="settings_theme_color">Color del tema</string>
+
 </resources>

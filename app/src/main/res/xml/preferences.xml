@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:title="@string/settings_room_number"
+        android:numeric="integer"
+        />
+    <EditTextPreference
+        android:title="@string/settings_sgh_address"
+        />
+    <EditTextPreference
+        android:title="@string/settings_m3s_address"
+        />
+    <CheckBoxPreference
+        android:title="@string/settings_start_on_boot"
+        />
+    <CheckBoxPreference
+        android:title="@string/settings_show_ac_controls"
+        />
+    <EditTextPreference
+        android:title="@string/settings_message_volume_percentage"
+        android:numeric="integer"
+        />
+    <EditTextPreference
+        android:title="@string/settings_tv_remote_code"
+        android:numeric="integer"
+        />
+</PreferenceScreen>

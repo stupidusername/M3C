@@ -18,7 +18,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.appcompat.BuildConfig;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         setupViewPager(viewPager);
 
+        // Set up theme
         ThemeHelper.setTabLayoutTheme(tabLayout);
 
         // Add tabs
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up preferences alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        String title = getString(R.string.version) + " " + PreferencesHelper.getAppVersion(this);
+        String title = getString(R.string.version) + " " + PreferencesHelper.getAppVersion();
         builder.setTitle(title);
         builder.setView(R.layout.dialog_preferences);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     // Use immersive mode
     @Override

@@ -25,8 +25,6 @@ import bei.m3c.R;
  */
 public final class ThemeHelper {
 
-    public static final int COLOR_ACCENT = 0xFF00FDFD;
-
     /**
      * the fraction from the accent color to black
      */
@@ -40,7 +38,7 @@ public final class ThemeHelper {
      * @return main accent color
      */
     public static int getAccentColor() {
-        return COLOR_ACCENT;
+        return PreferencesHelper.getThemeColor();
     }
 
     /**
@@ -50,7 +48,7 @@ public final class ThemeHelper {
      */
     public static int getDarkAccentColor() {
         ArgbEvaluator evaluator = new ArgbEvaluator();
-        int darkAccentColor = (int) evaluator.evaluate(DARK_ACCENT_FACTOR, COLOR_ACCENT, Color.BLACK);
+        int darkAccentColor = (int) evaluator.evaluate(DARK_ACCENT_FACTOR, getAccentColor(), Color.BLACK);
         return darkAccentColor;
     }
 

@@ -1,5 +1,6 @@
 package bei.m3c.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
@@ -20,5 +21,14 @@ public class PreferencesActivity extends PreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
         }
+    }
+
+    // Restart app after exit
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 }

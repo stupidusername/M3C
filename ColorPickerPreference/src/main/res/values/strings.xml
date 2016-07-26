@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Color Picker -->
+    <string name="dialog_color_picker">Seleccionar color</string>
+    <string name="press_color_to_apply">Presionar color para aplicar</string>
+</resources>

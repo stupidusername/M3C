@@ -6,6 +6,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 
 import bei.m3c.R;
+import bei.m3c.helpers.KioskModeHelper;
 
 public class PreferencesActivity extends PreferenceActivity {
 
@@ -13,6 +14,7 @@ public class PreferencesActivity extends PreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new PreferencesFragment()).commit();
+        KioskModeHelper.exitKioskMode();
     }
 
     public static class PreferencesFragment extends PreferenceFragment {

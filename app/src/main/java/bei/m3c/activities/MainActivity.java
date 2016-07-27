@@ -11,6 +11,7 @@ import bei.m3c.fragments.InfoFragment;
 import bei.m3c.fragments.LightsACFragment;
 import bei.m3c.fragments.MusicFragment;
 import bei.m3c.fragments.TVFragment;
+import bei.m3c.helpers.KioskModeHelper;
 import bei.m3c.helpers.PreferencesHelper;
 import bei.m3c.helpers.ThemeHelper;
 
@@ -82,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        // Enable kiosk mode
+        KioskModeHelper.initialize(this);
+        KioskModeHelper.enterKioskMode();
     }
 
     // Use immersive mode

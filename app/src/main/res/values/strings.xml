@@ -14,6 +14,8 @@
     <string name="version">Versión</string>
     <string name="password">Contraseña</string>
     <string name="wrong_password">Contraseña incorrecta</string>
+    <string name="device_admin_enabled">Device admin activado</string>
+    <string name="device_owner_not_enabled">Modo kiosco no disponible. La aplicación no es device owner</string>
 
     <!--Music-->
     <string name="artist">Artista</string>

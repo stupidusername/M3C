@@ -25,4 +25,5 @@ dependencies {
     compile 'com.android.support:support-v4:23.4.0'
     compile 'com.android.support:design:23.4.0'
     compile project(':ColorPickerPreference')
+    compile 'com.birbit:android-priority-jobqueue:2.0.0-beta2'
 }

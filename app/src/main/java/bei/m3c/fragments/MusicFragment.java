@@ -14,7 +14,9 @@ import java.util.ArrayList;
 
 import bei.m3c.R;
 import bei.m3c.adapters.RadioAdapter;
+import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.ThemeHelper;
+import bei.m3c.jobs.GetRadiosJob;
 import bei.m3c.models.Radio;
 
 /**
@@ -85,5 +87,7 @@ public class MusicFragment extends Fragment {
         ThemeHelper.setImageButtonTheme(volumeButton);
         ThemeHelper.setSeekBarTheme(timeSeekbar);
         ThemeHelper.setSeekBarTheme(volumeSeekbar);
+
+        JobManagerHelper.getJobManager().addJobInBackground(new GetRadiosJob());
     }
 }

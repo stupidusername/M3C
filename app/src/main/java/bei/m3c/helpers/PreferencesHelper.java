@@ -21,7 +21,11 @@ public final class PreferencesHelper {
     public static final String PASSWORD = "beisrl";
 
     // Preferences keys
+    public static final String KEY_SHOW_AC_CONTROLS = "show_ac_controls";
     public static final String KEY_THEME_COLOR = "theme_color";
+
+    // Default values
+    public static final boolean DEFAULT_SHOW_AC_CONTROLS = true;
 
     private static Context context = null;
     private static SharedPreferences sharedPreferences = null;
@@ -62,5 +66,9 @@ public final class PreferencesHelper {
 
     public static int getThemeColor() {
         return sharedPreferences.getInt(KEY_THEME_COLOR, ContextCompat.getColor(context, R.color.default_accent_color));
+    }
+
+    public static boolean showACControls() {
+        return sharedPreferences.getBoolean(KEY_SHOW_AC_CONTROLS, DEFAULT_SHOW_AC_CONTROLS);
     }
 }

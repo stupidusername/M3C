@@ -105,10 +105,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
+        // Set lights/ac tab title according to preferences
+        String lightsACTitle = getString(R.string.lights_title);
+        if (PreferencesHelper.showACControls()) {
+            lightsACTitle += getString(R.string.tab_title_separator) + getString(R.string.ac_title);
+        }
+
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MusicFragment(), getString(R.string.music_title));
         adapter.addFragment(new TVFragment(), getString(R.string.tv_title));
-        adapter.addFragment(new LightsACFragment(), getString(R.string.lights_ac_title));
+        adapter.addFragment(new LightsACFragment(), lightsACTitle);
         adapter.addFragment(new BarFragment(), getString(R.string.bar_title));
         adapter.addFragment(new InfoFragment(), getString(R.string.info_title));
         viewPager.setAdapter(adapter);

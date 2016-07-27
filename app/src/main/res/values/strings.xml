@@ -4,9 +4,11 @@
     <string name="app_name">M3C</string>
     <string name="music_title">Música</string>
     <string name="tv_title">TV</string>
-    <string name="lights_ac_title">Luces/Aire</string>
+    <string name="lights_title">Luces</string>
+    <string name="ac_title">Aire</string>
     <string name="bar_title">Bar</string>
     <string name="info_title">Info</string>
+    <string name="tab_title_separator">/</string>
     <string name="time_default">--:--</string>
     <string name="no_value">----</string>
     <string name="ok">Aceptar</string>
@@ -40,7 +42,6 @@
     <!--Lights-->
 
     <!--AC-->
-    <string name="ac_title">Aire</string>
     <string name="ac_temp_unit">°C</string>
     <string name="ac_status">Estado: </string>
     <string name="ac_status_on">encendido</string>

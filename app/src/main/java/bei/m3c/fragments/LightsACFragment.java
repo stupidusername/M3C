@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import bei.m3c.R;
+import bei.m3c.helpers.PreferencesHelper;
 import bei.m3c.helpers.ThemeHelper;
 
 /**
@@ -54,5 +55,10 @@ public class LightsACFragment extends Fragment {
         ThemeHelper.setImageButtonTheme(acPowerButton);
         ThemeHelper.setImageButtonTheme(acMinusButton);
         ThemeHelper.setImageButtonTheme(acPlusButton);
+
+        // Hide ac controls if not needed
+        if(!PreferencesHelper.showACControls()) {
+            ((ViewGroup) acLayout.getParent()).removeView(acLayout);
+        }
     }
 }

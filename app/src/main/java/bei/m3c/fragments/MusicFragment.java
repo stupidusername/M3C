@@ -10,10 +10,15 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import bei.m3c.R;
-import bei.m3c.adapters.RadioAdapter;
+import bei.m3c.adapters.RadioAdapterBase;
+import bei.m3c.events.GetInfoEvent;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.jobs.GetRadiosJob;
@@ -24,6 +29,7 @@ import bei.m3c.models.Radio;
  */
 public class MusicFragment extends Fragment {
 
+    // views
     private ListView radiosListView;
     private ImageButton playPauseButton;
     private ImageButton previousButton;
@@ -34,6 +40,15 @@ public class MusicFragment extends Fragment {
     private TextView timeRemainingTextView;
     private SeekBar timeSeekbar;
     private SeekBar volumeSeekbar;
+    // adapters
+    private RadioAdapterBase radioAdapter;
+
+    @Override
+    public void onDestroyView() {
+        JobManagerHelper.cancelJobsInBackground(GetRadiosJob.TAG);
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,23 +76,9 @@ public class MusicFragment extends Fragment {
         timeElapsedTextView.setText(getString(R.string.time_default));
         timeRemainingTextView.setText(getString(R.string.time_default));
 
-        // Load demo data to the radio list view
-        ArrayList<Radio> radios = new ArrayList<>();
-        radios.add(new Radio(1, "Rock"));
-        radios.add(new Radio(1, "Pop"));
-        radios.add(new Radio(1, "Electrónica"));
-        radios.add(new Radio(1, "Clásicos"));
-        radios.add(new Radio(1, "Latino"));
-        radios.add(new Radio(1, "Reggae"));
-        radios.add(new Radio(1, "Baladas"));
-        radios.add(new Radio(1, "Jazz"));
-        radios.add(new Radio(1, "Hip-Hop"));
-        radios.add(new Radio(1, "Tango"));
-        radios.add(new Radio(1, "Blues"));
-        radios.add(new Radio(1, "80s"));
-        radios.add(new Radio(1, "90s"));
-        RadioAdapter adapter = new RadioAdapter(getContext(), R.layout.listview_row, radios);
-        radiosListView.setAdapter(adapter);
+        // Set radio adapter
+        radioAdapter = new RadioAdapterBase(getLayoutInflater(savedInstanceState));
+        radiosListView.setAdapter(radioAdapter);
         radiosListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
         ThemeHelper.setImageButtonTheme(playPauseButton);
@@ -88,6 +89,12 @@ public class MusicFragment extends Fragment {
         ThemeHelper.setSeekBarTheme(timeSeekbar);
         ThemeHelper.setSeekBarTheme(volumeSeekbar);
 
+        EventBus.getDefault().register(this);
         JobManagerHelper.getJobManager().addJobInBackground(new GetRadiosJob());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(GetInfoEvent<List<Radio>> event) {
+        radioAdapter.replaceList(event.info);
     }
 }

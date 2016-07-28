@@ -15,17 +15,19 @@ import bei.m3c.R;
  */
 public final class PreferencesHelper {
 
-    public static final String TAG = PreferencesHelper.class.getSimpleName();
+    public static final String TAG = "PreferencesHelper";
 
     // Preferences dialog password
     public static final String PASSWORD = "beisrl";
 
     // Preferences keys
+    public static final String KEY_M3S_ADDRESS = "m3s_address";
     public static final String KEY_SHOW_AC_CONTROLS = "show_ac_controls";
     public static final String KEY_THEME_COLOR = "theme_color";
 
     // Default values
     public static final boolean DEFAULT_SHOW_AC_CONTROLS = true;
+    public static final String DEFAULT_ADDRESS = null;
 
     private static Context context = null;
     private static SharedPreferences sharedPreferences = null;
@@ -41,7 +43,7 @@ public final class PreferencesHelper {
         try {
             packageInfo = getContext().getPackageManager().getPackageInfo(context.getPackageName(), flags);
         } catch (PackageManager.NameNotFoundException e) {
-            Log.e(TAG, "Package not found.");
+            Log.e(TAG, "Package not found.", e);
         }
         int version = 0;
         if (packageInfo != null) {
@@ -64,11 +66,15 @@ public final class PreferencesHelper {
         return sharedPreferences;
     }
 
-    public static int getThemeColor() {
-        return sharedPreferences.getInt(KEY_THEME_COLOR, ContextCompat.getColor(context, R.color.default_accent_color));
+    public static String getM3SAddress() {
+        return sharedPreferences.getString(KEY_M3S_ADDRESS, DEFAULT_ADDRESS);
     }
 
     public static boolean showACControls() {
         return sharedPreferences.getBoolean(KEY_SHOW_AC_CONTROLS, DEFAULT_SHOW_AC_CONTROLS);
+    }
+
+    public static int getThemeColor() {
+        return sharedPreferences.getInt(KEY_THEME_COLOR, ContextCompat.getColor(context, R.color.default_accent_color));
     }
 }

@@ -19,8 +19,8 @@ public class RadioAdapterBase extends BaseListAdapter<Radio> {
     }
 
     @Override
-    public long getItemId(int i) {
-        return 0;
+    public long getItemId(int position) {
+        return getItem(position).id;
     }
 
     @Override

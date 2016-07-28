@@ -7,20 +7,28 @@ import com.birbit.android.jobqueue.Job;
 import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
+
+import bei.m3c.events.GetInfoEvent;
 import bei.m3c.helpers.JobManagerHelper;
+import bei.m3c.helpers.M3SHelper;
+import bei.m3c.models.Radio;
 
 public class GetRadiosJob extends Job {
 
+    public static final String TAG = "GetRadiosJob";
     public static final int PRIORITY = 1;
     public static final int DELAY = 0; // delay in milis
-    public static final int INTERVAL = 5000; // interval in milis
+    public static final int INTERVAL = 60000; // interval in milis
 
     public GetRadiosJob() {
         this(DELAY);
     }
 
     public GetRadiosJob(int delay) {
-        super(new Params(PRIORITY).requireNetwork().setDelayMs(delay).singleInstanceBy(GetRadiosJob.class.getSimpleName()));
+        super(new Params(PRIORITY).requireNetwork().setDelayMs(delay).singleInstanceBy(TAG).addTags(TAG));
     }
 
     @Override
@@ -29,7 +37,10 @@ public class GetRadiosJob extends Job {
 
     @Override
     public void onRun() throws Throwable {
-       JobManagerHelper.getJobManager().addJob(new GetRadiosJob(INTERVAL));
+        // Load demo data to the radio list view
+        List<Radio> radios = M3SHelper.getRadios();
+        EventBus.getDefault().post(new GetInfoEvent<>(radios));
+        JobManagerHelper.getJobManager().addJob(new GetRadiosJob(INTERVAL));
     }
 
     @Override

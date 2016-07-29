@@ -8,27 +8,25 @@ import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
-import bei.m3c.events.GetRadiosEvent;
-import bei.m3c.helpers.JobManagerHelper;
+import bei.m3c.events.GetInfoEvent;
 import bei.m3c.helpers.M3SHelper;
 import bei.m3c.models.Radio;
+import bei.m3c.models.Song;
 
-public class GetRadiosJob extends Job {
+public class GetRadioSongsJob extends Job {
 
-    public static final String TAG = "GetRadiosJob";
+    public static final String TAG = "GetRadioSongsJob";
     public static final int PRIORITY = 1;
-    public static final int DELAY = 0; // delay in milis
-    public static final int INTERVAL = 60000; // interval in milis
 
-    public GetRadiosJob() {
-        this(DELAY);
-    }
+    private Radio radio;
 
-    public GetRadiosJob(int delay) {
-        super(new Params(PRIORITY).requireNetwork().setDelayMs(delay).singleInstanceBy(TAG).addTags(TAG));
+    public GetRadioSongsJob(Radio radio) {
+        super(new Params(PRIORITY).requireNetwork().singleInstanceBy(TAG).addTags(TAG));
+        this.radio = radio;
     }
 
     @Override
@@ -37,9 +35,8 @@ public class GetRadiosJob extends Job {
 
     @Override
     public void onRun() throws Throwable {
-        List<Radio> radios = M3SHelper.getRadios();
-        EventBus.getDefault().post(new GetRadiosEvent(radios));
-        JobManagerHelper.getJobManager().addJob(new GetRadiosJob(INTERVAL));
+        List<Song> songs = M3SHelper.getRadioSongs(radio.id);
+        EventBus.getDefault().post(new GetInfoEvent<>(songs));
     }
 
     @Override
@@ -47,7 +44,7 @@ public class GetRadiosJob extends Job {
 
     }
 
-    @Override
+    @Subscribe
     protected RetryConstraint shouldReRunOnThrowable(@NonNull Throwable throwable, int runCount, int maxRunCount) {
         return null;
     }

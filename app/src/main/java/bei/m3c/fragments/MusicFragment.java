@@ -2,9 +2,11 @@ package bei.m3c.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -18,16 +20,19 @@ import java.util.List;
 
 import bei.m3c.R;
 import bei.m3c.adapters.RadioAdapterBase;
-import bei.m3c.events.GetInfoEvent;
+import bei.m3c.events.GetRadiosEvent;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.jobs.GetRadiosJob;
 import bei.m3c.models.Radio;
+import bei.m3c.players.MusicPlayer;
 
 /**
  * Music fragment
  */
 public class MusicFragment extends Fragment {
+
+    public static final int DEFAULT_RADIO_POSITION = 0;
 
     // views
     private ListView radiosListView;
@@ -91,10 +96,60 @@ public class MusicFragment extends Fragment {
 
         EventBus.getDefault().register(this);
         JobManagerHelper.getJobManager().addJobInBackground(new GetRadiosJob());
+
+        // Set UI listeners
+        radiosListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("Test", "SARASA");
+                // Change selected radio if no previous one was selected or if the radio id is different
+                Radio selectedRadio = radioAdapter.getItem(position);
+                Radio currentRadio = MusicPlayer.getInstance().getRadio();
+                if (currentRadio == null || selectedRadio.id != currentRadio.id) {
+                    MusicPlayer.getInstance().selectRadio(selectedRadio);
+                }
+            }
+        });
+        playPauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Play current selected radio or choose the first one if none of them was selected
+                Radio currentRadio = MusicPlayer.getInstance().getRadio();
+                if (currentRadio == null) {
+                    if(!radioAdapter.isEmpty()) {
+                        Radio newRadio = radioAdapter.getItem(DEFAULT_RADIO_POSITION);
+                        radiosListView.setItemChecked(DEFAULT_RADIO_POSITION, true);
+                        MusicPlayer.getInstance().selectRadio(newRadio);
+                    }
+                } else {
+                    MusicPlayer.getInstance().play();
+                }
+            }
+        });
+        previousButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MusicPlayer.getInstance().playPrevious();
+            }
+        });
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MusicPlayer.getInstance().clearSelectedRadio();
+                radiosListView.clearChoices();
+                radioAdapter.notifyDataSetChanged();
+            }
+        });
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MusicPlayer.getInstance().playNext();
+            }
+        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(GetInfoEvent<List<Radio>> event) {
-        radioAdapter.replaceList(event.info);
+    public void onEvent(GetRadiosEvent event) {
+        radioAdapter.replaceList(event.radios);
     }
 }

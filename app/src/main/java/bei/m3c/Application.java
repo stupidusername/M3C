@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import bei.m3c.helpers.M3SHelper;
 import bei.m3c.helpers.PreferencesHelper;
+import bei.m3c.players.MusicPlayer;
 import bei.m3c.services.M3SService;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
@@ -27,6 +28,7 @@ public class Application extends android.app.Application {
     private JobManager jobManager = null;
     private Retrofit retrofit = null;
     private M3SService m3SService = null;
+    private MusicPlayer musicPlayer = null;
 
     public Application() {
         instance = this;
@@ -63,6 +65,13 @@ public class Application extends android.app.Application {
             Log.e(TAG, "Error creating M3S service.", e);
         }
         return m3SService;
+    }
+
+    public synchronized MusicPlayer getMusicPlayer() {
+        if (musicPlayer == null) {
+            musicPlayer = new MusicPlayer();
+        }
+        return musicPlayer;
     }
 
     private void configureJobManager() {

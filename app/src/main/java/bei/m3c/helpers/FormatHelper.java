@@ -7,6 +7,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class contains static methods that formats data to be displayed in the UI
@@ -32,5 +33,12 @@ public final class FormatHelper {
 
     public static String asTime(Date date) {
         return (new SimpleDateFormat("HH:mm")).format(date);
+    }
+
+    public static String asTimer(int timeInMillis) {
+        int minutes = timeInMillis / (60 * 1000);
+        int remainingMillis = timeInMillis - minutes * (60 * 1000);
+        long seconds = Math.round(((double) remainingMillis) / 1000);
+        return String.format("%02d:%02d", minutes, seconds);
     }
 }

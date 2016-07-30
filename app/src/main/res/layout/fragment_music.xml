@@ -33,7 +33,7 @@
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/music_albumart"
+                    android:id="@+id/music_albumart_imageview"
                     android:layout_weight="1"
                     android:src="@drawable/albumart_placeholder"
                     style="@style/image" />

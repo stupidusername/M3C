@@ -12,7 +12,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
-import bei.m3c.events.GetInfoEvent;
+import bei.m3c.events.GetRadioSongsEvent;
 import bei.m3c.helpers.M3SHelper;
 import bei.m3c.models.Radio;
 import bei.m3c.models.Song;
@@ -36,7 +36,7 @@ public class GetRadioSongsJob extends Job {
     @Override
     public void onRun() throws Throwable {
         List<Song> songs = M3SHelper.getRadioSongs(radio.id);
-        EventBus.getDefault().post(new GetInfoEvent<>(songs));
+        EventBus.getDefault().post(new GetRadioSongsEvent(songs));
     }
 
     @Override

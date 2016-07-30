@@ -19,7 +19,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import bei.m3c.R;
-import bei.m3c.adapters.RadioAdapterBase;
+import bei.m3c.adapters.RadioAdapter;
 import bei.m3c.events.GetRadiosEvent;
 import bei.m3c.events.MusicPlayerPauseEvent;
 import bei.m3c.events.MusicPlayerPlayEvent;
@@ -59,7 +59,7 @@ public class MusicFragment extends Fragment {
     private SeekBar timeSeekbar;
     private SeekBar volumeSeekbar;
     // adapters
-    private RadioAdapterBase radioAdapter;
+    private RadioAdapter radioAdapter;
     // Save volume value before mute
     private int savedVolume;
 
@@ -99,7 +99,7 @@ public class MusicFragment extends Fragment {
         volumeSeekbar = (SeekBar) view.findViewById(R.id.music_volume_seekbar);
 
         // Set radio adapter
-        radioAdapter = new RadioAdapterBase(getLayoutInflater(savedInstanceState));
+        radioAdapter = new RadioAdapter(getLayoutInflater(savedInstanceState));
         radiosListView.setAdapter(radioAdapter);
         radiosListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 

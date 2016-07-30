@@ -9,12 +9,12 @@ import bei.m3c.R;
 import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.models.Radio;
 
-public class RadioAdapterBase extends BaseListAdapter<Radio> {
+public class RadioAdapter extends BaseListAdapter<Radio> {
 
     private final LayoutInflater layoutInflater;
     private TextView textView;
 
-    public RadioAdapterBase(LayoutInflater layoutInflater) {
+    public RadioAdapter(LayoutInflater layoutInflater) {
         this.layoutInflater = layoutInflater;
     }
 

@@ -8,22 +8,36 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ListView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import bei.m3c.R;
 import bei.m3c.adapters.BarArticleAdapter;
 import bei.m3c.adapters.BarGroupAdapter;
+import bei.m3c.events.GetBarGroupsEvent;
+import bei.m3c.helpers.JobManagerHelper;
+import bei.m3c.jobs.GetBarGroupsJob;
 import bei.m3c.models.BarArticle;
-import bei.m3c.models.BarGroup;
 
 /**
  * Bar fragment
  */
 public class BarFragment extends Fragment {
 
+    private BarGroupAdapter barGroupAdapter;
     private ListView groupsListView;
     private GridView articlesGridView;
+
+    @Override
+    public void onDestroyView() {
+        JobManagerHelper.cancelJobsInBackground(GetBarGroupsJob.TAG);
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,15 +54,12 @@ public class BarFragment extends Fragment {
         articlesGridView = (GridView) view.findViewById(R.id.bar_gridview);
 
         // Load bar groups demo data
-        ArrayList<BarGroup> barGroups = new ArrayList<>();
-        barGroups.add(new BarGroup(1, "Bebidas"));
-        barGroups.add(new BarGroup(1, "Comidas"));
-        barGroups.add(new BarGroup(1, "Postres"));
-        barGroups.add(new BarGroup(1, "Snacks"));
-        barGroups.add(new BarGroup(1, "Cafetería"));
-        BarGroupAdapter barGroupAdapter = new BarGroupAdapter(getContext(), R.layout.listview_row, barGroups);
+        barGroupAdapter = new BarGroupAdapter(getLayoutInflater(savedInstanceState));
         groupsListView.setAdapter(barGroupAdapter);
         groupsListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        // Register events and jobs
+        EventBus.getDefault().register(this);
+        JobManagerHelper.getJobManager().addJobInBackground(new GetBarGroupsJob());
 
         // Load bar articles demo data
         ArrayList<BarArticle> barArticles = new ArrayList<>();
@@ -66,5 +77,10 @@ public class BarFragment extends Fragment {
         barArticles.add(new BarArticle(1, "Test 12", new BigDecimal(12)));
         BarArticleAdapter barArticleAdapter = new BarArticleAdapter(getContext(), R.layout.gridview_item, barArticles);
         articlesGridView.setAdapter(barArticleAdapter);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(GetBarGroupsEvent event) {
+        barGroupAdapter.replaceList(event.barGroups);
     }
 }

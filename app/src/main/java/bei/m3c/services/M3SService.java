@@ -2,6 +2,7 @@ package bei.m3c.services;
 
 import java.util.List;
 
+import bei.m3c.models.BarGroup;
 import bei.m3c.models.Radio;
 import bei.m3c.models.Song;
 import retrofit2.Call;
@@ -15,4 +16,7 @@ public interface M3SService {
 
     @GET("api/get-radio-songs")
     Call<List<Song>> getRadioSongs(@Query("id") int id);
+
+    @GET("api/get-bar-groups")
+    Call<List<BarGroup>> getBarGroups();
 }

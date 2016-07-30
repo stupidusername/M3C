@@ -29,6 +29,7 @@ import bei.m3c.events.MusicPlayerUpdateEvent;
 import bei.m3c.helpers.FormatHelper;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.ThemeHelper;
+import bei.m3c.helpers.VolumeHelper;
 import bei.m3c.jobs.GetRadiosJob;
 import bei.m3c.jobs.UpdateMusicPlayerJob;
 import bei.m3c.models.Radio;
@@ -59,6 +60,8 @@ public class MusicFragment extends Fragment {
     private SeekBar volumeSeekbar;
     // adapters
     private RadioAdapterBase radioAdapter;
+    // Save volume value before mute
+    private int savedVolume;
 
     @Override
     public void onDestroyView() {
@@ -104,12 +107,18 @@ public class MusicFragment extends Fragment {
         ThemeHelper.setImageButtonTheme(previousButton);
         ThemeHelper.setImageButtonTheme(stopButton);
         ThemeHelper.setImageButtonTheme(nextButton);
-        ThemeHelper.setImageButtonTheme(volumeButton);
         ThemeHelper.setSeekBarTheme(timeSeekbar);
         ThemeHelper.setSeekBarTheme(volumeSeekbar);
 
+        // Register events and jobs
         EventBus.getDefault().register(this);
         JobManagerHelper.getJobManager().addJobInBackground(new GetRadiosJob());
+
+        // Set volume seekbar max value and update with current volume
+        volumeSeekbar.setMax(VolumeHelper.getMaxVolume());
+        updateVolumeSeekbar();
+        saveVolume();
+        updateVolumeButton();
 
         // Set UI listeners
         radiosListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -165,10 +174,30 @@ public class MusicFragment extends Fragment {
                 // Change music player playback position and re enable the music player update job
                 if (MusicPlayer.getInstance().isReady()) {
                     MusicPlayer.getInstance().seekTo(seekbar.getProgress());
-                    if(MusicPlayer.getInstance().isPlaying()) {
+                    if (MusicPlayer.getInstance().isPlaying()) {
                         JobManagerHelper.getJobManager().addJobInBackground(new UpdateMusicPlayerJob());
                     }
                 }
+            }
+        });
+        volumeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
+                VolumeHelper.setVolume(progress);
+                updateVolumeButton();
+                if(!fromUser) {
+                    saveVolume();
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekbar) {
+                saveVolume();
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekbar) {
+                saveVolume();
             }
         });
 
@@ -231,6 +260,44 @@ public class MusicFragment extends Fragment {
 
     public void updatePlaybackTime() {
         timeSeekbar.setProgress(MusicPlayer.getInstance().getCurrentPosition());
+    }
+
+    public void updateVolumeSeekbar() {
+        volumeSeekbar.setProgress(VolumeHelper.getVolume());
+    }
+
+    public void updateVolumeButton() {
+        int volume = VolumeHelper.getVolume();
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VolumeHelper.setVolume(0);
+                updateVolumeSeekbar();
+            }
+        };
+        if (volume == 0) {
+            volumeButton.setImageResource(R.drawable.volume_muted);
+            onClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    VolumeHelper.setVolume(savedVolume);
+                    updateVolumeSeekbar();
+                }
+            };
+        } else if (volume <= VolumeHelper.getMaxVolume() / 2) {
+            volumeButton.setImageResource(R.drawable.volume_low);
+        } else {
+            volumeButton.setImageResource(R.drawable.volume_high);
+        }
+        volumeButton.setOnClickListener(onClickListener);
+        ThemeHelper.setImageButtonTheme(volumeButton);
+    }
+
+    public void saveVolume() {
+        int volume = VolumeHelper.getVolume();
+        if (volume > 0) {
+            savedVolume = volume;
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

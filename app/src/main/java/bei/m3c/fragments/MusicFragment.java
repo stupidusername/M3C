@@ -12,6 +12,8 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -224,7 +226,7 @@ public class MusicFragment extends Fragment {
         // Set time seekbar max value
         timeSeekbar.setMax(MusicPlayer.getInstance().getDuration());
         // Set albumart image
-        albumartImageView.setImageResource(R.drawable.albumart_placeholder);
+        Glide.with(this).load(currentSong.albumartUrl).centerCrop().placeholder(R.drawable.albumart_placeholder).crossFade().into(albumartImageView);
     }
 
     public void updatePlaybackTime() {

@@ -1,53 +1,56 @@
 package bei.m3c.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
+import com.bumptech.glide.Glide;
 
 import bei.m3c.R;
 import bei.m3c.helpers.FormatHelper;
 import bei.m3c.models.BarArticle;
 
-public class BarArticleAdapter extends ArrayAdapter<BarArticle> {
+public class BarArticleAdapter extends BaseListAdapter<BarArticle> {
 
+    private final LayoutInflater layoutInflater;
     private ImageView imageView;
     private TextView titleTextView;
     private TextView priceTextView;
 
-    public BarArticleAdapter(Context context, int resource, List<BarArticle> items) {
-        super(context, resource, items);
+    public BarArticleAdapter(LayoutInflater layoutInflater) {
+        this.layoutInflater = layoutInflater;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return getItem(position).id;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            LayoutInflater vi;
-            vi = LayoutInflater.from(getContext());
-            convertView = vi.inflate(R.layout.gridview_item, parent, false);
+            convertView = layoutInflater.inflate(R.layout.gridview_item, parent, false);
         }
 
-        BarArticle p = getItem(position);
+        BarArticle barArticle = getItem(position);
 
-        if (p != null) {
+        if (barArticle != null) {
             imageView = (ImageView) convertView.findViewById(R.id.gridview_row_imageview);
             titleTextView = (TextView) convertView.findViewById(R.id.gridview_item_title_text);
             priceTextView = (TextView) convertView.findViewById(R.id.gridview_item_price_text);
 
             if (imageView != null) {
-                imageView.setImageResource(R.drawable.bar_demo_coke);
+                Glide.with(layoutInflater.getContext()).load(barArticle.pictureUrl).centerCrop()
+                        .placeholder(R.drawable.bar_article_placeholder).crossFade().into(imageView);
             }
             if (titleTextView != null) {
-                titleTextView.setText(p.name);
+                titleTextView.setText(barArticle.name);
             }
             if (priceTextView != null) {
-                priceTextView.setText(FormatHelper.asCurrency(p.price));
+                priceTextView.setText(FormatHelper.asCurrency(barArticle.price));
             }
         }
 

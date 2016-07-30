@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
 
@@ -12,25 +13,27 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-
 import bei.m3c.R;
 import bei.m3c.adapters.BarArticleAdapter;
 import bei.m3c.adapters.BarGroupAdapter;
+import bei.m3c.events.GetBarArticlesEvent;
 import bei.m3c.events.GetBarGroupsEvent;
 import bei.m3c.helpers.JobManagerHelper;
+import bei.m3c.jobs.GetBarArticlesJob;
 import bei.m3c.jobs.GetBarGroupsJob;
-import bei.m3c.models.BarArticle;
+import bei.m3c.models.BarGroup;
 
 /**
  * Bar fragment
  */
 public class BarFragment extends Fragment {
 
-    private BarGroupAdapter barGroupAdapter;
+    // views
     private ListView groupsListView;
     private GridView articlesGridView;
+    // adapters
+    private BarGroupAdapter barGroupAdapter;
+    private BarArticleAdapter barArticleAdapter;
 
     @Override
     public void onDestroyView() {
@@ -53,34 +56,51 @@ public class BarFragment extends Fragment {
         groupsListView = (ListView) view.findViewById(R.id.bar_listview);
         articlesGridView = (GridView) view.findViewById(R.id.bar_gridview);
 
-        // Load bar groups demo data
         barGroupAdapter = new BarGroupAdapter(getLayoutInflater(savedInstanceState));
         groupsListView.setAdapter(barGroupAdapter);
         groupsListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+        barArticleAdapter = new BarArticleAdapter(getLayoutInflater(savedInstanceState));
+        articlesGridView.setAdapter(barArticleAdapter);
+
         // Register events and jobs
         EventBus.getDefault().register(this);
         JobManagerHelper.getJobManager().addJobInBackground(new GetBarGroupsJob());
 
-        // Load bar articles demo data
-        ArrayList<BarArticle> barArticles = new ArrayList<>();
-        barArticles.add(new BarArticle(1, "Test 1", new BigDecimal(1)));
-        barArticles.add(new BarArticle(1, "Test 2", new BigDecimal(2)));
-        barArticles.add(new BarArticle(1, "Test 3", new BigDecimal(3)));
-        barArticles.add(new BarArticle(1, "Test 4", new BigDecimal(4)));
-        barArticles.add(new BarArticle(1, "Test 5", new BigDecimal(5)));
-        barArticles.add(new BarArticle(1, "Test 6", new BigDecimal(6)));
-        barArticles.add(new BarArticle(1, "Test 7", new BigDecimal(7)));
-        barArticles.add(new BarArticle(1, "Test 8", new BigDecimal(8)));
-        barArticles.add(new BarArticle(1, "Test 9", new BigDecimal(9)));
-        barArticles.add(new BarArticle(1, "Test 10", new BigDecimal(10)));
-        barArticles.add(new BarArticle(1, "Test 11", new BigDecimal(11)));
-        barArticles.add(new BarArticle(1, "Test 12", new BigDecimal(12)));
-        BarArticleAdapter barArticleAdapter = new BarArticleAdapter(getContext(), R.layout.gridview_item, barArticles);
-        articlesGridView.setAdapter(barArticleAdapter);
+        // Set UI click listeners
+        groupsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                loadSelectedBarGroupArticles();
+            }
+        });
+    }
+
+    private void selectDefaultBarGroup() {
+        // Select default group if no one is selected and the list view is not empty
+        int barGroupPosition = groupsListView.getCheckedItemPosition();
+        if(barGroupPosition == AdapterView.INVALID_POSITION && groupsListView.getCount() > 0) {
+            groupsListView.setItemChecked(0, true);
+        }
+    }
+
+    private void loadSelectedBarGroupArticles() {
+        int barGroupPosition = groupsListView.getCheckedItemPosition();
+        if(barGroupPosition != AdapterView.INVALID_POSITION) {
+            BarGroup barGroup = barGroupAdapter.getItem(barGroupPosition);
+            JobManagerHelper.getJobManager().addJobInBackground(new GetBarArticlesJob(barGroup));
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(GetBarGroupsEvent event) {
         barGroupAdapter.replaceList(event.barGroups);
+        selectDefaultBarGroup();
+        loadSelectedBarGroupArticles();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(GetBarArticlesEvent event) {
+        barArticleAdapter.replaceList(event.barArticles);
     }
 }

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bei.m3c.Application;
+import bei.m3c.models.BarArticle;
 import bei.m3c.models.BarGroup;
 import bei.m3c.models.Radio;
 import bei.m3c.models.Song;
@@ -61,6 +62,16 @@ public final class M3SHelper {
             return call.execute().body();
         } catch (IOException e) {
             Log.e(TAG, "Error getting bar groups.", e);
+            return new ArrayList<>();
+        }
+    }
+
+    public static List<BarArticle> getBarArticles(int id) {
+        try {
+            Call<List<BarArticle>> call = getM3SService().getBarArticles(id);
+            return call.execute().body();
+        } catch (IOException e) {
+            Log.e(TAG, "Error getting bar articles.", e);
             return new ArrayList<>();
         }
     }

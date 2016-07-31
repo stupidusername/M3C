@@ -11,11 +11,40 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <ListView
-            android:id="@+id/tv_listview"
-            style="@style/listview"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/tv_listview_header_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="gone"
+                android:layout_marginBottom="5dp">
+
+                <ImageView
+                    style="@style/imageChannelLogo"
+                    android:src="@drawable/back" />
+
+                <TextView
+                    android:id="@+id/tv_listview_header_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="@dimen/textLarge" />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/tv_listview"
+                style="@style/listview"
+                android:layout_width="match_parent"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -32,8 +61,8 @@
             <GridLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                android:columnCount="2">
 
                 <ImageButton
                     android:id="@+id/tv_plus_button"
@@ -47,20 +76,20 @@
                     android:src="@drawable/up" />
 
                 <TextView
-                    android:textSize="@dimen/textNormal"
-                    android:textAllCaps="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/volume" />
+                    android:text="@string/volume"
+                    android:textAllCaps="true"
+                    android:textSize="@dimen/textNormal" />
 
                 <TextView
-                    android:textSize="@dimen/textNormal"
-                    android:textAllCaps="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/channel" />
+                    android:text="@string/channel"
+                    android:textAllCaps="true"
+                    android:textSize="@dimen/textNormal" />
 
                 <ImageButton
                     android:id="@+id/tv_minus_button"

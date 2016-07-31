@@ -9,6 +9,8 @@ import java.util.List;
 import bei.m3c.Application;
 import bei.m3c.models.BarArticle;
 import bei.m3c.models.BarGroup;
+import bei.m3c.models.Channel;
+import bei.m3c.models.ChannelCategory;
 import bei.m3c.models.Radio;
 import bei.m3c.models.Song;
 import bei.m3c.services.M3SService;
@@ -19,7 +21,7 @@ public final class M3SHelper {
     public static final String TAG = "M3SHelper";
     public static final String PROTOCOL = "http://";
 
-    public static String getM3SUrl()  throws  IOException {
+    public static String getM3SUrl() throws IOException {
         String address = PreferencesHelper.getM3SAddress();
         if (address != null) {
             return PROTOCOL + PreferencesHelper.getM3SAddress();
@@ -52,6 +54,26 @@ public final class M3SHelper {
             return call.execute().body();
         } catch (IOException e) {
             Log.e(TAG, "Error getting radio songs.", e);
+            return new ArrayList<>();
+        }
+    }
+
+    public static List<ChannelCategory> getChannelCategories() {
+        try {
+            Call<List<ChannelCategory>> call = getM3SService().getChannelCategories();
+            return call.execute().body();
+        } catch (IOException e) {
+            Log.e(TAG, "Error getting channel categories.", e);
+            return new ArrayList<>();
+        }
+    }
+
+    public static List<Channel> getChannels(int categoryId) {
+        try {
+            Call<List<Channel>> call = getM3SService().getChannels(categoryId);
+            return call.execute().body();
+        } catch (IOException e) {
+            Log.e(TAG, "Error getting channels.", e);
             return new ArrayList<>();
         }
     }

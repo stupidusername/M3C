@@ -15,39 +15,44 @@
         <item name="android:scaleType">fitCenter</item>
         <item name="android:adjustViewBounds">true</item>
     </style>
+    <style name="imageChannelLogo" parent="image">
+        <item name="android:layout_width">@dimen/layoutSmall</item>
+        <item name="android:layout_height">@dimen/layoutSmall</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
 
     <!--Button styles-->
     <style name="button">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:textColor">@color/gray_light</item>
-        <item name="android:layout_margin">15dp</item>
+        <item name="android:layout_margin">@dimen/layoutMargin</item>
     </style>
 
     <style name="buttonNormal" parent="button">
-        <item name="android:layout_width">50dp</item>
-        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">@dimen/layoutNormal</item>
+        <item name="android:layout_height">@dimen/layoutNormal</item>
         <item name="android:textSize">@dimen/textLarge</item>
     </style>
 
     <style name="buttonLarge" parent="button">
-        <item name="android:layout_width">75dp</item>
-        <item name="android:layout_height">75dp</item>
+        <item name="android:layout_width">@dimen/layoutLarge</item>
+        <item name="android:layout_height">@dimen/layoutLarge</item>
         <item name="android:textSize">@dimen/textExtraLarge</item>
     </style>
 
     <style name="imageButton" parent="image">
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:layout_margin">15dp</item>
+        <item name="android:layout_margin">@dimen/layoutMargin</item>
     </style>
 
     <style name="imageButtonNormal" parent="imageButton">
-        <item name="android:layout_width">50dp</item>
-        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">@dimen/layoutNormal</item>
+        <item name="android:layout_height">@dimen/layoutNormal</item>
     </style>
 
     <style name="imageButtonLarge" parent="imageButton">
-        <item name="android:layout_width">75dp</item>
-        <item name="android:layout_height">75dp</item>
+        <item name="android:layout_width">@dimen/layoutLarge</item>
+        <item name="android:layout_height">@dimen/layoutLarge</item>
     </style>
 
     <!--Widget styles-->

@@ -4,6 +4,8 @@ import java.util.List;
 
 import bei.m3c.models.BarArticle;
 import bei.m3c.models.BarGroup;
+import bei.m3c.models.Channel;
+import bei.m3c.models.ChannelCategory;
 import bei.m3c.models.Radio;
 import bei.m3c.models.Song;
 import retrofit2.Call;
@@ -22,4 +24,10 @@ public interface M3SService {
 
     @GET("api/get-bar-articles")
     Call<List<BarArticle>> getBarArticles(@Query("id") int id);
+
+    @GET("api/get-channel-categories")
+    Call<List<ChannelCategory>> getChannelCategories();
+
+    @GET("api/get-channels")
+    Call<List<Channel>> getChannels(@Query("categoryId") int id);
 }

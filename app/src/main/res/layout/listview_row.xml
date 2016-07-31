@@ -8,5 +8,5 @@
         android:id="@+id/listview_row_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/textNormal" />
+        android:textSize="@dimen/textLarge" />
 </LinearLayout>

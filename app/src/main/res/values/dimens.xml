@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Text dimensions-->
     <dimen name="textNormal">18dp</dimen>
     <dimen name="textLarge">22dp</dimen>
     <dimen name="textExtraLarge">33dp</dimen>
     <dimen name="textGiant">64dp</dimen>
+
+    <!--Layout dimensions-->
+    <dimen name="layoutSmall">35dp</dimen>
+    <dimen name="layoutNormal">50dp</dimen>
+    <dimen name="layoutLarge">75dp</dimen>
+    <dimen name="layoutMargin">15dp</dimen>
 </resources>

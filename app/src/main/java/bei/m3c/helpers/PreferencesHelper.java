@@ -8,7 +8,12 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import bei.m3c.R;
+import bei.m3c.models.Light;
+import bei.m3c.preferences.LightPreference;
 
 /**
  * This class contains static methods to get the application preferences
@@ -59,7 +64,7 @@ public final class PreferencesHelper {
         return context;
     }
 
-    private static SharedPreferences getSharedPreferences() {
+    public static SharedPreferences getSharedPreferences() {
         if (sharedPreferences == null) {
             throw new RuntimeException("SharedPreferences is null. Call initialize() before using this class.");
         }
@@ -76,5 +81,17 @@ public final class PreferencesHelper {
 
     public static int getThemeColor() {
         return sharedPreferences.getInt(KEY_THEME_COLOR, ContextCompat.getColor(context, R.color.default_accent_color));
+    }
+
+    public static List<Light> getLights() {
+        List<Light> lights = new ArrayList<Light>();
+        for (int i = 0; i < Light.MAX_LIGHTS; i++) {
+            String name = getSharedPreferences().getString(LightPreference.getNameKey(i), null);
+            if(name != null) {
+                int type = getSharedPreferences().getInt(LightPreference.getTypeKey(i), LightPreference.getDefaultType());
+                lights.add(new Light(name, type));
+            }
+        }
+        return lights;
     }
 }

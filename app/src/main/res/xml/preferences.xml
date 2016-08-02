@@ -13,6 +13,10 @@
     <CheckBoxPreference
         android:key="start_on_boot"
         android:title="@string/settings_start_on_boot" />
+    <Preference
+        android:title="@string/lights_title">
+        <intent android:action="bei.m3c.activities.LightPreferencesActivity" />
+    </Preference>
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="show_ac_controls"

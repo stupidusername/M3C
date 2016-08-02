@@ -27,8 +27,7 @@ public class PreferencesActivity extends PreferenceActivity {
 
     // Restart app after exit
     @Override
-    protected void onStop() {
-        super.onStop();
+    public void onBackPressed() {
         finish();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);

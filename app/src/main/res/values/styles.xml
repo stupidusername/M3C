@@ -45,6 +45,11 @@
         <item name="android:layout_margin">@dimen/layoutMargin</item>
     </style>
 
+    <style name="imageButtonSmall" parent="imageButton">
+        <item name="android:layout_width">@dimen/layoutSmall</item>
+        <item name="android:layout_height">@dimen/layoutSmall</item>
+    </style>
+
     <style name="imageButtonNormal" parent="imageButton">
         <item name="android:layout_width">@dimen/layoutNormal</item>
         <item name="android:layout_height">@dimen/layoutNormal</item>

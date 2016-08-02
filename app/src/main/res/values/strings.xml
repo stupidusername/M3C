@@ -8,6 +8,7 @@
     <string name="ac_title">Aire</string>
     <string name="bar_title">Bar</string>
     <string name="info_title">Info</string>
+    <string name="preferences_title">Configuración</string>
     <string name="tab_title_separator">/</string>
     <string name="time_default">--:--</string>
     <string name="no_value">----</string>
@@ -18,6 +19,7 @@
     <string name="wrong_password">Contraseña incorrecta</string>
     <string name="device_admin_enabled">Device admin activado</string>
     <string name="device_owner_not_enabled">Modo kiosco no disponible. La aplicación no es device owner</string>
+    <string name="name">Nombre</string>
 
     <!--Music-->
     <string name="artist">Artista</string>
@@ -40,6 +42,9 @@
     <string name="nine">9</string>
 
     <!--Lights-->
+    <string name="light_type_on_off">On/Off</string>
+    <string name="light_type_dimmer">Dimmer</string>
+    <string name="light_default_name">Luz</string>
 
     <!--AC-->
     <string name="ac_temp_unit">°C</string>
@@ -76,5 +81,7 @@
     <string name="settings_message_volume_percentage">Volumen para los mensajes (%)</string>
     <string name="settings_tv_remote_code">Código del control de TV</string>
     <string name="settings_theme_color">Color del tema</string>
+    <string name="settings_add_light">Añadir luz</string>
+    <string name="settings_max_lights_reached">No se pueden añadir mas luces</string>
 
 </resources>

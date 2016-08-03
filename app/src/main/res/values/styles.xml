@@ -61,13 +61,15 @@
     </style>
 
     <!--Widget styles-->
-    <style name="listview">
+    <style name="scrollview">
+        <item name="android:scrollbars">none</item>
+        <item name="android:listSelector">@android:color/transparent</item>
+        <item name="android:overScrollMode">never</item>
+    </style>
+    <style name="listview" extends="scrollview">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:divider">@android:color/transparent</item>
         <item name="android:dividerHeight">5dp</item>
-        <item name="android:scrollbars">none</item>
-        <item name="android:listSelector">@android:color/transparent</item>
-        <item name="android:overScrollMode">never</item>
     </style>
 </resources>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="150dp"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/widget_light_layout"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/layoutMargin">
+
+        <TextView
+            android:id="@+id/widget_light_name_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/layoutMargin"
+            android:layout_marginTop="@dimen/layoutMargin"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textSize="@dimen/textNormal" />
+
+        <ImageButton
+            android:id="@+id/widget_light_power_button"
+            style="@style/imageButtonNormal"
+            android:src="@drawable/power" />
+
+    </LinearLayout>
+</LinearLayout>

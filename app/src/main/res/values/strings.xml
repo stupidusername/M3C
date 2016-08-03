@@ -45,6 +45,7 @@
     <string name="light_type_on_off">On/Off</string>
     <string name="light_type_dimmer">Dimmer</string>
     <string name="light_default_name">Luz</string>
+    <string name="light_master">Master</string>
 
     <!--AC-->
     <string name="ac_temp_unit">°C</string>

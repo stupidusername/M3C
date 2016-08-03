@@ -1,9 +1,6 @@
 package bei.m3c.models;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import bei.m3c.Application;
 import bei.m3c.R;
 
@@ -13,6 +10,8 @@ public class Light {
     // Light types
     public static final int TYPE_ON_OFF = 0;
     public static final int TYPE_DIMMER = 1;
+    public static final int TYPE_RGB = 2;
+    public static final int TYPE_MASTER = 3;
 
     public String name;
     public int type;

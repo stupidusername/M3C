@@ -10,6 +10,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import bei.m3c.R;
 import bei.m3c.models.Light;
@@ -26,13 +27,21 @@ public final class PreferencesHelper {
     public static final String PASSWORD = "beisrl";
 
     // Preferences keys
+    public static final String KEY_ROOM_NUMBER = "room_number";
+    public static final String KEY_SGH_ADDRESS = "sgh_address";
     public static final String KEY_M3S_ADDRESS = "m3s_address";
     public static final String KEY_SHOW_AC_CONTROLS = "show_ac_controls";
     public static final String KEY_THEME_COLOR = "theme_color";
 
     // Default values
+    public static final String DEFAULT_ROOM_NUMBER = null;
     public static final boolean DEFAULT_SHOW_AC_CONTROLS = true;
     public static final String DEFAULT_ADDRESS = null;
+
+    public static final String ADDRESS_SEPARATOR = "."; // ip address separator
+    public static final int PIC_ADDRESS_BASE_ADDRESS = 200;
+    public static final int PIC_PORT = 9761;
+    public static final int SGH_BASE_PORT = 3000;
 
     private static Context context = null;
     private static SharedPreferences sharedPreferences = null;
@@ -71,6 +80,46 @@ public final class PreferencesHelper {
         return sharedPreferences;
     }
 
+    public static int getRoomNumber() throws RuntimeException {
+        String roomNumberString = sharedPreferences.getString(KEY_ROOM_NUMBER, DEFAULT_ROOM_NUMBER);
+        if (roomNumberString == null) {
+            throw new RuntimeException("Room number is not set.");
+        }
+        int roomNumber = Integer.parseInt(roomNumberString);
+        return roomNumber;
+    }
+
+    public static String getPICAddress() throws RuntimeException {
+        try {
+            String sghAddress = getSGHAddress();
+            String[] bits = sghAddress.split(Pattern.quote(ADDRESS_SEPARATOR));
+            String picAddress = bits[0] + ADDRESS_SEPARATOR + bits[1] + ADDRESS_SEPARATOR + bits[2] + ADDRESS_SEPARATOR + (PIC_ADDRESS_BASE_ADDRESS + getRoomNumber());
+            return picAddress;
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting PIC address.", e);
+        }
+    }
+
+    public static int getPICPort() {
+        return PIC_PORT;
+    }
+
+    public static String getSGHAddress() throws RuntimeException {
+        String sghAdress = sharedPreferences.getString(KEY_SGH_ADDRESS, DEFAULT_ADDRESS);
+        if (sghAdress == null) {
+            throw new RuntimeException("SGH address is not set.");
+        }
+        return sghAdress;
+    }
+
+    public static int getSGHPort() throws RuntimeException {
+        try {
+            return SGH_BASE_PORT + getRoomNumber();
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting SGH port.", e);
+        }
+    }
+
     public static String getM3SAddress() {
         return sharedPreferences.getString(KEY_M3S_ADDRESS, DEFAULT_ADDRESS);
     }
@@ -87,7 +136,7 @@ public final class PreferencesHelper {
         List<Light> lights = new ArrayList<Light>();
         for (int i = 0; i < Light.MAX_LIGHTS; i++) {
             String name = getSharedPreferences().getString(LightPreference.getNameKey(i), null);
-            if(name != null) {
+            if (name != null) {
                 int type = getSharedPreferences().getInt(LightPreference.getTypeKey(i), LightPreference.getDefaultType());
                 lights.add(new Light(name, type));
             }

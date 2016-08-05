@@ -1,5 +1,7 @@
 package bei.m3c.helpers;
 
+import android.support.annotation.Nullable;
+
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -40,5 +42,29 @@ public final class FormatHelper {
         int remainingMillis = timeInMillis - minutes * (60 * 1000);
         long seconds = Math.round(((double) remainingMillis) / 1000);
         return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    public static String asAddress(String address, int port) {
+        return address + ":" + port;
+    }
+
+    public static String asHexString(byte[] bytes) {
+        char[] hexArray = "0123456789ABCDEF".toCharArray();
+        // Make room for 2 chars and " "
+        int displayLength = 3;
+        char[] hexChars = new char[bytes.length * displayLength - 1];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            int firstCharPosition = j * displayLength;
+            int secondCharPosition = firstCharPosition + 1;
+            int spaceCharPosition = secondCharPosition + 1;
+            hexChars[firstCharPosition] = hexArray[v >>> 4];
+            hexChars[secondCharPosition] = hexArray[v & 0x0F];
+            // Don't add a space for last byte
+            if (spaceCharPosition < hexChars.length) {
+                hexChars[spaceCharPosition] = ' ';
+            }
+        }
+        return new String(hexChars);
     }
 }

@@ -24,7 +24,7 @@ public final class M3SHelper {
     public static String getM3SUrl() throws IOException {
         String address = PreferencesHelper.getM3SAddress();
         if (address != null) {
-            return PROTOCOL + PreferencesHelper.getM3SAddress();
+            return PROTOCOL + address;
         } else {
             throw new IOException("M3S address is not set.");
         }

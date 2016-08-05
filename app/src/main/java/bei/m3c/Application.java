@@ -7,6 +7,8 @@ import com.birbit.android.jobqueue.config.Configuration;
 
 import java.io.IOException;
 
+import bei.m3c.connections.PICConnection;
+import bei.m3c.connections.SGHConnection;
 import bei.m3c.helpers.M3SHelper;
 import bei.m3c.helpers.PreferencesHelper;
 import bei.m3c.players.MusicPlayer;
@@ -27,8 +29,10 @@ public class Application extends android.app.Application {
 
     private JobManager jobManager = null;
     private Retrofit retrofit = null;
-    private M3SService m3SService = null;
+    private M3SService m3sService = null;
     private MusicPlayer musicPlayer = null;
+    private PICConnection picConnection;
+    private SGHConnection sghConnection;
 
     public Application() {
         instance = this;
@@ -40,6 +44,8 @@ public class Application extends android.app.Application {
         PreferencesHelper.initialize(this);
         getJobManager();
         getM3SService();
+        getPICConnection();
+        getSGHConnection();
     }
 
     public synchronized JobManager getJobManager() {
@@ -58,13 +64,13 @@ public class Application extends android.app.Application {
                         .baseUrl(baseUrl)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
-                m3SService = retrofit.create(M3SService.class);
+                m3sService = retrofit.create(M3SService.class);
             }
         } catch (Exception e) {
-            m3SService = null;
+            m3sService = null;
             Log.e(TAG, "Error creating M3S service.", e);
         }
-        return m3SService;
+        return m3sService;
     }
 
     public synchronized MusicPlayer getMusicPlayer() {
@@ -72,6 +78,32 @@ public class Application extends android.app.Application {
             musicPlayer = new MusicPlayer();
         }
         return musicPlayer;
+    }
+
+    public synchronized PICConnection getPICConnection() {
+        if (picConnection == null) {
+            try {
+                String address = PreferencesHelper.getPICAddress();
+                int port = PreferencesHelper.getPICPort();
+                picConnection = new PICConnection(address, port);
+            } catch (Exception e) {
+                Log.e(TAG, "Error creating PIC connection.", e);
+            }
+        }
+        return picConnection;
+    }
+
+    public synchronized SGHConnection getSGHConnection() {
+        if (sghConnection == null) {
+            try {
+                String address = PreferencesHelper.getSGHAddress();
+                int port = PreferencesHelper.getSGHPort();
+                sghConnection = new SGHConnection(address, port);
+            } catch (Exception e) {
+                Log.e(TAG, "Error creating SGH connection.", e);
+            }
+        }
+        return sghConnection;
     }
 
     private void configureJobManager() {

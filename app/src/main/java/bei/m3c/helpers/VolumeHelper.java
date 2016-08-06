@@ -11,17 +11,18 @@ import bei.m3c.Application;
 public final class VolumeHelper {
 
     public static final int FLAGS_SET_VOLUME = 0;
+    public static final int SCALE_FACTOR = 5; // This scale factor is used so seekbar changes look smoother
 
     public static int getMaxVolume() {
-        return getAudioManager().getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        return getAudioManager().getStreamMaxVolume(AudioManager.STREAM_MUSIC) * SCALE_FACTOR;
     }
 
     public static int getVolume() {
-        return getAudioManager().getStreamVolume(AudioManager.STREAM_MUSIC);
+        return getAudioManager().getStreamVolume(AudioManager.STREAM_MUSIC) * SCALE_FACTOR;
     }
 
     public static void setVolume(int volume) {
-        getAudioManager().setStreamVolume(AudioManager.STREAM_MUSIC, volume, FLAGS_SET_VOLUME);
+        getAudioManager().setStreamVolume(AudioManager.STREAM_MUSIC, Math.round((float) volume / SCALE_FACTOR), FLAGS_SET_VOLUME);
     }
 
     private static AudioManager getAudioManager() {

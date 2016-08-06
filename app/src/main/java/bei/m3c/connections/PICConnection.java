@@ -1,7 +1,7 @@
 package bei.m3c.connections;
 
 import bei.m3c.commands.BaseCommand;
-import bei.m3c.commands.TRCKeepAlive;
+import bei.m3c.commands.TRCKeepAliveCommand;
 
 public class PICConnection extends BaseConnection {
 
@@ -19,6 +19,6 @@ public class PICConnection extends BaseConnection {
 
     @Override
     public BaseCommand getKeepAliveCommand() {
-        return new TRCKeepAlive();
+        return new TRCKeepAliveCommand();
     }
 }

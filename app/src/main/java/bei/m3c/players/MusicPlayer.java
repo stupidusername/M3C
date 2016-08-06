@@ -12,12 +12,14 @@ import java.util.Collections;
 import java.util.List;
 
 import bei.m3c.Application;
+import bei.m3c.commands.TRCStartAudioCommand;
 import bei.m3c.events.GetRadioSongsEvent;
 import bei.m3c.events.MusicPlayerPauseEvent;
 import bei.m3c.events.MusicPlayerPlayEvent;
 import bei.m3c.events.MusicPlayerSongChangedEvent;
 import bei.m3c.events.MusicPlayerStopEvent;
 import bei.m3c.helpers.JobManagerHelper;
+import bei.m3c.helpers.PICConnectionHelper;
 import bei.m3c.jobs.GetRadioSongsJob;
 import bei.m3c.jobs.UpdateMusicPlayerJob;
 import bei.m3c.models.Radio;
@@ -114,6 +116,8 @@ public class MusicPlayer extends MediaPlayer {
         } else {
             JobManagerHelper.getJobManager().addJobInBackground(new UpdateMusicPlayerJob());
             EventBus.getDefault().post(new MusicPlayerPlayEvent(getCurrentSong()));
+            // Send start audio command to pic
+            PICConnectionHelper.sendCommand(new TRCStartAudioCommand(true));
             start();
         }
     }
@@ -143,6 +147,7 @@ public class MusicPlayer extends MediaPlayer {
         ready = false;
         JobManagerHelper.cancelJobsInBackground(UpdateMusicPlayerJob.TAG);
         EventBus.getDefault().post(new MusicPlayerStopEvent());
+        PICConnectionHelper.sendCommand(new TRCStartAudioCommand(false));
         super.stop();
         reset();
     }
@@ -151,6 +156,7 @@ public class MusicPlayer extends MediaPlayer {
     public void pause() {
         JobManagerHelper.cancelJobsInBackground(UpdateMusicPlayerJob.TAG);
         EventBus.getDefault().post(new MusicPlayerPauseEvent(getCurrentSong()));
+        PICConnectionHelper.sendCommand(new TRCStartAudioCommand(false));
         super.pause();
     }
 

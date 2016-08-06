@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Layout styles-->
+    <style name="fragmentContentLayout">
+        <item name="android:layout_marginTop">25dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
     <!--Text styles-->
     <style name="textTab" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">@dimen/textLarge</item>

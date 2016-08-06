@@ -41,7 +41,9 @@ public class SendCommandJob extends Job {
 
     @Override
     public void onRun() throws Throwable {
-        connection.sendCommand(command);
+        if(connection.isConnected) {
+            connection.sendCommand(command);
+        }
         if (interval != DEFAULT_INTERVAL) {
             JobManagerHelper.getJobManager().addJob(new SendCommandJob(connection, command, interval, interval));
         }

@@ -29,6 +29,7 @@ public abstract class BaseConnection {
     private Socket socket;
     private InputStream inputStream;
     private OutputStream outputStream;
+    public boolean isConnected = false;
 
     public BaseConnection(String address, int port, int commandLenght, String tag) {
         this.address = address;
@@ -44,11 +45,12 @@ public abstract class BaseConnection {
             socket = new Socket(address, port);
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
-            Log.i(tag, "Connected.");
+            isConnected = true;
             JobManagerHelper.cancelJobs(this.tag);
-            JobManagerHelper.getJobManager().addJob(new SendCommandJob(this, getKeepAliveCommand()));
+            JobManagerHelper.getJobManager().addJob(new SendCommandJob(this, getKeepAliveCommand(), KEEPALIVE_DELAY));
+            Log.i(tag, "Connected.");
             byte[] message = new byte[getMessageLenght()];
-            while (inputStream.read(message, 0, getMessageLenght()) != -1) {
+            while (inputStream.read(message, 0, getMessageLenght()) != END_OF_STREAM) {
                 readMessage(message);
             }
         } catch (Exception e) {
@@ -58,6 +60,7 @@ public abstract class BaseConnection {
 
     public void disconnect() {
         Log.v(tag, "Disconnecting.");
+        isConnected = false;
         try {
             if (socket != null) {
                 socket.close();
@@ -96,6 +99,17 @@ public abstract class BaseConnection {
             Log.e(tag, "Error sending command", e);
             disconnect();
         }
+    }
+
+    public void addCommandJob(BaseCommand command) {
+        addCommandJob(command, SendCommandJob.DEFAULT_INTERVAL);
+    }
+
+    public void addCommandJob(BaseCommand command, int interval) {
+        // Stop previous command job
+        JobManagerHelper.cancelJobsInBackground(command.tag);
+        // Start new command job
+        JobManagerHelper.getJobManager().addJobInBackground(new SendCommandJob(this, command, interval));
     }
 
     public int getMessageLenght() {

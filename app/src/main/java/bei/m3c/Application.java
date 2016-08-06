@@ -38,6 +38,10 @@ public class Application extends android.app.Application {
         instance = this;
     }
 
+    public static Application getInstance() {
+        return instance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -113,9 +117,5 @@ public class Application extends android.app.Application {
                 .loadFactor(CONSUMER_LOAD_FACTOR)
                 .consumerKeepAlive(CONSUMER_KEEP_ALIVE);
         jobManager = new JobManager(builder.build());
-    }
-
-    public static Application getInstance() {
-        return instance;
     }
 }

@@ -28,8 +28,6 @@ public class PreferencesActivity extends PreferenceActivity {
     // Restart app after exit
     @Override
     public void onBackPressed() {
-        finish();
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
+        System.exit(0);
     }
 }

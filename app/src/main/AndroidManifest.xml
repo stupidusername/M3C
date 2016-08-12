@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="bei.m3c">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:name="bei.m3c.Application"
         android:icon="@mipmap/ic_launcher"
@@ -28,6 +30,11 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name="bei.m3c.receivers.BootCompletedReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
         <receiver
             android:name=".receivers.DeviceAdminReceiver"
             android:permission="android.permission.BIND_DEVICE_ADMIN">

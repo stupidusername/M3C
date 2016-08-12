@@ -30,13 +30,15 @@ public final class PreferencesHelper {
     public static final String KEY_ROOM_NUMBER = "room_number";
     public static final String KEY_SGH_ADDRESS = "sgh_address";
     public static final String KEY_M3S_ADDRESS = "m3s_address";
+    public static final String KEY_START_ON_BOOT = "start_on_boot";
     public static final String KEY_SHOW_AC_CONTROLS = "show_ac_controls";
     public static final String KEY_THEME_COLOR = "theme_color";
 
     // Default values
     public static final String DEFAULT_ROOM_NUMBER = null;
-    public static final boolean DEFAULT_SHOW_AC_CONTROLS = true;
     public static final String DEFAULT_ADDRESS = null;
+    public static final boolean DEFAULT_START_ON_BOOT = false;
+    public static final boolean DEFAULT_SHOW_AC_CONTROLS = true;
 
     public static final String ADDRESS_SEPARATOR = "."; // ip address separator
     public static final int PIC_ADDRESS_BASE_ADDRESS = 200;
@@ -81,7 +83,7 @@ public final class PreferencesHelper {
     }
 
     public static int getRoomNumber() throws RuntimeException {
-        String roomNumberString = sharedPreferences.getString(KEY_ROOM_NUMBER, DEFAULT_ROOM_NUMBER);
+        String roomNumberString = getSharedPreferences().getString(KEY_ROOM_NUMBER, DEFAULT_ROOM_NUMBER);
         if (roomNumberString == null) {
             throw new RuntimeException("Room number is not set.");
         }
@@ -105,7 +107,7 @@ public final class PreferencesHelper {
     }
 
     public static String getSGHAddress() throws RuntimeException {
-        String sghAdress = sharedPreferences.getString(KEY_SGH_ADDRESS, DEFAULT_ADDRESS);
+        String sghAdress = getSharedPreferences().getString(KEY_SGH_ADDRESS, DEFAULT_ADDRESS);
         if (sghAdress == null) {
             throw new RuntimeException("SGH address is not set.");
         }
@@ -121,15 +123,19 @@ public final class PreferencesHelper {
     }
 
     public static String getM3SAddress() {
-        return sharedPreferences.getString(KEY_M3S_ADDRESS, DEFAULT_ADDRESS);
+        return getSharedPreferences().getString(KEY_M3S_ADDRESS, DEFAULT_ADDRESS);
+    }
+
+    public static boolean startOnBoot() {
+        return getSharedPreferences().getBoolean(KEY_START_ON_BOOT, DEFAULT_START_ON_BOOT);
     }
 
     public static boolean showACControls() {
-        return sharedPreferences.getBoolean(KEY_SHOW_AC_CONTROLS, DEFAULT_SHOW_AC_CONTROLS);
+        return getSharedPreferences().getBoolean(KEY_SHOW_AC_CONTROLS, DEFAULT_SHOW_AC_CONTROLS);
     }
 
     public static int getThemeColor() {
-        return sharedPreferences.getInt(KEY_THEME_COLOR, ContextCompat.getColor(context, R.color.default_accent_color));
+        return getSharedPreferences().getInt(KEY_THEME_COLOR, ContextCompat.getColor(context, R.color.default_accent_color));
     }
 
     public static List<Light> getLights() {

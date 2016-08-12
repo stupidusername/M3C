@@ -53,6 +53,7 @@ public class LightWidget extends LinearLayout {
             nameTextView.setText(light.name);
         }
         if (seekBar != null) {
+            seekBar.setMax(Light.MAX_VALUE);
             ThemeHelper.setSeekBarTheme(seekBar);
         }
         if (powerButton != null) {

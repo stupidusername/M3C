@@ -101,10 +101,6 @@ public abstract class BaseConnection {
         }
     }
 
-    public void addCommandJob(BaseCommand command) {
-        addCommandJob(command, SendCommandJob.DEFAULT_INTERVAL);
-    }
-
     public void addCommandJob(BaseCommand command, int interval) {
         // Stop previous command job
         JobManagerHelper.cancelJobsInBackground(command.tag);

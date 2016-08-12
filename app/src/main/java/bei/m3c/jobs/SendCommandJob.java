@@ -20,10 +20,6 @@ public class SendCommandJob extends Job {
     public static final int DELAY = 0; // delay in millis
     public static final int DEFAULT_INTERVAL = 0;
 
-    public SendCommandJob(BaseConnection connection, BaseCommand command) {
-        this(connection, command, DEFAULT_INTERVAL);
-    }
-
     public SendCommandJob(BaseConnection connection, BaseCommand command, int interval) {
         this(connection, command, interval, DELAY);
     }

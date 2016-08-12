@@ -7,6 +7,7 @@ import bei.m3c.R;
 public class Light {
 
     public static final int MAX_LIGHTS = 6;
+    public static final int MAX_VALUE = 100;
     // Light types
     public static final int TYPE_ON_OFF = 0;
     public static final int TYPE_DIMMER = 1;
@@ -15,10 +16,22 @@ public class Light {
 
     public String name;
     public int type;
+    public byte value;
 
     public Light(String name, int type) {
         this.name = name;
         this.type = type;
+    }
+
+    public void setValue(int value) {
+        setValue((byte) value);
+    }
+
+    public void setValue(byte value) {
+        if(value > MAX_VALUE) {
+            value = MAX_VALUE;
+        }
+        this.value = value;
     }
 
     public static ArrayList<String> getTypeNames() {

@@ -31,7 +31,11 @@ public class Light {
         if(value > MAX_VALUE) {
             value = MAX_VALUE;
         }
-        this.value = value;
+        if (type == TYPE_ON_OFF) {
+            this.value = value > MAX_VALUE / 2 ? MAX_VALUE : (byte) 0;
+        } else {
+            this.value = value;
+        }
     }
 
     public static ArrayList<String> getTypeNames() {

@@ -96,6 +96,7 @@ public final class ThemeHelper {
         Drawable drawableOriginal = imageButton.getDrawable();
         Drawable drawableHighlighted = imageButton.getDrawable().getConstantState().newDrawable().mutate();
         drawableHighlighted.setColorFilter(getAccentColor(), PorterDuff.Mode.SRC_IN);
+        stateList.addState(new int[]{android.R.attr.state_activated}, drawableHighlighted);
         stateList.addState(new int[]{android.R.attr.state_pressed}, drawableHighlighted);
         stateList.addState(new int[]{}, drawableOriginal);
         imageButton.setImageDrawable(stateList);

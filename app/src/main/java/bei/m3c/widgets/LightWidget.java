@@ -9,16 +9,18 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import bei.m3c.R;
+import bei.m3c.activities.MainActivity;
 import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.models.Light;
 
 public class LightWidget extends LinearLayout {
 
-    private Light light;
+    public Light light;
     private LinearLayout widgetLayout;
     private TextView nameTextView;
-    private SeekBar seekBar;
-    private ImageButton powerButton;
+    public SeekBar seekBar;
+    public ImageButton powerButton;
+    private int value;
 
     public LightWidget(Context context, Light light) {
         super(context);
@@ -63,6 +65,32 @@ public class LightWidget extends LinearLayout {
         // Draw border for on/off light widgets
         if (light.type == Light.TYPE_ON_OFF) {
             ThemeHelper.setColorStateListTheme(widgetLayout);
+        }
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+        boolean activated = false;
+        if (light.type == Light.TYPE_ON_OFF && value == Light.MAX_VALUE) {
+            activated = true;
+        }
+        if (powerButton != null) {
+            powerButton.setActivated(activated);
+        }
+        if (seekBar != null) {
+            seekBar.setProgress(value);
+        }
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void toggle() {
+        if (value < Light.MAX_VALUE) {
+            setValue(Light.MAX_VALUE);
+        } else {
+            setValue(0);
         }
     }
 }

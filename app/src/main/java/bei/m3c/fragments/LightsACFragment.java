@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -109,6 +110,40 @@ public class LightsACFragment extends Fragment {
                 row.addView(lightWidget);
             }
         }
+
+        // Register UI listeners
+        for (final LightWidget lightWidget : largeLightWidgets) {
+            if (lightWidget.light.type == Light.TYPE_DIMMER) {
+                lightWidget.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        lightWidget.setValue(progress);
+                        updateMaster();
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        // Do nothing
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        // Do nothing
+                    }
+                });
+            }
+        }
+        for (final LightWidget lightWidget : smallLightWidgets) {
+            if (lightWidget.light.type == Light.TYPE_ON_OFF) {
+                lightWidget.powerButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        lightWidget.toggle();
+                        updateMaster();
+                    }
+                });
+            }
+        }
     }
 
     public LinearLayout getRow() {
@@ -121,5 +156,21 @@ public class LightsACFragment extends Fragment {
         layoutParams.setMargins(0, 0, 0, marginBottom);
         row.setLayoutParams(layoutParams);
         return row;
+    }
+
+    public void updateMaster() {
+        boolean masterExists = !largeLightWidgets.isEmpty() && largeLightWidgets.get(0).light.type == Light.TYPE_MASTER;
+        if(masterExists) {
+            int realLightsCount = largeLightWidgets.size() + smallLightWidgets.size() - 1;
+            int sum = 0;
+            // Do not add master widget value
+            for (LightWidget lightWidget : largeLightWidgets.subList(1, largeLightWidgets.size())) {
+                sum += lightWidget.getValue();
+            }
+            for (LightWidget lightWidget : smallLightWidgets) {
+                sum += lightWidget.getValue();
+            }
+            largeLightWidgets.get(0).setValue(sum / realLightsCount);
+        }
     }
 }

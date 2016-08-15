@@ -16,7 +16,7 @@ public class Light {
 
     public String name;
     public int type;
-    public byte value;
+    private byte value;
 
     public Light(String name, int type) {
         this.name = name;
@@ -32,7 +32,7 @@ public class Light {
             value = MAX_VALUE;
         }
         if (type == TYPE_ON_OFF) {
-            this.value = value > MAX_VALUE / 2 ? MAX_VALUE : (byte) 0;
+            this.value = value == MAX_VALUE ? MAX_VALUE : (byte) 0;
         } else {
             this.value = value;
         }

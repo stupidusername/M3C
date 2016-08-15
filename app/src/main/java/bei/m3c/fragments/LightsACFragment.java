@@ -113,35 +113,62 @@ public class LightsACFragment extends Fragment {
 
         // Register UI listeners
         for (final LightWidget lightWidget : largeLightWidgets) {
-            if (lightWidget.light.type == Light.TYPE_DIMMER) {
-                lightWidget.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        lightWidget.setValue(progress);
-                        updateMaster();
-                    }
+            switch (lightWidget.light.type) {
+                case Light.TYPE_MASTER:
+                    lightWidget.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                        @Override
+                        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                            if (fromUser) {
+                                updateFromMaster(progress - lightWidget.getValue());
+                                lightWidget.setValue(progress);
+                            }
+                        }
 
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-                        // Do nothing
-                    }
+                        @Override
+                        public void onStartTrackingTouch(SeekBar seekBar) {
+                            // Do nothing
+                        }
 
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-                        // Do nothing
-                    }
-                });
+                        @Override
+                        public void onStopTrackingTouch(SeekBar seekBar) {
+                            // Do nothing
+                        }
+                    });
+                    break;
+                case Light.TYPE_DIMMER:
+                    lightWidget.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                        @Override
+                        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                            if (fromUser) {
+                                lightWidget.setValue(progress);
+                                updateMaster();
+                            }
+                        }
+
+                        @Override
+                        public void onStartTrackingTouch(SeekBar seekBar) {
+                            // Do nothing
+                        }
+
+                        @Override
+                        public void onStopTrackingTouch(SeekBar seekBar) {
+                            // Do nothing
+                        }
+                    });
+                    break;
             }
         }
         for (final LightWidget lightWidget : smallLightWidgets) {
-            if (lightWidget.light.type == Light.TYPE_ON_OFF) {
-                lightWidget.powerButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        lightWidget.toggle();
-                        updateMaster();
-                    }
-                });
+            switch (lightWidget.light.type) {
+                case Light.TYPE_ON_OFF:
+                    lightWidget.powerButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            lightWidget.toggle();
+                            updateMaster();
+                        }
+                    });
+                    break;
             }
         }
     }
@@ -158,10 +185,51 @@ public class LightsACFragment extends Fragment {
         return row;
     }
 
-    public void updateMaster() {
-        boolean masterExists = !largeLightWidgets.isEmpty() && largeLightWidgets.get(0).light.type == Light.TYPE_MASTER;
-        if(masterExists) {
-            int realLightsCount = largeLightWidgets.size() + smallLightWidgets.size() - 1;
+    private boolean masterExists() {
+        return !largeLightWidgets.isEmpty() && largeLightWidgets.get(0).light.type == Light.TYPE_MASTER;
+    }
+
+    private int getRealLightsCount() {
+        int count = largeLightWidgets.size() + smallLightWidgets.size();
+        if (masterExists()) {
+            count--;
+        }
+        return count;
+    }
+
+    private boolean lightWidgetIsDeltable(LightWidget lightWidget, int delta) {
+        int newValue = lightWidget.getValue() + delta;
+        return newValue >= 0 && newValue <= Light.MAX_VALUE;
+    }
+
+    private List<LightWidget> getDeltableLightWidgets(int delta) {
+        List<LightWidget> deltableLightWidgets = new ArrayList<>();
+        for (LightWidget lightWidget : getChildrenLightWidgets()) {
+            if (lightWidgetIsDeltable(lightWidget, delta)) {
+                deltableLightWidgets.add(lightWidget);
+            }
+        }
+        return deltableLightWidgets;
+    }
+
+    private List<LightWidget> getChildrenLightWidgets() {
+        List<LightWidget> children = new ArrayList<>();
+        int offset = 0;
+        if (masterExists()) {
+            offset = 1;
+        }
+        for (LightWidget lightWidget : largeLightWidgets.subList(offset, largeLightWidgets.size())) {
+            children.add(lightWidget);
+        }
+        for (LightWidget lightWidget : smallLightWidgets) {
+            children.add(lightWidget);
+        }
+        return children;
+    }
+
+    private void updateMaster() {
+        if (masterExists()) {
+            int realLightsCount = getRealLightsCount();
             int sum = 0;
             // Do not add master widget value
             for (LightWidget lightWidget : largeLightWidgets.subList(1, largeLightWidgets.size())) {
@@ -170,7 +238,22 @@ public class LightsACFragment extends Fragment {
             for (LightWidget lightWidget : smallLightWidgets) {
                 sum += lightWidget.getValue();
             }
-            largeLightWidgets.get(0).setValue(sum / realLightsCount);
+            largeLightWidgets.get(0).setValue(Math.round(sum / realLightsCount));
+        }
+    }
+
+    private void updateFromMaster(int delta) {
+        int realLightsCount = getRealLightsCount();
+        int totalDelta = delta * realLightsCount;
+        int individualDelta = totalDelta >= 0 ? 1 : -1;
+        List<LightWidget> deltableLightWidgets = getDeltableLightWidgets(individualDelta);
+        while (!deltableLightWidgets.isEmpty() && totalDelta != 0) {
+            for (int i = 0; i < deltableLightWidgets.size() && totalDelta != 0; i++) {
+                LightWidget lightWidget = deltableLightWidgets.get(i);
+                lightWidget.setValue(lightWidget.getValue() + individualDelta);
+                totalDelta -= individualDelta;
+            }
+            deltableLightWidgets = getDeltableLightWidgets(individualDelta);
         }
     }
 }

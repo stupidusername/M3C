@@ -80,6 +80,7 @@ public class LightWidget extends LinearLayout {
         if (seekBar != null) {
             seekBar.setProgress(value);
         }
+        light.setValue(value);
     }
 
     public int getValue() {

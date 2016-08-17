@@ -42,6 +42,8 @@ public class LightsACFragment extends Fragment {
     private TextView acStatusTextView;
     private TextView acModeTextView;
 
+    private int updateIndex = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -260,12 +262,19 @@ public class LightsACFragment extends Fragment {
         int individualDelta = totalDelta >= 0 ? 1 : -1;
         List<LightWidget> deltableLightWidgets = getDeltableLightWidgets(individualDelta);
         while (!deltableLightWidgets.isEmpty() && totalDelta != 0) {
-            for (int i = 0; i < deltableLightWidgets.size() && totalDelta != 0; i++) {
-                LightWidget lightWidget = deltableLightWidgets.get(i);
+            while (updateIndex < deltableLightWidgets.size() && totalDelta != 0) {
+                LightWidget lightWidget = deltableLightWidgets.get(updateIndex);
                 lightWidget.setValue(lightWidget.getValue() + individualDelta);
                 totalDelta -= individualDelta;
+                int oldSize = deltableLightWidgets.size();
+                deltableLightWidgets = getDeltableLightWidgets(individualDelta);
+                if (oldSize == deltableLightWidgets.size()) {
+                    updateIndex++;
+                }
+                if (deltableLightWidgets.size() != 0) {
+                    updateIndex %= deltableLightWidgets.size();
+                }
             }
-            deltableLightWidgets = getDeltableLightWidgets(individualDelta);
         }
     }
 }

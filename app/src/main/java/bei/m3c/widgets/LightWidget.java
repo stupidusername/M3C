@@ -65,7 +65,7 @@ public class LightWidget extends LinearLayout {
         if (light.type == Light.TYPE_ON_OFF) {
             ThemeHelper.setColorStateListTheme(widgetLayout);
         }
-        
+
         setValue(light.getValue());
     }
 

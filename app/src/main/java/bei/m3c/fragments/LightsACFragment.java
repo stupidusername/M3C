@@ -54,11 +54,13 @@ public class LightsACFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Get lights from preferences
-        lights = PreferencesHelper.getLights();
-        // Add master controls if there are more than one light
-        if (lights.size() > 1) {
-            Light masterLight = new Light(getString(R.string.light_master), Light.TYPE_MASTER);
-            lights.add(0, masterLight);
+        if (lights == null) {
+            lights = PreferencesHelper.getLights();
+            // Add master controls if there are more than one light
+            if (lights.size() > 1) {
+                Light masterLight = new Light(getString(R.string.light_master), Light.TYPE_MASTER);
+                lights.add(0, masterLight);
+            }
         }
 
         lightsLayout = (LinearLayout) view.findViewById(R.id.lights_layout);
@@ -170,6 +172,16 @@ public class LightsACFragment extends Fragment {
                     });
                     break;
             }
+        }
+        updateMaster();
+    }
+
+    // Fix for getting the seekbar progress after the fragment is hidden
+    @Override
+    public void onResume() {
+        super.onResume();
+        for (LightWidget lightWidget : largeLightWidgets) {
+            lightWidget.setValue(lightWidget.getValue());
         }
     }
 

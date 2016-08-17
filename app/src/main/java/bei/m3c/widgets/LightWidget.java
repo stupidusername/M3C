@@ -9,7 +9,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import bei.m3c.R;
-import bei.m3c.activities.MainActivity;
 import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.models.Light;
 
@@ -66,6 +65,8 @@ public class LightWidget extends LinearLayout {
         if (light.type == Light.TYPE_ON_OFF) {
             ThemeHelper.setColorStateListTheme(widgetLayout);
         }
+        
+        setValue(light.getValue());
     }
 
     public void setValue(int value) {

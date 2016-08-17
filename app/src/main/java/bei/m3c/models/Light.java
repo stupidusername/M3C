@@ -27,6 +27,10 @@ public class Light {
         setValue((byte) value);
     }
 
+    public byte getValue() {
+        return value;
+    }
+
     public void setValue(byte value) {
         if(value > MAX_VALUE) {
             value = MAX_VALUE;

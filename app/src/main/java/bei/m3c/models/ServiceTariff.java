@@ -1,9 +1,6 @@
 package bei.m3c.models;
 
 import java.math.BigDecimal;
-import java.sql.Time;
-
-import javax.xml.datatype.Duration;
 
 public class ServiceTariff {
 
@@ -12,11 +9,29 @@ public class ServiceTariff {
     public BigDecimal priceShift;
     public BigDecimal priceOvernight;
     public boolean showPriceOvernight;
-    public Duration turnDuration;
-    public Time overnightStart;
-    public Time overnightFinish;
-    public Time longTurnStart;
-    public Time longTurnFinish;
+    public String turnDuration;
+    public String overnightStart;
+    public String overnightFinish;
+    public String longTurnStart;
+    public String longTurnFinish;
     public boolean showOvernightStartFinish;
     public boolean showLongTurnStartFinish;
+
+    public ServiceTariff(int id, String roomCategoryName, BigDecimal priceShift, BigDecimal priceOvernight,
+                         boolean showPriceOvernight, String turnDuration, boolean showLongTurnStartFinish,
+                         String overnightStart, String overnightFinish, String longTurnStart, String longTurnFinish,
+                         boolean showOvernightStartFinish) {
+        this.id = id;
+        this.roomCategoryName = roomCategoryName;
+        this.priceShift = priceShift;
+        this.priceOvernight = priceOvernight;
+        this.showPriceOvernight = showPriceOvernight;
+        this.turnDuration = turnDuration;
+        this.showLongTurnStartFinish = showLongTurnStartFinish;
+        this.overnightStart = overnightStart;
+        this.overnightFinish = overnightFinish;
+        this.longTurnStart = longTurnStart;
+        this.longTurnFinish = longTurnFinish;
+        this.showOvernightStartFinish = showOvernightStartFinish;
+    }
 }

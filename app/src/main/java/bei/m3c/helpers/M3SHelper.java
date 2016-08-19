@@ -12,6 +12,8 @@ import bei.m3c.models.BarGroup;
 import bei.m3c.models.Channel;
 import bei.m3c.models.ChannelCategory;
 import bei.m3c.models.Radio;
+import bei.m3c.models.Service;
+import bei.m3c.models.ServiceTariff;
 import bei.m3c.models.Song;
 import bei.m3c.services.M3SService;
 import retrofit2.Call;
@@ -94,6 +96,26 @@ public final class M3SHelper {
             return call.execute().body();
         } catch (IOException e) {
             Log.e(TAG, "Error getting bar articles.", e);
+            return new ArrayList<>();
+        }
+    }
+
+    public static List<Service> getServices() {
+        try {
+            Call<List<Service>> call = getM3SService().getServices();
+            return call.execute().body();
+        } catch (IOException e) {
+            Log.e(TAG, "Error getting services.", e);
+            return new ArrayList<>();
+        }
+    }
+
+    public static List<ServiceTariff> getServiceTariffs() {
+        try {
+            Call<List<ServiceTariff>> call = getM3SService().getServiceTariffs();
+            return call.execute().body();
+        } catch (IOException e) {
+            Log.e(TAG, "Error getting service tariffs.", e);
             return new ArrayList<>();
         }
     }

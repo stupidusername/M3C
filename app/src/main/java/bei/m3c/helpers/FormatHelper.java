@@ -11,6 +11,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import bei.m3c.Application;
+import bei.m3c.R;
+
 /**
  * This class contains static methods that formats data to be displayed in the UI
  */
@@ -21,11 +24,15 @@ public final class FormatHelper {
     public static final char SEPARATOR_GROUPING = ' ';
 
     public static String asCurrency(BigDecimal number) {
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-        symbols.setDecimalSeparator(SEPARATOR_DECIMAL);
-        symbols.setGroupingSeparator(SEPARATOR_GROUPING);
-        DecimalFormat currency = new DecimalFormat("#,##0.00", symbols);
-        return SYMBOL_CURRENCY + currency.format(number);
+        String formated = Application.getInstance().getBaseContext().getString(R.string.no_value);
+        if (number != null) {
+            DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+            symbols.setDecimalSeparator(SEPARATOR_DECIMAL);
+            symbols.setGroupingSeparator(SEPARATOR_GROUPING);
+            DecimalFormat currency = new DecimalFormat("#,##0.00", symbols);
+            formated = SYMBOL_CURRENCY + currency.format(number);
+        }
+        return formated;
     }
 
     public static String asDateLong(Date date) {

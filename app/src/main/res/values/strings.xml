@@ -20,6 +20,8 @@
     <string name="device_admin_enabled">Device admin activado</string>
     <string name="device_owner_not_enabled">Modo kiosco no disponible. La aplicación no es device owner</string>
     <string name="name">Nombre</string>
+    <string name="close">X</string>
+    <string name="list_bullet">-</string>
 
     <!--Music-->
     <string name="artist">Artista</string>
@@ -72,6 +74,10 @@
     <string name="info_bill_total">Total</string>
     <string name="info_services">Servicios</string>
     <string name="info_tariffs">Tarifas</string>
+    <string name="info_tariffs_category">Categoría</string>
+    <string name="info_tariffs_shift">Turno</string>
+    <string name="info_tariffs_duration">Duración</string>
+    <string name="info_tariffs_overnight">Pernocte</string>
 
     <!--Settings-->
     <string name="settings_room_number">Número de habitación</string>

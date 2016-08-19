@@ -10,9 +10,10 @@ public class BarArticle {
     public BigDecimal price;
     public String pictureUrl;
 
-    public BarArticle(int id, String name, BigDecimal price) {
+    public BarArticle(int id, String name, String description, BigDecimal price) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.price = price;
     }
 }

@@ -2,20 +2,37 @@ package bei.m3c.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.text.BidiFormatter;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 import bei.m3c.R;
+import bei.m3c.adapters.ServiceAdapter;
+import bei.m3c.adapters.ServiceTariffAdapter;
+import bei.m3c.events.GetServiceTariffsEvent;
+import bei.m3c.events.GetServicesEvent;
 import bei.m3c.helpers.FormatHelper;
+import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.ThemeHelper;
+import bei.m3c.jobs.GetServiceTariffsJob;
+import bei.m3c.jobs.GetServicesJob;
 
 /**
  * Info fragment
@@ -23,7 +40,9 @@ import bei.m3c.helpers.ThemeHelper;
 public class InfoFragment extends Fragment {
 
     public static final BigDecimal DEFAULT_MONEY = new BigDecimal(0);
+    public static final int POPUP_MARGIN_DP = 50;
 
+    private RelativeLayout activityLayout;
     private GridLayout gridLayout;
     private TextView dateTextView;
     private TextView timeTextView;
@@ -41,6 +60,22 @@ public class InfoFragment extends Fragment {
     private TextView billTotalTextView;
     private Button servicesButton;
     private Button tariffsButton;
+    private PopupWindow popupWindow;
+    private TextView popupTitleTextView;
+    private LinearLayout popupTariffListViewHeaderLayout;
+    private ListView popupListView;
+    private Button popupCloseButton;
+    // adapters
+    private ServiceAdapter serviceAdapter;
+    private ServiceTariffAdapter serviceTariffAdapter;
+
+    @Override
+    public void onDestroyView() {
+        JobManagerHelper.cancelJobsInBackground(GetServicesJob.TAG);
+        JobManagerHelper.cancelJobsInBackground(GetServiceTariffsJob.TAG);
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +88,7 @@ public class InfoFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        activityLayout = (RelativeLayout) getActivity().findViewById(R.id.activity_layout);
         gridLayout = (GridLayout) view.findViewById(R.id.info_gridlayout);
         dateTextView = (TextView) view.findViewById(R.id.info_date_textview);
         timeTextView = (TextView) view.findViewById(R.id.info_time_textview);
@@ -91,5 +127,74 @@ public class InfoFragment extends Fragment {
         ThemeHelper.setColorStateListTheme(billGridLayout);
         ThemeHelper.setColorStateListTheme(servicesButton);
         ThemeHelper.setColorStateListTheme(tariffsButton);
+
+        // Create popup
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int popupMargin= Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, POPUP_MARGIN_DP, getResources().getDisplayMetrics()));
+        int popupWidth = displayMetrics.widthPixels - popupMargin * 2;
+        final int popupHeight = displayMetrics.heightPixels - popupMargin * 2;
+        View popupView = getLayoutInflater(savedInstanceState).inflate(R.layout.popup_info, null);
+        popupWindow = new PopupWindow(popupView, popupWidth, popupHeight);
+        popupWindow.setOutsideTouchable(true);
+        popupTitleTextView = (TextView) popupView.findViewById(R.id.popup_info_title);
+        popupTariffListViewHeaderLayout = (LinearLayout) popupView.findViewById(R.id.popup_info_tariff_listview_header_layout);
+        popupListView = (ListView) popupView.findViewById(R.id.popup_info_listview);
+        popupCloseButton = (Button) popupView.findViewById(R.id.popup_info_close_button);
+        ThemeHelper.setButtonTheme(popupCloseButton);
+        serviceAdapter = new ServiceAdapter(getLayoutInflater(savedInstanceState));
+        serviceTariffAdapter = new ServiceTariffAdapter(getLayoutInflater(savedInstanceState));
+
+        // Add UI listeners
+        servicesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showServicesPopup();
+            }
+        });
+        tariffsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTariffsPopup();
+            }
+        });
+        popupCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+
+        // Register events and jobs
+        EventBus.getDefault().register(this);
+        JobManagerHelper.getJobManager().addJobInBackground(new GetServicesJob());
+        JobManagerHelper.getJobManager().addJobInBackground(new GetServiceTariffsJob());
+    }
+
+    private void showServicesPopup() {
+        popupTitleTextView.setText(getString(R.string.info_services));
+        popupTariffListViewHeaderLayout.setVisibility(View.GONE);
+        popupListView.setAdapter(serviceAdapter);
+        showPopup();
+    }
+
+    private void showTariffsPopup() {
+        popupTitleTextView.setText(getString(R.string.info_tariffs));
+        popupTariffListViewHeaderLayout.setVisibility(View.VISIBLE);
+        popupListView.setAdapter(serviceTariffAdapter);
+        showPopup();
+    }
+
+    private void showPopup() {
+        popupWindow.showAtLocation(activityLayout, Gravity.CENTER, 0, 0);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(GetServicesEvent event) {
+        serviceAdapter.replaceList(event.services);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(GetServiceTariffsEvent event) {
+        serviceTariffAdapter.replaceList(event.serviceTariffs);
     }
 }

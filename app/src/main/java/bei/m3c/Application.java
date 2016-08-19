@@ -105,7 +105,6 @@ public class Application extends android.app.Application {
                         .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
                                 .registerTypeAdapter(Boolean.class, booleanAsIntAdapter)
                                 .registerTypeAdapter(boolean.class, booleanAsIntAdapter)
-                                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                                 .create()))
                         .build();
                 m3sService = retrofit.create(M3SService.class);

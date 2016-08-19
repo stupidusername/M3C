@@ -6,27 +6,27 @@
     tools:context=".fragments.TVFragment">
 
     <LinearLayout
+        style="@style/fragmentContentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="horizontal"
-        style="@style/fragmentContentLayout">
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/tv_listview_header_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="10dp"
-                android:visibility="gone"
-                android:layout_marginBottom="5dp">
+                android:visibility="gone">
 
                 <ImageView
                     style="@style/imageChannelLogo"
@@ -43,7 +43,7 @@
             <ListView
                 android:id="@+id/tv_listview"
                 style="@style/listview"
-                android:layout_width="match_parent"/>
+                android:layout_width="match_parent" />
 
         </LinearLayout>
 
@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:columnCount="2">
+                android:columnCount="3">
 
                 <ImageButton
                     android:id="@+id/tv_plus_button"
@@ -71,9 +71,12 @@
                     android:layout_gravity="center"
                     android:src="@drawable/plus" />
 
+                <Space android:layout_width="@dimen/gridLayoutSpace" />
+
                 <ImageButton
                     android:id="@+id/tv_up_button"
                     style="@style/imageButtonNormal"
+                    android:layout_gravity="center"
                     android:src="@drawable/up" />
 
                 <TextView
@@ -83,6 +86,8 @@
                     android:text="@string/volume"
                     android:textAllCaps="true"
                     android:textSize="@dimen/textNormal" />
+
+                <Space android:layout_width="@dimen/gridLayoutSpace" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -98,9 +103,12 @@
                     android:layout_gravity="center"
                     android:src="@drawable/minus" />
 
+                <Space android:layout_width="@dimen/gridLayoutSpace" />
+
                 <ImageButton
                     android:id="@+id/tv_down_button"
                     style="@style/imageButtonNormal"
+                    android:layout_gravity="center"
                     android:src="@drawable/down" />
 
                 <ImageButton
@@ -109,9 +117,12 @@
                     android:layout_gravity="center"
                     android:src="@drawable/volume_muted" />
 
+                <Space android:layout_width="@dimen/gridLayoutSpace" />
+
                 <Button
                     android:id="@+id/tv_info_button"
                     style="@style/buttonNormal"
+                    android:layout_gravity="center"
                     android:text="@string/info" />
 
             </GridLayout>

@@ -11,4 +11,5 @@
     <dimen name="layoutNormal">50dp</dimen>
     <dimen name="layoutLarge">75dp</dimen>
     <dimen name="layoutMargin">15dp</dimen>
+    <dimen name="gridLayoutSpace">30dp</dimen>
 </resources>

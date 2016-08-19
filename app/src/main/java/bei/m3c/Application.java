@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.birbit.android.jobqueue.JobManager;
 import com.birbit.android.jobqueue.config.Configuration;
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -27,8 +26,8 @@ public class Application extends android.app.Application {
     public static final String TAG = "Application";
 
     public static final int CONSUMER_MIN_COUNT = 1; //always keep at least one consumer alive
-    public static final int CONSUMER_MAX_COUNT = 3; //up to 3 consumers at a time
-    public static final int CONSUMER_LOAD_FACTOR = 5; //5 jobs per consumer
+    public static final int CONSUMER_MAX_COUNT = 50; //up to 50 consumers at a time
+    public static final int CONSUMER_LOAD_FACTOR = 1; //1 jobs per consumer
     public static final int CONSUMER_KEEP_ALIVE = 120; //wait 2 minute
 
     private static Application instance;

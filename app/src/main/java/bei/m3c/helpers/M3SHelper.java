@@ -22,6 +22,7 @@ public final class M3SHelper {
 
     public static final String TAG = "M3SHelper";
     public static final String PROTOCOL = "http://";
+    public static final String SERVICE_IMAGE_PATH = "/images/services/hotel.jpg";
 
     public static String getM3SUrl() throws IOException {
         String address = PreferencesHelper.getM3SAddress();
@@ -117,6 +118,15 @@ public final class M3SHelper {
         } catch (IOException e) {
             Log.e(TAG, "Error getting service tariffs.", e);
             return new ArrayList<>();
+        }
+    }
+
+    public static String getServicesImageUrl() {
+        try {
+            return getM3SUrl() + SERVICE_IMAGE_PATH;
+        } catch (Exception e) {
+            Log.e(TAG, "Cannot resolve services image url.", e);
+            return null;
         }
     }
 }

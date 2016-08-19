@@ -10,11 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -30,6 +33,7 @@ import bei.m3c.events.GetServiceTariffsEvent;
 import bei.m3c.events.GetServicesEvent;
 import bei.m3c.helpers.FormatHelper;
 import bei.m3c.helpers.JobManagerHelper;
+import bei.m3c.helpers.M3SHelper;
 import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.jobs.GetServiceTariffsJob;
 import bei.m3c.jobs.GetServicesJob;
@@ -61,6 +65,7 @@ public class InfoFragment extends Fragment {
     private Button servicesButton;
     private Button tariffsButton;
     private PopupWindow popupWindow;
+    private ImageView popupImageView;
     private TextView popupTitleTextView;
     private LinearLayout popupTariffListViewHeaderLayout;
     private ListView popupListView;
@@ -136,6 +141,8 @@ public class InfoFragment extends Fragment {
         View popupView = getLayoutInflater(savedInstanceState).inflate(R.layout.popup_info, null);
         popupWindow = new PopupWindow(popupView, popupWidth, popupHeight);
         popupWindow.setOutsideTouchable(true);
+        popupImageView = (ImageView) popupView.findViewById(R.id.popup_info_imageview);
+        Glide.with(this).load(M3SHelper.getServicesImageUrl()).centerCrop().placeholder(R.drawable.popup_info_image_placeholder).crossFade().into(popupImageView);
         popupTitleTextView = (TextView) popupView.findViewById(R.id.popup_info_title);
         popupTariffListViewHeaderLayout = (LinearLayout) popupView.findViewById(R.id.popup_info_tariff_listview_header_layout);
         popupListView = (ListView) popupView.findViewById(R.id.popup_info_listview);

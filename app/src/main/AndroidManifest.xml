@@ -19,10 +19,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.PreferencesActivity" />
+        <activity
+            android:name=".activities.PreferencesActivity"
+            android:screenOrientation="landscape" />
 
         <activity
             android:name=".activities.LightPreferencesActivity"
+            android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="bei.m3c.activities.LightPreferencesActivity" />

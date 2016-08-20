@@ -74,6 +74,12 @@
     </style>
 
     <!--Widget styles-->
+    <style name="seekbar">
+        <item name="android:thumb">@drawable/seekbar_thumb</item>
+        <item name="android:splitTrack">false</item>
+        <item name="android:layout_marginTop">-20dp</item>
+        <item name="android:layout_marginBottom">-20dp</item>
+    </style>
     <style name="scrollview">
         <item name="android:scrollbars">none</item>
         <item name="android:listSelector">@android:color/transparent</item>

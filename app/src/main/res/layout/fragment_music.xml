@@ -6,90 +6,93 @@
     tools:context=".fragments.MusicFragment">
 
     <LinearLayout
-        android:orientation="horizontal"
+        style="@style/fragmentContentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        style="@style/fragmentContentLayout">
+        android:orientation="horizontal">
 
         <ListView
-            android:layout_width="0dp"
             android:id="@+id/music_listview"
-            android:layout_weight="1"
-            style="@style/listview" />
+            style="@style/listview"
+            android:layout_width="0dp"
+            android:layout_weight="1" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:orientation="horizontal"
                 android:paddingLeft="15dp">
 
                 <ImageView
+                    android:id="@+id/music_albumart_imageview"
+                    style="@style/image"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/music_albumart_imageview"
                     android:layout_weight="1"
-                    android:src="@drawable/albumart_placeholder"
-                    style="@style/image" />
+                    android:src="@drawable/albumart_placeholder" />
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="center_vertical"
+                    android:orientation="vertical"
                     android:paddingLeft="10dp">
 
                     <TextView
+                        android:id="@+id/music_title_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/song"
-                        android:id="@+id/music_title_textview"
                         android:textSize="@dimen/textNormal" />
 
                     <TextView
+                        android:id="@+id/music_artist_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/artist"
-                        android:id="@+id/music_artist_textview"
                         android:textSize="@dimen/textNormal" />
 
                     <TextView
+                        android:id="@+id/music_album_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/album"
-                        android:id="@+id/music_album_textview"
                         android:textSize="@dimen/textNormal" />
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/music_time_elapsed_textview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/music_time_elapsed_textview"
+                            android:text="@string/time_default"
                             android:textSize="@dimen/textNormal" />
 
                         <SeekBar
+                            android:id="@+id/music_time_seekbar"
+                            style="@style/seekbar"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/music_time_seekbar"
                             android:layout_weight="1" />
 
                         <TextView
+                            android:id="@+id/music_time_remaining_textview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/music_time_remaining_textview"
+                            android:text="@string/time_default"
                             android:textSize="@dimen/textNormal" />
                     </LinearLayout>
 
@@ -97,41 +100,42 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
                 android:gravity="center"
-                android:layout_marginTop="50dp">
+                android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/music_play_pause_button"
-                    android:src="@drawable/play"
-                    style="@style/imageButtonNormal" />
+                    style="@style/imageButtonNormal"
+                    android:src="@drawable/play" />
 
                 <ImageButton
                     android:id="@+id/music_previous_button"
-                    android:src="@drawable/previous"
-                    style="@style/imageButtonNormal" />
+                    style="@style/imageButtonNormal"
+                    android:src="@drawable/previous" />
 
                 <ImageButton
                     android:id="@+id/music_stop_button"
-                    android:src="@drawable/stop"
-                    style="@style/imageButtonNormal"  />
+                    style="@style/imageButtonNormal"
+                    android:src="@drawable/stop" />
 
                 <ImageButton
                     android:id="@+id/music_next_button"
-                    android:src="@drawable/next"
-                    style="@style/imageButtonNormal" />
+                    style="@style/imageButtonNormal"
+                    android:src="@drawable/next" />
 
                 <ImageButton
                     android:id="@+id/music_volume_button"
-                    android:src="@drawable/volume_high"
-                    style="@style/imageButtonNormal" />
+                    style="@style/imageButtonNormal"
+                    android:src="@drawable/volume_high" />
 
                 <SeekBar
+                    android:id="@+id/music_volume_seekbar"
+                    style="@style/seekbar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/music_volume_seekbar"
                     android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>

@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -12,6 +13,7 @@ import android.graphics.drawable.StateListDrawable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -62,9 +64,21 @@ public final class ThemeHelper {
     /**
      * Sets the color scheme for the given SeekBar
      */
-    public static void setSeekBarTheme(SeekBar seekBar) {
+    public static void setSeekBarTheme(final SeekBar seekBar) {
         setProgressBarTheme(seekBar);
         seekBar.setThumbTintList(ColorStateList.valueOf(getAccentColor()));
+        final View parent = (View) seekBar.getParent();
+        parent.post( new Runnable() {
+            // Post in the parent's message queue to make sure the parent
+            // lays out its children before we call getHitRect()
+            public void run() {
+                final Rect r = new Rect();
+                seekBar.getHitRect(r);
+                r.top -= 100;
+                r.bottom += 4;
+                parent.setTouchDelegate( new TouchDelegate(r , seekBar));
+            }
+        });
     }
 
     /**

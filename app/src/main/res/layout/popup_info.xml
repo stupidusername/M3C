@@ -45,53 +45,53 @@
             android:background="@color/gray"></LinearLayout>
 
         <LinearLayout
-            android:id="@+id/popup_info_tariff_listview_header_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="@dimen/layoutMargin"
-            android:layout_marginRight="@dimen/layoutMargin">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:text="@string/info_tariffs_category"
-                android:textSize="@dimen/textLarge" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/info_tariffs_shift"
-                android:textSize="@dimen/textLarge" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/info_tariffs_duration"
-                android:textSize="@dimen/textLarge" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/info_tariffs_overnight"
-                android:textSize="@dimen/textLarge" />
-        </LinearLayout>
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/layoutMargin"
             android:layout_marginLeft="@dimen/layoutMargin"
             android:layout_marginRight="@dimen/layoutMargin"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/popup_info_tariff_listview_header_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="@string/info_tariffs_category"
+                    android:textSize="@dimen/textLarge" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/info_tariffs_shift"
+                    android:textSize="@dimen/textLarge" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/info_tariffs_duration"
+                    android:textSize="@dimen/textLarge" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/info_tariffs_overnight"
+                    android:textSize="@dimen/textLarge" />
+            </LinearLayout>
 
             <ListView
                 android:id="@+id/popup_info_listview"

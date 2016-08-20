@@ -150,7 +150,6 @@ public class TVFragment extends Fragment {
 
     public void showChannels() {
         // Show category header
-        listViewHeaderTextView.setText(selectedChannelCategory.title);
         listViewHeaderLayout.setVisibility(View.VISIBLE);
         // Populate listview with channels
         JobManagerHelper.getJobManager().addJobInBackground(new GetChannelsJob(selectedChannelCategory));

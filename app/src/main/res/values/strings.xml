@@ -22,6 +22,7 @@
     <string name="name">Nombre</string>
     <string name="close">X</string>
     <string name="list_bullet">-</string>
+    <string name="back">Volver</string>
 
     <!--Music-->
     <string name="artist">Artista</string>

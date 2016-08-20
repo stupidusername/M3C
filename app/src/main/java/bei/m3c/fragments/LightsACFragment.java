@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,9 @@ import bei.m3c.widgets.LightWidget;
 public class LightsACFragment extends Fragment {
 
     public static final int DEFAULT_TEMP = 23;
-    public static final int LAYOUT_LARGE_LIGHT_COLUMNS = 4;
+    public static final int LAYOUT_LARGE_LIGHT_COLUMNS_WITH_AC = 4;
+    public static final int LAYOUT_LARGE_LIGHT_COLUMNS = 6;
+    public static final int LAYOUT_SMALL_WIDGETS_ROW_BOTTOM_MARGIN_DP = 10;
 
     private List<Light> lights;
     private List<LightWidget> largeLightWidgets;
@@ -43,6 +46,7 @@ public class LightsACFragment extends Fragment {
     private TextView acModeTextView;
 
     private int updateIndex = 0;
+    private int largeLightColumns = LAYOUT_LARGE_LIGHT_COLUMNS;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,12 +104,15 @@ public class LightsACFragment extends Fragment {
             }
         }
         // Add light widgets
+        if (PreferencesHelper.showACControls()) {
+            largeLightColumns = LAYOUT_LARGE_LIGHT_COLUMNS_WITH_AC;
+        }
         for (LightWidget lightWidget : largeLightWidgets) {
             lightsLayout.addView(lightWidget);
         }
         LinearLayout row = null;
         for (int i = 0; i < smallLightWidgets.size(); i++) {
-            if (i % LAYOUT_LARGE_LIGHT_COLUMNS == 0) {
+            if (i % largeLightColumns == 0) {
                 row = getRow();
                 lightsLayout.addView(row);
             }
@@ -189,11 +196,13 @@ public class LightsACFragment extends Fragment {
 
     public LinearLayout getRow() {
         LinearLayout row = new LinearLayout(getContext());
+        int columnWidth = Math.round(getResources().getDimension(R.dimen.lightWidgetOnOffWidth));
         LinearLayout.LayoutParams layoutParams =
-                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                new LinearLayout.LayoutParams(columnWidth * largeLightColumns, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.gravity = Gravity.CENTER;
         row.setOrientation(LinearLayout.HORIZONTAL);
         Resources resources = getResources();
-        int marginBottom = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, resources.getDisplayMetrics()));
+        int marginBottom = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, LAYOUT_SMALL_WIDGETS_ROW_BOTTOM_MARGIN_DP, resources.getDisplayMetrics()));
         layoutParams.setMargins(0, 0, 0, marginBottom);
         row.setLayoutParams(layoutParams);
         return row;

@@ -10,11 +10,11 @@
 
     <!--Text styles-->
     <style name="textTab" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">@dimen/textLarge</item>
+        <item name="android:textSize">@dimen/textExtraLarge</item>
     </style>
 
     <style name="textInfo">
-        <item name="android:textSize">@dimen/textNormal</item>
+        <item name="android:textSize">@dimen/textLarge</item>
         <item name="android:layout_margin">10dp</item>
     </style>
 
@@ -45,7 +45,7 @@
     <style name="buttonLarge" parent="button">
         <item name="android:layout_width">@dimen/layoutLarge</item>
         <item name="android:layout_height">@dimen/layoutLarge</item>
-        <item name="android:textSize">@dimen/textExtraLarge</item>
+        <item name="android:textSize">@dimen/textExtraExtraLarge</item>
     </style>
 
     <style name="imageButton" parent="image">
@@ -66,6 +66,11 @@
     <style name="imageButtonLarge" parent="imageButton">
         <item name="android:layout_width">@dimen/layoutLarge</item>
         <item name="android:layout_height">@dimen/layoutLarge</item>
+    </style>
+
+    <style name="imageButtonExtraLarge" parent="imageButton">
+        <item name="android:layout_width">@dimen/layoutExtraLarge</item>
+        <item name="android:layout_height">@dimen/layoutExtraLarge</item>
     </style>
 
     <!--Widget styles-->

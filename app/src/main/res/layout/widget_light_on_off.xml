@@ -24,7 +24,7 @@
 
         <ImageButton
             android:id="@+id/widget_light_power_button"
-            style="@style/imageButtonNormal"
+            style="@style/imageButtonLarge"
             android:src="@drawable/power" />
 
     </LinearLayout>

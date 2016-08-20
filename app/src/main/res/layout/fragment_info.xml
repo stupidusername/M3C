@@ -30,7 +30,7 @@
                     android:id="@+id/info_date_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/textLarge" />
+                    android:textSize="@dimen/textExtraLarge" />
 
                 <TextView
                     android:id="@+id/info_time_textview"
@@ -190,7 +190,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/info_bill_total"
-                    android:textSize="@dimen/textLarge" />
+                    android:textStyle="bold"
+                    android:textSize="@dimen/textExtraExtraLarge" />
 
                 <TextView
                     android:id="@+id/info_bill_total_textview"
@@ -198,7 +199,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:textSize="@dimen/textLarge" />
+                    android:textStyle="bold"
+                    android:textSize="@dimen/textExtraExtraLarge" />
 
             </GridLayout>
 

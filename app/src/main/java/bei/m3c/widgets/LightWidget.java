@@ -48,7 +48,7 @@ public class LightWidget extends LinearLayout {
         if (nameTextView != null) {
             // Increase text size for master control
             if (light.type == Light.TYPE_MASTER) {
-                float size = getContext().getResources().getDimension(R.dimen.textLarge);
+                float size = getContext().getResources().getDimension(R.dimen.textExtraLarge);
                 nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
             }
             nameTextView.setText(light.name);

@@ -124,7 +124,10 @@
                     android:id="@+id/tv_info_button"
                     style="@style/buttonNormal"
                     android:layout_gravity="center"
-                    android:text="@string/info" />
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:text="@string/info"
+                    android:layout_width="wrap_content" />
 
             </GridLayout>
 

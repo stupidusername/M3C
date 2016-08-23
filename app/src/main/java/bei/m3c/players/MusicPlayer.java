@@ -30,7 +30,7 @@ public class MusicPlayer extends MediaPlayer {
     public static final String TAG = "MusicPlayer";
 
     private Radio radio = null;
-    private List<Song> songs;
+    private List<Song> songs = new ArrayList<>();
     private int songPosition = 0;
     private boolean ready = false;
 

@@ -18,7 +18,7 @@ import bei.m3c.jobs.SendCommandJob;
 
 public abstract class BaseConnection {
 
-    public static final int KEEPALIVE_DELAY = 2500;
+    public static final int KEEPALIVE_DELAY = 10000;
 
     public static final byte MESSAGE_START = 0x29;
     public static final byte[] MESSAGE_CRC = {0x00, 0x00};
@@ -56,7 +56,7 @@ public abstract class BaseConnection {
             Log.i(tag, "Connected.");
             byte[] message;
             byte readByte = 0;
-            while (readByte != -1) {
+            while (readByte != END_OF_STREAM) {
                 readByte = (byte) inputStream.read();
                 if (readByte != MESSAGE_START) {
                     continue;
@@ -76,7 +76,7 @@ public abstract class BaseConnection {
                 }, MESSAGE_MAX_TIME_MILLIS);
                 while (i < getMessageLenght() && messageInTime) {
                     readByte = (byte) inputStream.read();
-                    if (readByte == -1) {
+                    if (readByte == END_OF_STREAM) {
                         break;
                     }
                     message[i] = readByte;

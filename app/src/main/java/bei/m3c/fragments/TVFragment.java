@@ -24,6 +24,7 @@ import bei.m3c.adapters.ChannelCategoryAdapter;
 import bei.m3c.commands.TRCChannelDown;
 import bei.m3c.commands.TRCChannelUp;
 import bei.m3c.commands.TRCDigit;
+import bei.m3c.commands.TRCInfo;
 import bei.m3c.commands.TRCMacro;
 import bei.m3c.commands.TRCSetVideoType;
 import bei.m3c.commands.TRCVideoOnOff;
@@ -175,6 +176,12 @@ public class TVFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 PICConnectionHelper.sendCommand(new TRCChannelDown());
+            }
+        });
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PICConnectionHelper.sendCommand(new TRCInfo());
             }
         });
 

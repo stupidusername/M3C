@@ -115,7 +115,8 @@ public abstract class BaseConnection {
         JobManagerHelper.getJobManager().addJob(new ConnectJob(this));
     }
 
-    public void sendCommand(BaseCommand command) {
+    public boolean sendCommand(BaseCommand command) {
+        boolean success = false;
         byte[] messageBody = new byte[commandLenght];
         messageBody[0] = command.value;
         for (int i = 0; i < command.params.length; i++) {
@@ -129,17 +130,19 @@ public abstract class BaseConnection {
             byteArrayOutputStream.write(MESSAGE_CRC);
             byte[] message = byteArrayOutputStream.toByteArray();
             outputStream.write(message);
+            success = true;
         } catch (Exception e) {
             Log.e(tag, "Error sending command", e);
             disconnect();
         }
+        return success;
     }
 
-    public void addCommandJob(BaseCommand command, int interval) {
+    public void addCommandJob(BaseCommand command, int interval, boolean retry) {
         // Stop previous command job
         JobManagerHelper.cancelJobsInBackground(command.tag);
         // Start new command job
-        JobManagerHelper.getJobManager().addJobInBackground(new SendCommandJob(this, command, interval));
+        JobManagerHelper.getJobManager().addJobInBackground(new SendCommandJob(this, command, interval, SendCommandJob.DELAY, retry));
     }
 
     public int getMessageLenght() {

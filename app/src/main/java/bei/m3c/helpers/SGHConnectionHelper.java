@@ -15,8 +15,12 @@ public final class SGHConnectionHelper {
     }
 
     public static void sendCommand(BaseCommand command, int interval) {
+        sendCommand(command, interval, SendCommandJob.DEFAULT_RETRY);
+    }
+
+    public static void sendCommand(BaseCommand command, int interval, boolean retry) {
         try {
-            Application.getInstance().getSGHConnection().addCommandJob(command, interval);
+            Application.getInstance().getSGHConnection().addCommandJob(command, interval, retry);
         } catch (Exception e) {
             Log.e(TAG, "Error adding " + command.tag + ".");
         }

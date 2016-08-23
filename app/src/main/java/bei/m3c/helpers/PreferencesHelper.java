@@ -32,6 +32,7 @@ public final class PreferencesHelper {
     public static final String KEY_M3S_ADDRESS = "m3s_address";
     public static final String KEY_START_ON_BOOT = "start_on_boot";
     public static final String KEY_SHOW_AC_CONTROLS = "show_ac_controls";
+    public static final String KEY_TV_REMOTE_CODE = "tv_remote_code";
     public static final String KEY_THEME_COLOR = "theme_color";
 
     // Default values
@@ -39,6 +40,7 @@ public final class PreferencesHelper {
     public static final String DEFAULT_ADDRESS = null;
     public static final boolean DEFAULT_START_ON_BOOT = false;
     public static final boolean DEFAULT_SHOW_AC_CONTROLS = true;
+    public static final int DEFAULT_TV_CODE = -1;
 
     public static final String ADDRESS_SEPARATOR = "."; // ip address separator
     public static final int PIC_ADDRESS_BASE_ADDRESS = 200;
@@ -132,6 +134,9 @@ public final class PreferencesHelper {
 
     public static boolean showACControls() {
         return getSharedPreferences().getBoolean(KEY_SHOW_AC_CONTROLS, DEFAULT_SHOW_AC_CONTROLS);
+    }
+    public static int getTVRemoteCode() {
+        return getSharedPreferences().getInt(KEY_TV_REMOTE_CODE, DEFAULT_TV_CODE);
     }
 
     public static int getThemeColor() {

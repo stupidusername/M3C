@@ -22,9 +22,12 @@ import java.util.ArrayList;
 import bei.m3c.R;
 import bei.m3c.adapters.ChannelAdapter;
 import bei.m3c.adapters.ChannelCategoryAdapter;
+import bei.m3c.commands.TRCSetVideoType;
 import bei.m3c.events.GetChannelCategoriesEvent;
 import bei.m3c.events.GetChannelsEvent;
 import bei.m3c.helpers.JobManagerHelper;
+import bei.m3c.helpers.PICConnectionHelper;
+import bei.m3c.helpers.PreferencesHelper;
 import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.jobs.GetChannelCategoriesJob;
 import bei.m3c.jobs.GetChannelsJob;
@@ -41,7 +44,6 @@ public class TVFragment extends Fragment {
 
     // Views
     private LinearLayout listViewHeaderLayout;
-    private TextView listViewHeaderTextView;
     private ListView listView;
     private ImageButton powerButton;
     private ImageButton plusButton;
@@ -76,8 +78,13 @@ public class TVFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Send TV code
+        int tvRemoteCode = PreferencesHelper.getTVRemoteCode();
+        if (tvRemoteCode != PreferencesHelper.DEFAULT_TV_CODE) {
+            PICConnectionHelper.sendCommand(new TRCSetVideoType(tvRemoteCode));
+        }
+
         listViewHeaderLayout = (LinearLayout) view.findViewById(R.id.tv_listview_header_layout);
-        listViewHeaderTextView = (TextView) view.findViewById(R.id.tv_listview_header_textview);
         listView = (ListView) view.findViewById(R.id.tv_listview);
         powerButton = (ImageButton) view.findViewById(R.id.tv_power_button);
         plusButton = (ImageButton) view.findViewById(R.id.tv_plus_button);
@@ -123,7 +130,7 @@ public class TVFragment extends Fragment {
         });
 
         // Show channels or categories depending on saved channel category
-        if(selectedChannelCategory == null) {
+        if (selectedChannelCategory == null) {
             showChannelCategories();
         } else {
             showChannels();

@@ -24,8 +24,8 @@ public class SGHConnection extends BaseConnection {
     }
 
     @Override
-    public void sendCommand(BaseCommand command) {
-        super.sendCommand(command);
+    public boolean sendCommand(BaseCommand command) {
+        boolean success = super.sendCommand(command);
         if (ackTimer == null) {
             ackTimer = new Timer();
             ackTimer.schedule(new TimerTask() {
@@ -37,6 +37,7 @@ public class SGHConnection extends BaseConnection {
                 }
             }, ACK_MAX_DELAY_MILLIS);
         }
+        return success;
     }
 
     @Override

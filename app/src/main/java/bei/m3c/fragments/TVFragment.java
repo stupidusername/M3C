@@ -11,7 +11,6 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -22,8 +21,14 @@ import java.util.ArrayList;
 import bei.m3c.R;
 import bei.m3c.adapters.ChannelAdapter;
 import bei.m3c.adapters.ChannelCategoryAdapter;
+import bei.m3c.commands.TRCChannelDown;
+import bei.m3c.commands.TRCChannelUp;
+import bei.m3c.commands.TRCDigit;
 import bei.m3c.commands.TRCMacro;
 import bei.m3c.commands.TRCSetVideoType;
+import bei.m3c.commands.TRCVideoOnOff;
+import bei.m3c.commands.TRCVolumeDown;
+import bei.m3c.commands.TRCVolumeUp;
 import bei.m3c.events.GetChannelCategoriesEvent;
 import bei.m3c.events.GetChannelsEvent;
 import bei.m3c.helpers.JobManagerHelper;
@@ -103,6 +108,13 @@ public class TVFragment extends Fragment {
             int viewId = getResources().getIdentifier(viewName, "id", getContext().getPackageName());
             numberButtons[number] = (Button) view.findViewById(viewId);
             ThemeHelper.setButtonTheme(numberButtons[number]);
+            final int finalNumber = number;
+            numberButtons[number].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PICConnectionHelper.sendCommand(new TRCDigit(finalNumber));
+                }
+            });
         }
 
         channelCategoryAdapter = new ChannelCategoryAdapter(getLayoutInflater(savedInstanceState));
@@ -127,6 +139,42 @@ public class TVFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 showChannelCategories();
+            }
+        });
+        powerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PICConnectionHelper.sendCommand(new TRCVideoOnOff());
+            }
+        });
+        plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PICConnectionHelper.sendCommand(new TRCVolumeUp());
+            }
+        });
+        minusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PICConnectionHelper.sendCommand(new TRCVolumeDown());
+            }
+        });
+        muteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Command not implemented
+            }
+        });
+        upButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PICConnectionHelper.sendCommand(new TRCChannelUp());
+            }
+        });
+        downButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PICConnectionHelper.sendCommand(new TRCChannelDown());
             }
         });
 

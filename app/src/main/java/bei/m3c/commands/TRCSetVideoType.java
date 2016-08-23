@@ -2,7 +2,7 @@ package bei.m3c.commands;
 
 public class TRCSetVideoType extends BaseCommand {
 
-    public static final String TAG = "TRCSetVideoTyp";
+    public static final String TAG = "TRCSetVideoType";
     public static final byte VALUE = 30;
 
     public int tvRemoteCode;

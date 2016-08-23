@@ -14,6 +14,7 @@ import bei.m3c.fragments.TVFragment;
 import bei.m3c.helpers.KioskModeHelper;
 import bei.m3c.helpers.PreferencesHelper;
 import bei.m3c.helpers.ThemeHelper;
+import bei.m3c.services.MonitorService;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -37,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        startService(new Intent(getBaseContext(), MonitorService.class));
+
         setContentView(R.layout.activity_main);
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);

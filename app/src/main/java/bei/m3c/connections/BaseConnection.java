@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import bei.m3c.commands.BaseCommand;
 import bei.m3c.helpers.FormatHelper;
@@ -18,9 +20,10 @@ public abstract class BaseConnection {
 
     public static final int KEEPALIVE_DELAY = 2500;
 
-    public static final byte[] MESSAGE_START = {0x29};
+    public static final byte MESSAGE_START = 0x29;
     public static final byte[] MESSAGE_CRC = {0x00, 0x00};
     public static final int END_OF_STREAM = -1;
+    public static final int MESSAGE_MAX_TIME_MILLIS = 1000;
 
     private String address;
     private int port;
@@ -30,6 +33,8 @@ public abstract class BaseConnection {
     private InputStream inputStream;
     private OutputStream outputStream;
     public boolean isConnected = false;
+    private boolean messageInTime;
+    private Timer messageTimer;
 
     public BaseConnection(String address, int port, int commandLenght, String tag) {
         this.address = address;
@@ -49,9 +54,38 @@ public abstract class BaseConnection {
             JobManagerHelper.cancelJobs(this.tag);
             JobManagerHelper.getJobManager().addJob(new SendCommandJob(this, getKeepAliveCommand(), KEEPALIVE_DELAY));
             Log.i(tag, "Connected.");
-            byte[] message = new byte[getMessageLenght()];
-            while (inputStream.read(message, 0, getMessageLenght()) != END_OF_STREAM) {
-                readMessage(message);
+            byte[] message;
+            byte readByte = 0;
+            while (readByte != -1) {
+                readByte = (byte) inputStream.read();
+                if (readByte != MESSAGE_START) {
+                    continue;
+                }
+                int i = 0;
+                message = new byte[getMessageLenght()];
+                message[i] = readByte;
+                i++;
+                messageInTime = true;
+                messageTimer = new Timer();
+                messageTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        messageInTime = false;
+                        messageTimer.cancel();
+                    }
+                }, MESSAGE_MAX_TIME_MILLIS);
+                while (i < getMessageLenght() && messageInTime) {
+                    readByte = (byte) inputStream.read();
+                    if (readByte == -1) {
+                        break;
+                    }
+                    message[i] = readByte;
+                    i++;
+                }
+                if (i == getMessageLenght()) {
+                    messageTimer.cancel();
+                    readMessage(message);
+                }
             }
         } catch (Exception e) {
             Log.e(tag, "Error during connection.", e);
@@ -109,11 +143,13 @@ public abstract class BaseConnection {
     }
 
     public int getMessageLenght() {
-        return MESSAGE_START.length + commandLenght + MESSAGE_CRC.length;
+        int messageStartLenght = 1;
+        return messageStartLenght + commandLenght + MESSAGE_CRC.length;
     }
 
     public void readMessage(byte[] message) {
-        byte[] command = Arrays.copyOfRange(message, MESSAGE_START.length, MESSAGE_START.length + commandLenght);
+        int messageStartLenght = 1;
+        byte[] command = Arrays.copyOfRange(message, messageStartLenght, messageStartLenght + commandLenght);
         readCommand(command);
     }
 

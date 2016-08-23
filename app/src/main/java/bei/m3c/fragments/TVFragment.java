@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import bei.m3c.R;
 import bei.m3c.adapters.ChannelAdapter;
 import bei.m3c.adapters.ChannelCategoryAdapter;
+import bei.m3c.commands.TRCMacro;
 import bei.m3c.commands.TRCSetVideoType;
 import bei.m3c.events.GetChannelCategoriesEvent;
 import bei.m3c.events.GetChannelsEvent;
@@ -164,7 +165,8 @@ public class TVFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Select channel
+                Channel channel = channelAdapter.getItem(position);
+                PICConnectionHelper.sendCommand(new TRCMacro(channel.number));
             }
         });
     }

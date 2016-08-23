@@ -58,4 +58,13 @@ public final class FormatHelper {
         }
         return new String(hexChars);
     }
+
+    public static byte[] asNumberByteArray(int number) {
+        String temp = Integer.toString(number);
+        byte[] byteArrayNumber = new byte[temp.length()];
+        for (int i = 0; i < temp.length(); i++) {
+            byteArrayNumber[i] = (byte) ((byte) temp.charAt(i) - '0');
+        }
+        return  byteArrayNumber;
+    }
 }

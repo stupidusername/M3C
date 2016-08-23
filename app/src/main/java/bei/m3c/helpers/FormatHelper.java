@@ -1,15 +1,8 @@
 package bei.m3c.helpers;
 
-import android.support.annotation.Nullable;
-
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import bei.m3c.Application;
 import bei.m3c.R;
@@ -33,15 +26,6 @@ public final class FormatHelper {
             formated = SYMBOL_CURRENCY + currency.format(number);
         }
         return formated;
-    }
-
-    public static String asDateLong(Date date) {
-        Locale spanish = new Locale("es", "ES");
-        return (new SimpleDateFormat("d MMMM, y", spanish)).format(date);
-    }
-
-    public static String asTime(Date date) {
-        return (new SimpleDateFormat("HH:mm")).format(date);
     }
 
     public static String asTimer(int timeInMillis) {

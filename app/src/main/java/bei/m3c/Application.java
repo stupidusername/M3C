@@ -1,5 +1,6 @@
 package bei.m3c;
 
+import android.content.res.Resources;
 import android.util.Log;
 
 import com.birbit.android.jobqueue.JobManager;
@@ -11,6 +12,7 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import bei.m3c.connections.PICConnection;
 import bei.m3c.connections.SGHConnection;
@@ -24,6 +26,7 @@ import retrofit2.Retrofit;
 public class Application extends android.app.Application {
 
     public static final String TAG = "Application";
+    public static final String LANG = "es";
 
     public static final int CONSUMER_MIN_COUNT = 1; //always keep at least one consumer alive
     public static final int CONSUMER_MAX_COUNT = 50; //up to 50 consumers at a time
@@ -80,6 +83,7 @@ public class Application extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        setLocale();
         PreferencesHelper.initialize(this);
         getJobManager();
         getM3SService();
@@ -155,5 +159,14 @@ public class Application extends android.app.Application {
                 .loadFactor(CONSUMER_LOAD_FACTOR)
                 .consumerKeepAlive(CONSUMER_KEEP_ALIVE);
         jobManager = new JobManager(builder.build());
+    }
+
+    private void setLocale() {
+        Resources resources = getBaseContext().getResources();
+        android.content.res.Configuration newConfig = resources.getConfiguration();
+        newConfig.locale = new Locale(LANG);
+        super.onConfigurationChanged(newConfig);
+        Locale.setDefault(newConfig.locale);
+        resources.updateConfiguration(newConfig, getResources().getDisplayMetrics());
     }
 }

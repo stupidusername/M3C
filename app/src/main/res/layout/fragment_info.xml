@@ -6,11 +6,11 @@
     tools:context=".fragments.InfoFragment">
 
     <LinearLayout
+        style="@style/fragmentContentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical"
-        style="@style/fragmentContentLayout">
+        android:orientation="vertical">
 
 
         <LinearLayout
@@ -26,16 +26,20 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
+                <TextClock
                     android:id="@+id/info_date_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:format12Hour="@string/format_date_long"
+                    android:format24Hour="@string/format_date_long"
                     android:textSize="@dimen/textExtraLarge" />
 
-                <TextView
+                <TextClock
                     android:id="@+id/info_time_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:format12Hour="@string/format_time"
+                    android:format24Hour="@string/format_time"
                     android:textSize="@dimen/textGiant" />
 
                 <GridLayout
@@ -190,8 +194,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/info_bill_total"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/textExtraExtraLarge" />
+                    android:textSize="@dimen/textExtraExtraLarge"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/info_bill_total_textview"
@@ -199,8 +203,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/textExtraExtraLarge" />
+                    android:textSize="@dimen/textExtraExtraLarge"
+                    android:textStyle="bold" />
 
             </GridLayout>
 

@@ -24,7 +24,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 import bei.m3c.R;
 import bei.m3c.adapters.ServiceAdapter;
@@ -48,8 +47,6 @@ public class InfoFragment extends Fragment {
 
     private RelativeLayout activityLayout;
     private GridLayout gridLayout;
-    private TextView dateTextView;
-    private TextView timeTextView;
     private TextView specialOfferTextView;
     private TextView shiftStartTextView;
     private TextView shiftEndTextView;
@@ -95,8 +92,6 @@ public class InfoFragment extends Fragment {
 
         activityLayout = (RelativeLayout) getActivity().findViewById(R.id.activity_layout);
         gridLayout = (GridLayout) view.findViewById(R.id.info_gridlayout);
-        dateTextView = (TextView) view.findViewById(R.id.info_date_textview);
-        timeTextView = (TextView) view.findViewById(R.id.info_time_textview);
         specialOfferTextView = (TextView) view.findViewById(R.id.info_special_offer_textview);
         shiftStartTextView = (TextView) view.findViewById(R.id.info_shift_start_textview);
         shiftEndTextView = (TextView) view.findViewById(R.id.info_shift_end_textview);
@@ -113,8 +108,6 @@ public class InfoFragment extends Fragment {
         tariffsButton = (Button) view.findViewById(R.id.info_tariffs_button);
 
         // Set default texts
-        dateTextView.setText(FormatHelper.asDateLong(new Date()));
-        timeTextView.setText(FormatHelper.asTime(new Date()));
         specialOfferTextView.setText(getString(R.string.no_value));
         shiftStartTextView.setText(getString(R.string.time_default));
         shiftEndTextView.setText(getString(R.string.time_default));

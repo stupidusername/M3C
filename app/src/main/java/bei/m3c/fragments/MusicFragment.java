@@ -26,6 +26,7 @@ import bei.m3c.events.MusicPlayerPlayEvent;
 import bei.m3c.events.MusicPlayerSongChangedEvent;
 import bei.m3c.events.MusicPlayerStopEvent;
 import bei.m3c.events.MusicPlayerUpdateEvent;
+import bei.m3c.events.IntroEvent;
 import bei.m3c.helpers.FormatHelper;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.ThemeHelper;
@@ -185,7 +186,7 @@ public class MusicFragment extends Fragment {
             public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
                 VolumeHelper.setVolume(progress);
                 updateVolumeButton();
-                if(!fromUser) {
+                if (!fromUser) {
                     saveVolume();
                 }
             }
@@ -220,17 +221,7 @@ public class MusicFragment extends Fragment {
         playPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Play current selected radio or choose the first one if none of them was selected
-                Radio currentRadio = MusicPlayer.getInstance().getRadio();
-                if (currentRadio == null) {
-                    if (!radioAdapter.isEmpty()) {
-                        Radio newRadio = radioAdapter.getItem(DEFAULT_RADIO_POSITION);
-                        radiosListView.setItemChecked(DEFAULT_RADIO_POSITION, true);
-                        MusicPlayer.getInstance().selectRadio(newRadio);
-                    }
-                } else {
-                    MusicPlayer.getInstance().play();
-                }
+                play();
             }
         });
     }
@@ -244,6 +235,22 @@ public class MusicFragment extends Fragment {
                 MusicPlayer.getInstance().pause();
             }
         });
+    }
+
+    /**
+     * Plays current selected radio or chooses the first one if none of them is selected.
+     */
+    private void play() {
+        Radio currentRadio = MusicPlayer.getInstance().getRadio();
+        if (currentRadio == null) {
+            if (!radioAdapter.isEmpty()) {
+                Radio newRadio = radioAdapter.getItem(DEFAULT_RADIO_POSITION);
+                radiosListView.setItemChecked(DEFAULT_RADIO_POSITION, true);
+                MusicPlayer.getInstance().selectRadio(newRadio);
+            }
+        } else {
+            MusicPlayer.getInstance().play();
+        }
     }
 
     public void updateSong(Song currentSong) {
@@ -338,5 +345,10 @@ public class MusicFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MusicPlayerUpdateEvent event) {
         updatePlaybackTime();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(IntroEvent event) {
+        play();
     }
 }

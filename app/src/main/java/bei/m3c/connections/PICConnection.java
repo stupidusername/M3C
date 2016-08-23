@@ -1,7 +1,14 @@
 package bei.m3c.connections;
 
+import android.util.Log;
+
+import org.greenrobot.eventbus.EventBus;
+
 import bei.m3c.commands.BaseCommand;
+import bei.m3c.commands.TRCIntro;
 import bei.m3c.commands.TRCKeepAliveCommand;
+import bei.m3c.events.IntroEvent;
+import bei.m3c.helpers.FormatHelper;
 
 public class PICConnection extends BaseConnection {
 
@@ -14,7 +21,15 @@ public class PICConnection extends BaseConnection {
 
     @Override
     public void readCommand(byte[] command) {
-
+        Log.v(TAG, "Received command: " + FormatHelper.asHexString(command));
+        if (command.length > 0) {
+            byte value = command[0];
+            switch (value) {
+                case TRCIntro.VALUE:
+                    EventBus.getDefault().post(new IntroEvent());
+                    break;
+            }
+        }
     }
 
     @Override

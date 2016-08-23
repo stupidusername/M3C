@@ -62,7 +62,7 @@ public class LightWidget extends LinearLayout {
         }
 
         // Draw border for on/off light widgets
-        if (light.type == Light.TYPE_ON_OFF) {
+        if (light.type == Light.TYPE_ON_OFF && widgetLayout != null) {
             ThemeHelper.setColorStateListTheme(widgetLayout);
         }
 

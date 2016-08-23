@@ -62,11 +62,6 @@ public class LightsACFragment extends Fragment {
         // Get lights from preferences
         if (lights == null) {
             lights = PreferencesHelper.getLights();
-            // Add master controls if there are more than one light
-            if (lights.size() > 1) {
-                Light masterLight = new Light(getString(R.string.light_master), Light.TYPE_MASTER);
-                lights.add(0, masterLight);
-            }
         }
 
         lightsLayout = (LinearLayout) view.findViewById(R.id.lights_layout);
@@ -103,6 +98,13 @@ public class LightsACFragment extends Fragment {
                 largeLightWidgets.add(new LightWidget(getContext(), light));
             }
         }
+
+        // Add master controls if there are more than one large light widget
+        if (largeLightWidgets.size() > 1) {
+            Light masterLight = new Light(getString(R.string.light_master), Light.TYPE_MASTER);
+            largeLightWidgets.add(0, new LightWidget(getContext(), masterLight));
+        }
+
         // Add light widgets
         if (PreferencesHelper.showACControls()) {
             largeLightColumns = LAYOUT_LARGE_LIGHT_COLUMNS_WITH_AC;
@@ -213,7 +215,7 @@ public class LightsACFragment extends Fragment {
     }
 
     private int getRealLightsCount() {
-        int count = largeLightWidgets.size() + smallLightWidgets.size();
+        int count = largeLightWidgets.size();
         if (masterExists()) {
             count--;
         }
@@ -244,9 +246,6 @@ public class LightsACFragment extends Fragment {
         for (LightWidget lightWidget : largeLightWidgets.subList(offset, largeLightWidgets.size())) {
             children.add(lightWidget);
         }
-        for (LightWidget lightWidget : smallLightWidgets) {
-            children.add(lightWidget);
-        }
         return children;
     }
 
@@ -256,9 +255,6 @@ public class LightsACFragment extends Fragment {
             int sum = 0;
             // Do not add master widget value
             for (LightWidget lightWidget : largeLightWidgets.subList(1, largeLightWidgets.size())) {
-                sum += lightWidget.getValue();
-            }
-            for (LightWidget lightWidget : smallLightWidgets) {
                 sum += lightWidget.getValue();
             }
             largeLightWidgets.get(0).setValue(Math.round(sum / realLightsCount));

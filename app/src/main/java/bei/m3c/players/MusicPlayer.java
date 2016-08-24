@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import bei.m3c.Application;
+import bei.m3c.activities.MainActivity;
 import bei.m3c.commands.TRCStartAudioCommand;
 import bei.m3c.events.GetRadioSongsEvent;
 import bei.m3c.events.MusicPlayerPauseEvent;
@@ -62,7 +62,7 @@ public class MusicPlayer extends MediaPlayer {
     }
 
     public static MusicPlayer getInstance() {
-        return Application.getInstance().getMusicPlayer();
+        return MainActivity.getInstance().getMusicPlayer();
     }
 
     public void selectRadio(Radio radio) {

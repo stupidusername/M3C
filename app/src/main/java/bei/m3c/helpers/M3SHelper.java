@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import bei.m3c.Application;
+import bei.m3c.activities.MainActivity;
 import bei.m3c.models.BarArticle;
 import bei.m3c.models.BarGroup;
 import bei.m3c.models.Channel;
@@ -34,7 +34,7 @@ public final class M3SHelper {
     }
 
     public static M3SService getM3SService() throws IOException {
-        M3SService m3SService = Application.getInstance().getM3SService();
+        M3SService m3SService = MainActivity.getInstance().getM3SService();
         if (m3SService == null) {
             throw new IOException("M3Service is not set.");
         }

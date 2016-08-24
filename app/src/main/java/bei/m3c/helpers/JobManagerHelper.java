@@ -3,12 +3,12 @@ package bei.m3c.helpers;
 import com.birbit.android.jobqueue.JobManager;
 import com.birbit.android.jobqueue.TagConstraint;
 
-import bei.m3c.Application;
+import bei.m3c.activities.MainActivity;
 
 public final class JobManagerHelper {
 
     public static JobManager getJobManager() {
-        return Application.getInstance().getJobManager();
+        return MainActivity.getInstance().getJobManager();
     }
 
     public static void cancelJobs(String... tags) {

@@ -29,6 +29,8 @@ public final class PreferencesHelper {
     // Preferences keys
     public static final String KEY_ROOM_NUMBER = "room_number";
     public static final String KEY_SGH_ADDRESS = "sgh_address";
+    public static final String KEY_SGH_PORT = "sgh_port";
+    public static final String KEY_PIC_ADDRESS = "pic_address";
     public static final String KEY_M3S_ADDRESS = "m3s_address";
     public static final String KEY_START_ON_BOOT = "start_on_boot";
     public static final String KEY_SHOW_AC_CONTROLS = "show_ac_controls";
@@ -37,10 +39,12 @@ public final class PreferencesHelper {
 
     // Default values
     public static final String DEFAULT_ROOM_NUMBER = null;
-    public static final String DEFAULT_ADDRESS = null;
+    public static final String DEFAULT_ADDRESS = "";
     public static final boolean DEFAULT_START_ON_BOOT = false;
     public static final boolean DEFAULT_SHOW_AC_CONTROLS = true;
     public static final int DEFAULT_TV_CODE = -1;
+
+    public static final String PORT_UNSET = "";
 
     public static final String ADDRESS_SEPARATOR = "."; // ip address separator
     public static final int PIC_ADDRESS_BASE_ADDRESS = 200;
@@ -93,7 +97,15 @@ public final class PreferencesHelper {
         return roomNumber;
     }
 
-    public static String getPICAddress() throws RuntimeException {
+    public static String getPICAddress() {
+        String address = getSharedPreferences().getString(KEY_PIC_ADDRESS, DEFAULT_ADDRESS);
+        if (address.equals(DEFAULT_ADDRESS)) {
+            address = getDefaultPICAddress();
+        }
+        return address;
+    }
+
+    private static String getDefaultPICAddress() throws RuntimeException {
         try {
             String sghAddress = getSGHAddress();
             String[] bits = sghAddress.split(Pattern.quote(ADDRESS_SEPARATOR));
@@ -110,13 +122,19 @@ public final class PreferencesHelper {
 
     public static String getSGHAddress() throws RuntimeException {
         String sghAdress = getSharedPreferences().getString(KEY_SGH_ADDRESS, DEFAULT_ADDRESS);
-        if (sghAdress == null) {
+        if (sghAdress.equals(DEFAULT_ADDRESS)) {
             throw new RuntimeException("SGH address is not set.");
         }
         return sghAdress;
     }
 
-    public static int getSGHPort() throws RuntimeException {
+    public static int getSGHPort() {
+        String portString = getSharedPreferences().getString(KEY_SGH_PORT, PORT_UNSET);
+        int port = portString.equals(PORT_UNSET) ? getDefaultSGHPort() : Integer.parseInt(portString);
+        return port;
+    }
+
+    private static int getDefaultSGHPort() throws RuntimeException {
         try {
             return SGH_BASE_PORT + getRoomNumber();
         } catch (Exception e) {

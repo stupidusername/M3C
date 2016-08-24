@@ -8,13 +8,21 @@
         android:key="sgh_address"
         android:title="@string/settings_sgh_address" />
     <EditTextPreference
+        android:key="sgh_port"
+        android:numeric="integer"
+        android:summary="@string/settings_automatic_if_empty"
+        android:title="@string/settings_sgh_port" />
+    <EditTextPreference
+        android:key="pic_address"
+        android:summary="@string/settings_automatic_if_empty"
+        android:title="@string/settings_pic_address" />
+    <EditTextPreference
         android:key="m3s_address"
         android:title="@string/settings_m3s_address" />
     <CheckBoxPreference
         android:key="start_on_boot"
         android:title="@string/settings_start_on_boot" />
-    <Preference
-        android:title="@string/lights_title">
+    <Preference android:title="@string/lights_title">
         <intent android:action="bei.m3c.activities.LightPreferencesActivity" />
     </Preference>
     <CheckBoxPreference

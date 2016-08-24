@@ -85,6 +85,8 @@
     <!--Settings-->
     <string name="settings_room_number">Número de habitación</string>
     <string name="settings_sgh_address">Dirección del servidor SGH</string>
+    <string name="settings_sgh_port">Puerto de la conexión SGH</string>
+    <string name="settings_pic_address">Dirección del PIC</string>
     <string name="settings_m3s_address">Dirección del servidor M3S</string>
     <string name="settings_start_on_boot">Ejecutar al iniciar dispositivo</string>
     <string name="settings_show_ac_controls">Mostrar controles del aire</string>
@@ -93,5 +95,6 @@
     <string name="settings_theme_color">Color del tema</string>
     <string name="settings_add_light">Añadir luz</string>
     <string name="settings_max_lights_reached">No se pueden añadir mas luces</string>
+    <string name="settings_automatic_if_empty">Dejar en blanco para determinar automáticamente</string>
 
 </resources>

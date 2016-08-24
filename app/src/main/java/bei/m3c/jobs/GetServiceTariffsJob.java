@@ -39,7 +39,7 @@ public class GetServiceTariffsJob extends Job {
     public void onRun() throws Throwable {
         List<ServiceTariff> serviceTariffs = M3SHelper.getServiceTariffs();
         EventBus.getDefault().post(new GetServiceTariffsEvent(serviceTariffs));
-        JobManagerHelper.getJobManager().addJob(new GetServiceTariffsJob(INTERVAL));
+        JobManagerHelper.getJobManager().addJobInBackground(new GetServiceTariffsJob(INTERVAL));
     }
 
     @Override

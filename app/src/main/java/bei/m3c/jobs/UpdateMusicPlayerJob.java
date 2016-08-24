@@ -35,7 +35,7 @@ public class UpdateMusicPlayerJob extends Job {
     @Override
     public void onRun() throws Throwable {
         EventBus.getDefault().post(new MusicPlayerUpdateEvent(MusicPlayer.getInstance().getCurrentSong()));
-        JobManagerHelper.getJobManager().addJob(new UpdateMusicPlayerJob(INTERVAL));
+        JobManagerHelper.getJobManager().addJobInBackground(new UpdateMusicPlayerJob(INTERVAL));
     }
 
     @Override

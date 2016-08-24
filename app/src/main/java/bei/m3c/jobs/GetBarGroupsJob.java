@@ -41,7 +41,7 @@ public class GetBarGroupsJob extends Job {
     public void onRun() throws Throwable {
         List<BarGroup> barGroups = M3SHelper.getBarGroups();
         EventBus.getDefault().post(new GetBarGroupsEvent(barGroups));
-        JobManagerHelper.getJobManager().addJob(new GetBarGroupsJob(INTERVAL));
+        JobManagerHelper.getJobManager().addJobInBackground(new GetBarGroupsJob(INTERVAL));
     }
 
     @Override

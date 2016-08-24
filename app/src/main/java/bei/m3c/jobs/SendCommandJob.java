@@ -63,7 +63,7 @@ public class SendCommandJob extends Job {
             success = connection.sendCommand(command);
         }
         if ((interval != DEFAULT_INTERVAL && !retry) || (!success && retry)) {
-            JobManagerHelper.getJobManager().addJob(new SendCommandJob(connection, command, interval, interval, retry));
+            JobManagerHelper.getJobManager().addJobInBackground(new SendCommandJob(connection, command, interval, interval, retry));
         }
     }
 

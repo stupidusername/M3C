@@ -39,7 +39,7 @@ public class GetServicesJob extends Job {
     public void onRun() throws Throwable {
         List<Service> services = M3SHelper.getServices();
         EventBus.getDefault().post(new GetServicesEvent(services));
-        JobManagerHelper.getJobManager().addJob(new GetServicesJob(INTERVAL));
+        JobManagerHelper.getJobManager().addJobInBackground(new GetServicesJob(INTERVAL));
     }
 
     @Override

@@ -39,7 +39,7 @@ public class GetRadiosJob extends Job {
     public void onRun() throws Throwable {
         List<Radio> radios = M3SHelper.getRadios();
         EventBus.getDefault().post(new GetRadiosEvent(radios));
-        JobManagerHelper.getJobManager().addJob(new GetRadiosJob(INTERVAL));
+        JobManagerHelper.getJobManager().addJobInBackground(new GetRadiosJob(INTERVAL));
     }
 
     @Override

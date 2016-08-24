@@ -11,10 +11,6 @@ public final class JobManagerHelper {
         return MainActivity.getInstance().getJobManager();
     }
 
-    public static void cancelJobs(String... tags) {
-        getJobManager().cancelJobs(TagConstraint.ANY, tags);
-    }
-
     public static void cancelJobsInBackground(String... tags) {
         getJobManager().cancelJobsInBackground(null, TagConstraint.ANY, tags);
     }

@@ -34,7 +34,7 @@ public class ConnectJob extends Job {
     @Override
     public void onRun() throws Throwable {
         connection.connect();
-        JobManagerHelper.getJobManager().addJob(new ConnectJob(connection, INTERVAL));
+        JobManagerHelper.getJobManager().addJobInBackground(new ConnectJob(connection, INTERVAL));
     }
 
     @Override

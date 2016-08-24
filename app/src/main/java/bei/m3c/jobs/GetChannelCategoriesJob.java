@@ -39,7 +39,7 @@ public class GetChannelCategoriesJob extends Job {
     public void onRun() throws Throwable {
         List<ChannelCategory> channelCategories = M3SHelper.getChannelCategories();
         EventBus.getDefault().post(new GetChannelCategoriesEvent(channelCategories));
-        JobManagerHelper.getJobManager().addJob(new GetChannelCategoriesJob(INTERVAL));
+        JobManagerHelper.getJobManager().addJobInBackground(new GetChannelCategoriesJob(INTERVAL));
     }
 
     @Override

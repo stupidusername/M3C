@@ -51,9 +51,9 @@ public abstract class BaseConnection {
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
             isConnected = true;
-            JobManagerHelper.cancelJobs(this.tag);
-            JobManagerHelper.getJobManager().addJob(new SendCommandJob(this, getKeepAliveCommand(), KEEPALIVE_DELAY));
-            Log.i(tag, "Connected.");
+            JobManagerHelper.cancelJobsInBackground(this.tag);
+            JobManagerHelper.getJobManager().addJobInBackground(new SendCommandJob(this, getKeepAliveCommand(), KEEPALIVE_DELAY));
+            Log.v(tag, "Connected.");
             byte[] message;
             byte readByte = 0;
             while (readByte != END_OF_STREAM) {
@@ -111,8 +111,8 @@ public abstract class BaseConnection {
         } catch (Exception e) {
             Log.e(tag, "Error during disconnection", e);
         }
-        JobManagerHelper.cancelJobs(getKeepAliveCommand().tag);
-        JobManagerHelper.getJobManager().addJob(new ConnectJob(this));
+        JobManagerHelper.cancelJobsInBackground(getKeepAliveCommand().tag);
+        JobManagerHelper.getJobManager().addJobInBackground(new ConnectJob(this));
     }
 
     public boolean sendCommand(BaseCommand command) {

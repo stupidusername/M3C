@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:gravity="center"
-        android:textSize="@dimen/textNormal" />
+        android:textSize="@dimen/textLarge" />
 
     <TextView
         android:id="@+id/tariff_listview_row_price_shift_textview"
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textSize="@dimen/textNormal" />
+        android:textSize="@dimen/textLarge" />
 
     <TextView
         android:id="@+id/tariff_listview_row_turn_duration_textview"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textSize="@dimen/textNormal" />
+        android:textSize="@dimen/textLarge" />
 
     <TextView
         android:id="@+id/tariff_listview_row_price_overnight_textview"
@@ -34,5 +34,5 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textSize="@dimen/textNormal" />
+        android:textSize="@dimen/textLarge" />
 </LinearLayout>

@@ -63,6 +63,8 @@ public class MusicFragment extends Fragment {
     private RadioAdapter radioAdapter;
     // Save volume value before mute
     private int savedVolume;
+    // play radio on view created
+    private boolean playOnCreate = false;
 
     @Override
     public void onDestroyView() {
@@ -310,6 +312,11 @@ public class MusicFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(GetRadiosEvent event) {
         radioAdapter.replaceList(event.radios);
+        // play radio if needed
+        if (playOnCreate) {
+            playOnCreate = false;
+            play();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -350,5 +357,9 @@ public class MusicFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(IntroEvent event) {
         play();
+    }
+
+    public void setPlayOnCreate(boolean playOnCreate) {
+        this.playOnCreate = playOnCreate;
     }
 }

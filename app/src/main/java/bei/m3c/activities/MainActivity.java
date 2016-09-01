@@ -8,6 +8,7 @@ import bei.m3c.R;
 import bei.m3c.adapters.ViewPagerAdapter;
 import bei.m3c.connections.PICConnection;
 import bei.m3c.connections.SGHConnection;
+import bei.m3c.events.IntroEvent;
 import bei.m3c.fragments.BarFragment;
 import bei.m3c.fragments.InfoFragment;
 import bei.m3c.fragments.LightsACFragment;
@@ -43,6 +44,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
@@ -52,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int CONSUMER_MAX_COUNT = 50; //up to 50 consumers at a time
     public static final int CONSUMER_LOAD_FACTOR = 1; //1 jobs per consumer
     public static final int CONSUMER_KEEP_ALIVE = 120; //wait 2 minute
+    public static final int POSITION_MUSIC_TAB = 0;
 
     public static MainActivity instance;
     private JobManager jobManager = null;
@@ -174,6 +180,9 @@ public class MainActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        // Register events and jobs
+        EventBus.getDefault().register(this);
     }
 
     // Use immersive mode
@@ -277,4 +286,11 @@ public class MainActivity extends AppCompatActivity {
         jobManager = new JobManager(builder.build());
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(IntroEvent event) {
+        ViewPagerAdapter viewPagerAdapter = (ViewPagerAdapter) viewPager.getAdapter();
+        MusicFragment musicFragment = (MusicFragment) viewPagerAdapter.getItem(POSITION_MUSIC_TAB);
+        musicFragment.setPlayOnCreate(true);
+        viewPager.setCurrentItem(POSITION_MUSIC_TAB);
+    }
 }

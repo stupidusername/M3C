@@ -135,7 +135,7 @@ public class InfoFragment extends Fragment {
         popupWindow = new PopupWindow(popupView, popupWidth, popupHeight);
         popupWindow.setOutsideTouchable(true);
         popupImageView = (ImageView) popupView.findViewById(R.id.popup_info_imageview);
-        Glide.with(this).load(M3SHelper.getServicesImageUrl()).centerCrop().placeholder(R.drawable.popup_info_image_placeholder).crossFade().into(popupImageView);
+        Glide.with(this).load(M3SHelper.getServicesImageUrl()).centerCrop().crossFade().into(popupImageView);
         popupTitleTextView = (TextView) popupView.findViewById(R.id.popup_info_title);
         popupTariffListViewHeaderLayout = (LinearLayout) popupView.findViewById(R.id.popup_info_tariff_listview_header_layout);
         popupListView = (ListView) popupView.findViewById(R.id.popup_info_listview);
@@ -179,7 +179,9 @@ public class InfoFragment extends Fragment {
 
     private void showTariffsPopup() {
         popupTitleTextView.setText(getString(R.string.info_tariffs));
-        popupTariffListViewHeaderLayout.setVisibility(View.VISIBLE);
+        if (!serviceTariffAdapter.isEmpty()) {
+            popupTariffListViewHeaderLayout.setVisibility(View.VISIBLE);
+        }
         popupListView.setAdapter(serviceTariffAdapter);
         showPopup();
     }
@@ -195,6 +197,11 @@ public class InfoFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(GetServiceTariffsEvent event) {
+        if (event.serviceTariffs.size() > 0) {
+            popupTariffListViewHeaderLayout.setVisibility(View.VISIBLE);
+        } else {
+            popupTariffListViewHeaderLayout.setVisibility(View.GONE);
+        }
         serviceTariffAdapter.replaceList(event.serviceTariffs);
     }
 }

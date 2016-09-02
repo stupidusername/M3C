@@ -17,6 +17,7 @@ import bei.m3c.fragments.TVFragment;
 import bei.m3c.helpers.KioskModeHelper;
 import bei.m3c.helpers.M3SHelper;
 import bei.m3c.helpers.PreferencesHelper;
+import bei.m3c.helpers.RootHelper;
 import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.players.MusicPlayer;
 import bei.m3c.services.M3SService;
@@ -174,6 +175,9 @@ public class MainActivity extends AppCompatActivity {
         // Enable kiosk mode
         KioskModeHelper.initialize(this);
         KioskModeHelper.enterKioskMode();
+
+        // Ask for root access
+        RootHelper.canRunRootCommands(this);
 
         // Wake up
         Window window = this.getWindow();

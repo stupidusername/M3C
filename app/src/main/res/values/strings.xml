@@ -19,6 +19,7 @@
     <string name="wrong_password">Contraseña incorrecta</string>
     <string name="device_admin_enabled">Device admin activado</string>
     <string name="device_owner_not_enabled">Modo kiosco no disponible. La aplicación no es device owner</string>
+    <string name="root_not_enabled">Acceso root denegado</string>
     <string name="name">Nombre</string>
     <string name="close">X</string>
     <string name="list_bullet">-</string>

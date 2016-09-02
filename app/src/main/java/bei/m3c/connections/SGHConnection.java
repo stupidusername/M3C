@@ -67,6 +67,6 @@ public class SGHConnection extends BaseConnection {
 
     @Override
     public BaseCommand getKeepAliveCommand() {
-        return new TPCTabStatusCommand(PowerHelper.isConnected());
+        return new TPCTabStatusCommand(PowerHelper.isConnected(), false);
     }
 }

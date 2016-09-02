@@ -14,11 +14,14 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.File;
 
 import bei.m3c.activities.MainActivity;
+import bei.m3c.commands.TPCTabStatusCommand;
 import bei.m3c.helpers.DownloadHelper;
 import bei.m3c.helpers.M3SHelper;
 import bei.m3c.helpers.MD5Helper;
+import bei.m3c.helpers.PowerHelper;
 import bei.m3c.helpers.PreferencesHelper;
 import bei.m3c.helpers.RootHelper;
+import bei.m3c.helpers.SGHConnectionHelper;
 import bei.m3c.models.AppVersion;
 
 public class UpdateRebootJob extends Job {
@@ -68,6 +71,10 @@ public class UpdateRebootJob extends Job {
                     command = UPDATE_COMMAND;
                 } else if (rebootAllowed) {
                     command = REBOOT_COMMAND;
+                }
+
+                if (rebootAllowed) {
+                    SGHConnectionHelper.sendCommand(new TPCTabStatusCommand(PowerHelper.isConnected(), true));
                 }
 
                 if (command != null) {

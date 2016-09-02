@@ -6,9 +6,11 @@ public class TPCTabStatusCommand extends BaseCommand {
     public static final byte VALUE = 2;
 
     public boolean powerConnected;
+    public boolean deviceRebooting;
 
-    public TPCTabStatusCommand(boolean powerConnected) {
-        super(TAG, VALUE, toByte(powerConnected));
+    public TPCTabStatusCommand(boolean powerConnected, boolean deviceRebooting) {
+        super(TAG, VALUE, toByte(powerConnected), toByte(deviceRebooting));
         this.powerConnected = powerConnected;
+        this.deviceRebooting = deviceRebooting;
     }
 }

@@ -84,6 +84,7 @@
     <string name="info_tariffs_overnight">Pernocte</string>
 
     <!--Settings-->
+    <string name="settings_update">Actualizar</string>
     <string name="settings_room_number">Número de habitación</string>
     <string name="settings_sgh_address">Dirección del servidor SGH</string>
     <string name="settings_sgh_port">Puerto de la conexión SGH</string>

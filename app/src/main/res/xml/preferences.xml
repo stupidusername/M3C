@@ -22,6 +22,9 @@
     <CheckBoxPreference
         android:key="start_on_boot"
         android:title="@string/settings_start_on_boot" />
+    <CheckBoxPreference
+        android:key="reboot_allowed"
+        android:title="@string/settings_reboot_allowed" />
     <Preference android:title="@string/lights_title">
         <intent android:action="bei.m3c.activities.LightPreferencesActivity" />
     </Preference>

@@ -2,6 +2,7 @@ package bei.m3c.services;
 
 import java.util.List;
 
+import bei.m3c.models.AppVersion;
 import bei.m3c.models.BarArticle;
 import bei.m3c.models.BarGroup;
 import bei.m3c.models.Channel;
@@ -38,4 +39,7 @@ public interface M3SService {
 
     @GET("api/get-service-tariffs")
     Call<List<ServiceTariff>> getServiceTariffs();
+
+    @GET("api/get-update")
+    Call<AppVersion> getUpdate();
 }

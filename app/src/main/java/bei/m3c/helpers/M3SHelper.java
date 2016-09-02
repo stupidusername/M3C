@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bei.m3c.activities.MainActivity;
+import bei.m3c.models.AppVersion;
 import bei.m3c.models.BarArticle;
 import bei.m3c.models.BarGroup;
 import bei.m3c.models.Channel;
@@ -126,6 +127,16 @@ public final class M3SHelper {
             return getM3SUrl() + SERVICE_IMAGE_PATH;
         } catch (Exception e) {
             Log.e(TAG, "Cannot resolve services image url.", e);
+            return null;
+        }
+    }
+
+    public static AppVersion getUpdate() {
+        try {
+            Call<AppVersion> call = getM3SService().getUpdate();
+            return call.execute().body();
+        } catch (IOException e) {
+            Log.e(TAG, "Error getting update.", e);
             return null;
         }
     }

@@ -15,4 +15,8 @@ public abstract class BaseCommand {
     public static byte toByte(boolean value) {
         return (byte) (value ? 1 : 0);
     }
+
+    public static boolean toBoolean(byte value) {
+        return value != 0;
+    }
 }

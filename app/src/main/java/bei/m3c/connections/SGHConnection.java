@@ -7,9 +7,12 @@ import java.util.TimerTask;
 
 import bei.m3c.commands.BaseCommand;
 import bei.m3c.commands.TPCKeepAliveCommand;
+import bei.m3c.commands.TPCPCStatusCommand;
 import bei.m3c.commands.TPCTabStatusCommand;
 import bei.m3c.helpers.FormatHelper;
+import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.PowerHelper;
+import bei.m3c.jobs.UpdateRebootJob;
 
 public class SGHConnection extends BaseConnection {
 
@@ -52,6 +55,12 @@ public class SGHConnection extends BaseConnection {
                         ackTimer = null;
                     }
                     break;
+                case TPCPCStatusCommand.VALUE:
+                    // App can be updated or the device can be rebooted
+                    TPCPCStatusCommand tpcpcStatusCommand = new TPCPCStatusCommand(command);
+                    if (tpcpcStatusCommand.appCanBeUpdated) {
+                        JobManagerHelper.getJobManager().addJobInBackground(new UpdateRebootJob());
+                    }
             }
         }
     }

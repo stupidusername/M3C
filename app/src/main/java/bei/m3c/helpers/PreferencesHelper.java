@@ -33,6 +33,7 @@ public final class PreferencesHelper {
     public static final String KEY_PIC_ADDRESS = "pic_address";
     public static final String KEY_M3S_ADDRESS = "m3s_address";
     public static final String KEY_START_ON_BOOT = "start_on_boot";
+    public static final String KEY_REBOOT_ALLOWED = "reboot_allowed";
     public static final String KEY_SHOW_AC_CONTROLS = "show_ac_controls";
     public static final String KEY_TV_REMOTE_CODE = "tv_remote_code";
     public static final String KEY_THEME_COLOR = "theme_color";
@@ -41,6 +42,7 @@ public final class PreferencesHelper {
     public static final String DEFAULT_ROOM_NUMBER = null;
     public static final String DEFAULT_ADDRESS = "";
     public static final boolean DEFAULT_START_ON_BOOT = false;
+    public static final boolean DEFAULT_REBOOT_ALLOWED = false;
     public static final boolean DEFAULT_SHOW_AC_CONTROLS = true;
     public static final int DEFAULT_TV_CODE = -1;
 
@@ -148,6 +150,10 @@ public final class PreferencesHelper {
 
     public static boolean startOnBoot() {
         return getSharedPreferences().getBoolean(KEY_START_ON_BOOT, DEFAULT_START_ON_BOOT);
+    }
+
+    public static boolean rebootAllowed() {
+        return getSharedPreferences().getBoolean(KEY_REBOOT_ALLOWED, DEFAULT_REBOOT_ALLOWED);
     }
 
     public static boolean showACControls() {

@@ -14,12 +14,15 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import bei.m3c.R;
 import bei.m3c.commands.TRCGetStatusCommand;
+import bei.m3c.events.TRCStatusCommandEvent;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.PICConnectionHelper;
 import bei.m3c.helpers.PreferencesHelper;
@@ -42,7 +45,7 @@ public class LightsACFragment extends Fragment {
     private List<Light> lights;
     private List<LightWidget> largeLightWidgets;
     private List<LightWidget> smallLightWidgets;
-    private boolean updateLights = true;
+    private boolean updateFromStatus = true;
     private AC ac = new AC();
     // views
     private LinearLayout lightsLayout;
@@ -89,9 +92,9 @@ public class LightsACFragment extends Fragment {
         acStatusTextView = (TextView) view.findViewById(R.id.ac_status_textview);
         acModeTextView = (TextView) view.findViewById(R.id.ac_mode_textview);
 
-        acTempTextView.setText(DEFAULT_TEMP + " " + getString(R.string.ac_temp_unit));
-        acStatusTextView.setText(" " + getString(R.string.ac_status_off));
-        acModeTextView.setText(" " + getString(R.string.ac_mode_auto));
+        acTempTextView.setText(ac.getTempLabel());
+        acStatusTextView.setText(" " + ac.getStateLabel());
+        acModeTextView.setText(" " + ac.getModeLabel());
 
         ThemeHelper.setColorStateListTheme(acLayout);
         ThemeHelper.setImageButtonTheme(acPowerButton);
@@ -301,5 +304,10 @@ public class LightsACFragment extends Fragment {
                 }
             }
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(TRCStatusCommandEvent event) {
+
     }
 }

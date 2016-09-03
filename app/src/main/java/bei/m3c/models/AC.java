@@ -13,11 +13,14 @@ public class AC {
     public static final int STATE_TURNING_ON = 1;
     public static final int STATE_ON = 2;
     public static final int STATE_TURNING_OFF = 3;
+    public static final int STATE_NOT_SET = -1;
     public static final int TEMP_NOT_SET = -1;
+    public static final int MAX_TEMP_COOL = 21;
+    public static final int MAX_TEMP_AUTO = 25;
 
     public static final int[] TEMPS = {19, 21, 23, 25, 27, 29};
 
-    private int state;
+    private int state = STATE_NOT_SET;
     private int temp = TEMP_NOT_SET;
 
     public void setState(int state) {
@@ -34,7 +37,7 @@ public class AC {
 
     public String getStateLabel() {
         Context context = MainActivity.getInstance();
-        String label = context.getString(R.string.no_value);
+        String label = "";
         switch (state) {
             case STATE_OFF:
                 label = context.getString(R.string.ac_status_off);
@@ -48,6 +51,8 @@ public class AC {
             case STATE_TURNING_OFF:
                 label = context.getString(R.string.ac_status_turning_off);
                 break;
+            default:
+                label = context.getString(R.string.no_value);
         }
         return label;
     }
@@ -60,6 +65,21 @@ public class AC {
             label = temp + " " + tempUnit;
         } else {
             label = context.getString(R.string.no_value);
+        }
+        return label;
+    }
+
+    public String getModeLabel() {
+        Context context = MainActivity.getInstance();
+        String label = "";
+        if (temp == TEMP_NOT_SET) {
+            label = context.getString(R.string.no_value);
+        } else if (temp <= MAX_TEMP_COOL) {
+            label = context.getString(R.string.ac_mode_cool);
+        } else if (temp <= MAX_TEMP_AUTO) {
+            label = context.getString(R.string.ac_mode_auto);
+        } else {
+            label = context.getString(R.string.ac_mode_heat);
         }
         return label;
     }

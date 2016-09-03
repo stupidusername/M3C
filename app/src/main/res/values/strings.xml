@@ -58,7 +58,8 @@
     <string name="ac_status">Estado: </string>
     <string name="ac_status_on">encendido</string>
     <string name="ac_status_off">apagado</string>
-    <string name="ac_status_stand_by">en espera</string>
+    <string name="ac_status_turning_on">encendiendo</string>
+    <string name="ac_status_turning_off">apagando</string>
     <string name="ac_mode">Modo:</string>
     <string name="ac_mode_auto">auto</string>
     <string name="ac_mode_heat">calor</string>

@@ -13,12 +13,18 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import bei.m3c.R;
+import bei.m3c.commands.TRCGetStatusCommand;
+import bei.m3c.helpers.JobManagerHelper;
+import bei.m3c.helpers.PICConnectionHelper;
 import bei.m3c.helpers.PreferencesHelper;
 import bei.m3c.helpers.ThemeHelper;
+import bei.m3c.models.AC;
 import bei.m3c.models.Light;
 import bei.m3c.widgets.LightWidget;
 
@@ -31,10 +37,13 @@ public class LightsACFragment extends Fragment {
     public static final int LAYOUT_LARGE_LIGHT_COLUMNS_WITH_AC = 4;
     public static final int LAYOUT_LARGE_LIGHT_COLUMNS = 6;
     public static final int LAYOUT_SMALL_WIDGETS_ROW_BOTTOM_MARGIN_DP = 10;
+    public static final int GET_STATUS_DELAY_MILLIS = 5000;
 
     private List<Light> lights;
     private List<LightWidget> largeLightWidgets;
     private List<LightWidget> smallLightWidgets;
+    private boolean updateLights = true;
+    private AC ac = new AC();
     // views
     private LinearLayout lightsLayout;
     private LinearLayout acLayout;
@@ -47,6 +56,13 @@ public class LightsACFragment extends Fragment {
 
     private int updateIndex = 0;
     private int largeLightColumns = LAYOUT_LARGE_LIGHT_COLUMNS;
+
+    @Override
+    public void onDestroyView() {
+        JobManagerHelper.cancelJobsInBackground(TRCGetStatusCommand.TAG);
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -185,6 +201,10 @@ public class LightsACFragment extends Fragment {
             }
         }
         updateMaster();
+
+        // Register events and jobs
+        EventBus.getDefault().register(this);
+        PICConnectionHelper.sendCommand(new TRCGetStatusCommand(), GET_STATUS_DELAY_MILLIS);
     }
 
     // Fix for getting the seekbar progress after the fragment is hidden

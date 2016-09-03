@@ -22,17 +22,27 @@ public class AC {
 
     private int state = STATE_NOT_SET;
     private int temp = TEMP_NOT_SET;
+    private int tempCode = TEMP_NOT_SET;
 
     public void setState(int state) {
         this.state = state;
     }
 
-    public void setTemp(int tempCode) {
+    public int getState() {
+        return state;
+    }
+
+    public void setTempCode(int tempCode) {
         try {
             this.temp = TEMPS[tempCode];
+            this.tempCode = tempCode;
         } catch (ArrayIndexOutOfBoundsException e) {
             Log.d(TAG, "Cannot set temperature.", e);
         }
+    }
+
+    public int getTempCode() {
+        return tempCode;
     }
 
     public String getStateLabel() {
@@ -82,5 +92,27 @@ public class AC {
             label = context.getString(R.string.ac_mode_heat);
         }
         return label;
+    }
+
+    public void toggle() {
+        if (state == STATE_OFF) {
+            state = STATE_ON;
+        } else if (state == STATE_ON) {
+            state = STATE_OFF;
+        }
+    }
+
+    public void increaseTemp() {
+        if (tempCode != TEMP_NOT_SET && tempCode < TEMPS.length - 1) {
+            tempCode++;
+            setTempCode(tempCode);
+        }
+    }
+
+    public void decreaseTemp() {
+        if (tempCode != TEMP_NOT_SET && tempCode > 0) {
+            tempCode--;
+            setTempCode(tempCode);
+        }
     }
 }

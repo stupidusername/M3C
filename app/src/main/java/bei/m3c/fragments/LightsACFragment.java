@@ -19,9 +19,16 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import bei.m3c.R;
+import bei.m3c.commands.TRCACOffCommand;
+import bei.m3c.commands.TRCACOnCommand;
 import bei.m3c.commands.TRCGetStatusCommand;
+import bei.m3c.commands.TRCSetACTempCommand;
+import bei.m3c.commands.TRCSetBrightCommand;
+import bei.m3c.commands.TRCStatusCommand;
 import bei.m3c.events.TRCStatusCommandEvent;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.PICConnectionHelper;
@@ -36,17 +43,18 @@ import bei.m3c.widgets.LightWidget;
  */
 public class LightsACFragment extends Fragment {
 
-    public static final int DEFAULT_TEMP = 23;
     public static final int LAYOUT_LARGE_LIGHT_COLUMNS_WITH_AC = 4;
     public static final int LAYOUT_LARGE_LIGHT_COLUMNS = 6;
     public static final int LAYOUT_SMALL_WIDGETS_ROW_BOTTOM_MARGIN_DP = 10;
     public static final int GET_STATUS_DELAY_MILLIS = 5000;
+    public static final int REENABLE_UPDATE_DELAY_MILLIS = 2500;
 
     private List<Light> lights;
     private List<LightWidget> largeLightWidgets;
     private List<LightWidget> smallLightWidgets;
     private boolean updateFromStatus = true;
     private AC ac = new AC();
+    private Timer reenableUpdateTimer;
     // views
     private LinearLayout lightsLayout;
     private LinearLayout acLayout;
@@ -92,9 +100,7 @@ public class LightsACFragment extends Fragment {
         acStatusTextView = (TextView) view.findViewById(R.id.ac_status_textview);
         acModeTextView = (TextView) view.findViewById(R.id.ac_mode_textview);
 
-        acTempTextView.setText(ac.getTempLabel());
-        acStatusTextView.setText(" " + ac.getStateLabel());
-        acModeTextView.setText(" " + ac.getModeLabel());
+        updateACControls();
 
         ThemeHelper.setColorStateListTheme(acLayout);
         ThemeHelper.setImageButtonTheme(acPowerButton);
@@ -143,7 +149,7 @@ public class LightsACFragment extends Fragment {
             }
         }
 
-        // Register UI listeners
+        // Register lights UI listeners
         for (final LightWidget lightWidget : largeLightWidgets) {
             switch (lightWidget.light.type) {
                 case Light.TYPE_MASTER:
@@ -158,12 +164,12 @@ public class LightsACFragment extends Fragment {
 
                         @Override
                         public void onStartTrackingTouch(SeekBar seekBar) {
-                            // Do nothing
+                            updateFromStatus = false;
                         }
 
                         @Override
                         public void onStopTrackingTouch(SeekBar seekBar) {
-                            // Do nothing
+                            setBright();
                         }
                     });
                     break;
@@ -179,12 +185,12 @@ public class LightsACFragment extends Fragment {
 
                         @Override
                         public void onStartTrackingTouch(SeekBar seekBar) {
-                            // Do nothing
+                            updateFromStatus = false;
                         }
 
                         @Override
                         public void onStopTrackingTouch(SeekBar seekBar) {
-                            // Do nothing
+                            setBright();
                         }
                     });
                     break;
@@ -198,12 +204,43 @@ public class LightsACFragment extends Fragment {
                         public void onClick(View v) {
                             lightWidget.toggle();
                             updateMaster();
+                            updateFromStatus = false;
+                            setBright();
                         }
                     });
                     break;
             }
         }
         updateMaster();
+
+        // Register AC UI listeners
+        acPowerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ac.toggle();
+                updateACControls();
+                updateFromStatus = false;
+                sendACPowerCommand();
+            }
+        });
+        acMinusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ac.decreaseTemp();
+                updateACControls();
+                updateFromStatus = false;
+                sendACTempCommand();
+            }
+        });
+        acPlusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ac.increaseTemp();
+                updateACControls();
+                updateFromStatus = false;
+                sendACTempCommand();
+            }
+        });
 
         // Register events and jobs
         EventBus.getDefault().register(this);
@@ -306,8 +343,69 @@ public class LightsACFragment extends Fragment {
         }
     }
 
+    private void updateFromStatusCommand(TRCStatusCommand command) {
+        for (int i = 0; i < lights.size(); i++) {
+            lights.get(i).setValue(command.lightValues[i]);
+        }
+        for (LightWidget lightWidget : largeLightWidgets) {
+            lightWidget.setValue(lightWidget.light.getValue());
+        }
+        for (LightWidget lightWidget : smallLightWidgets) {
+            lightWidget.setValue(lightWidget.light.getValue());
+        }
+        updateMaster();
+        ac.setState(command.acState);
+        ac.setTempCode(command.acTempCode);
+        updateACControls();
+    }
+
+    private void updateACControls() {
+        acTempTextView.setText(ac.getTempLabel());
+        acStatusTextView.setText(" " + ac.getStateLabel());
+        acModeTextView.setText(" " + ac.getModeLabel());
+        acPowerButton.setActivated(ac.getState() == AC.STATE_ON || ac.getState() == AC.STATE_TURNING_ON);
+    }
+
+    private void setBright() {
+        byte[] lightValues = new byte[Light.MAX_LIGHTS];
+        for (int i = 0; i < Light.MAX_LIGHTS; i++) {
+            lightValues[i] = lights.get(i).getValue();
+        }
+        PICConnectionHelper.sendCommand(new TRCSetBrightCommand(lightValues));
+        startReenableUpdateTimer();
+    }
+
+    private void sendACPowerCommand() {
+        if (ac.getState() == AC.STATE_ON) {
+            PICConnectionHelper.sendCommand(new TRCACOnCommand(ac.getTempCode()));
+        } else if (ac.getState() == AC.STATE_OFF) {
+            PICConnectionHelper.sendCommand(new TRCACOffCommand());
+        }
+        startReenableUpdateTimer();
+    }
+
+    private void sendACTempCommand() {
+        PICConnectionHelper.sendCommand(new TRCSetACTempCommand(ac.getTempCode()));
+        startReenableUpdateTimer();
+    }
+
+    private void startReenableUpdateTimer() {
+        if(reenableUpdateTimer == null) {
+            reenableUpdateTimer.cancel();
+        }
+        reenableUpdateTimer = new Timer();
+        reenableUpdateTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                updateFromStatus = true;
+            }
+        }, REENABLE_UPDATE_DELAY_MILLIS);
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(TRCStatusCommandEvent event) {
-
+        if (updateFromStatus) {
+            updateFromStatusCommand(event.command);
+        }
     }
 }

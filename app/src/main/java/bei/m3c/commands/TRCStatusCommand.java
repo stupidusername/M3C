@@ -11,13 +11,13 @@ public class TRCStatusCommand extends BaseCommand {
 
     public byte[] lightValues;
     public int acState;
-    public int acTemp;
+    public int acTempCode;
 
-    public TRCStatusCommand(byte[] lightValues, int acState, int acTemp) {
-        super(TAG, VALUE, buildParams(lightValues, acState, acTemp));
+    public TRCStatusCommand(byte[] lightValues, int acState, int acTempCode) {
+        super(TAG, VALUE, buildParams(lightValues, acState, acTempCode));
         this.lightValues = lightValues;
         this.acState = acState;
-        this.acTemp = acTemp;
+        this.acTempCode = acTempCode;
     }
 
     public TRCStatusCommand(byte[] command) {

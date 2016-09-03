@@ -9,8 +9,8 @@ public class Light {
     public static final int MAX_LIGHTS = 6;
     public static final int MAX_VALUE = 100;
     // Light types
-    public static final int TYPE_ON_OFF = 0;
-    public static final int TYPE_DIMMER = 1;
+    public static final int TYPE_DIMMER = 0;
+    public static final int TYPE_ON_OFF = 1;
     public static final int TYPE_RGB = 2;
     public static final int TYPE_MASTER = 3;
 

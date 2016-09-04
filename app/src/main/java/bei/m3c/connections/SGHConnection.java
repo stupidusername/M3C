@@ -2,13 +2,17 @@ package bei.m3c.connections;
 
 import android.util.Log;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
 import bei.m3c.commands.BaseCommand;
+import bei.m3c.commands.TPCAccountInfo;
 import bei.m3c.commands.TPCKeepAliveCommand;
 import bei.m3c.commands.TPCPCStatusCommand;
 import bei.m3c.commands.TPCTabStatusCommand;
+import bei.m3c.events.TPCAccountInfoCommandEvent;
 import bei.m3c.helpers.FormatHelper;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.PowerHelper;
@@ -61,6 +65,10 @@ public class SGHConnection extends BaseConnection {
                     if (tpcpcStatusCommand.appCanBeUpdated) {
                         JobManagerHelper.getJobManager().addJobInBackground(new UpdateRebootJob());
                     }
+                    break;
+                case TPCAccountInfo.VALUE:
+                    EventBus.getDefault().post(new TPCAccountInfoCommandEvent(new TPCAccountInfo(command)));
+                    break;
             }
         }
     }

@@ -25,11 +25,11 @@ public abstract class BaseCommand {
         this.params = params;
     }
 
-    public byte toByte(boolean value) {
+    public static byte toByte(boolean value) {
         return (byte) (value ? 1 : 0);
     }
 
-    public boolean toBoolean(byte value) {
+    public static boolean toBoolean(byte value) {
         return value != 0;
     }
 
@@ -74,6 +74,11 @@ public abstract class BaseCommand {
     public BigDecimal toBigDecimal(byte[] value) {
         String valueString = toString(value);
         valueString = valueString.replaceAll("[^0-9]+", "");
-        return new BigDecimal(valueString);
+        try {
+            return new BigDecimal(valueString);
+        } catch (NumberFormatException e) {
+            Log.e(tag, "Value cannot be parsed to BigDecimal.", e);
+            return new BigDecimal(0);
+        }
     }
 }

@@ -7,7 +7,9 @@ import org.greenrobot.eventbus.EventBus;
 import bei.m3c.commands.BaseCommand;
 import bei.m3c.commands.TRCIntro;
 import bei.m3c.commands.TRCKeepAliveCommand;
+import bei.m3c.commands.TRCStatusCommand;
 import bei.m3c.events.IntroEvent;
+import bei.m3c.events.TRCStatusCommandEvent;
 import bei.m3c.helpers.FormatHelper;
 
 public class PICConnection extends BaseConnection {
@@ -27,6 +29,9 @@ public class PICConnection extends BaseConnection {
             switch (value) {
                 case TRCIntro.VALUE:
                     EventBus.getDefault().post(new IntroEvent());
+                    break;
+                case TRCStatusCommand.VALUE:
+                    EventBus.getDefault().post(new TRCStatusCommandEvent(new TRCStatusCommand(command)));
                     break;
             }
         }

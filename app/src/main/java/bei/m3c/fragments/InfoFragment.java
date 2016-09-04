@@ -24,15 +24,24 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.math.BigDecimal;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import bei.m3c.R;
 import bei.m3c.adapters.ServiceAdapter;
 import bei.m3c.adapters.ServiceTariffAdapter;
+import bei.m3c.commands.TPCAccountInfo;
+import bei.m3c.commands.TPCGetAccountInfo;
 import bei.m3c.events.GetServiceTariffsEvent;
 import bei.m3c.events.GetServicesEvent;
+import bei.m3c.events.TPCAccountInfoCommandEvent;
 import bei.m3c.helpers.FormatHelper;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.M3SHelper;
+import bei.m3c.helpers.RootHelper;
+import bei.m3c.helpers.SGHConnectionHelper;
 import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.jobs.GetServiceTariffsJob;
 import bei.m3c.jobs.GetServicesJob;
@@ -44,7 +53,10 @@ public class InfoFragment extends Fragment {
 
     public static final BigDecimal DEFAULT_MONEY = new BigDecimal(0);
     public static final int POPUP_MARGIN_DP = 50;
+    public static final int GET_ACCOUNT_INFO_DELAY_MILLIS = 5000;
 
+    private TPCAccountInfo accountInfo;
+    // views
     private RelativeLayout activityLayout;
     private GridLayout gridLayout;
     private TextView specialOfferTextView;
@@ -75,6 +87,7 @@ public class InfoFragment extends Fragment {
     public void onDestroyView() {
         JobManagerHelper.cancelJobsInBackground(GetServicesJob.TAG);
         JobManagerHelper.cancelJobsInBackground(GetServiceTariffsJob.TAG);
+        JobManagerHelper.cancelJobsInBackground(TPCGetAccountInfo.TAG);
         EventBus.getDefault().unregister(this);
         super.onDestroyView();
     }
@@ -107,18 +120,7 @@ public class InfoFragment extends Fragment {
         servicesButton = (Button) view.findViewById(R.id.info_services_button);
         tariffsButton = (Button) view.findViewById(R.id.info_tariffs_button);
 
-        // Set default texts
-        specialOfferTextView.setText(getString(R.string.no_value));
-        shiftStartTextView.setText(getString(R.string.time_default));
-        shiftEndTextView.setText(getString(R.string.time_default));
-        alarmTextView.setText(getString(R.string.time_default));
-        billLodgingTextView.setText(FormatHelper.asCurrency(DEFAULT_MONEY));
-        billSurchargeTextView.setText(FormatHelper.asCurrency(DEFAULT_MONEY));
-        billBarTextView.setText(FormatHelper.asCurrency(DEFAULT_MONEY));
-        billBonusTextView.setText(FormatHelper.asCurrency(DEFAULT_MONEY));
-        billDiscountTextView.setText(FormatHelper.asCurrency(DEFAULT_MONEY));
-        billPaidTextView.setText(FormatHelper.asCurrency(DEFAULT_MONEY));
-        billTotalTextView.setText(FormatHelper.asCurrency(DEFAULT_MONEY));
+        updateInfo();
 
         // Set theme
         ThemeHelper.setColorStateListTheme(gridLayout);
@@ -128,7 +130,7 @@ public class InfoFragment extends Fragment {
 
         // Create popup
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        int popupMargin= Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, POPUP_MARGIN_DP, getResources().getDisplayMetrics()));
+        int popupMargin = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, POPUP_MARGIN_DP, getResources().getDisplayMetrics()));
         int popupWidth = displayMetrics.widthPixels - popupMargin * 2;
         final int popupHeight = displayMetrics.heightPixels - popupMargin * 2;
         View popupView = getLayoutInflater(savedInstanceState).inflate(R.layout.popup_info, null);
@@ -168,6 +170,7 @@ public class InfoFragment extends Fragment {
         EventBus.getDefault().register(this);
         JobManagerHelper.getJobManager().addJobInBackground(new GetServicesJob());
         JobManagerHelper.getJobManager().addJobInBackground(new GetServiceTariffsJob());
+        SGHConnectionHelper.sendCommand(new TPCGetAccountInfo(), GET_ACCOUNT_INFO_DELAY_MILLIS);
     }
 
     private void showServicesPopup() {
@@ -190,6 +193,38 @@ public class InfoFragment extends Fragment {
         popupWindow.showAtLocation(activityLayout, Gravity.CENTER, 0, 0);
     }
 
+    private void updateInfo() {
+        if (accountInfo == null || !accountInfo.serviceOpen) {
+            specialOfferTextView.setText(getString(R.string.no_value));
+            shiftStartTextView.setText(getString(R.string.time_default));
+            shiftEndTextView.setText(getString(R.string.time_default));
+            alarmTextView.setText(getString(R.string.time_default));
+            billLodgingTextView.setText(FormatHelper.asCurrency(DEFAULT_MONEY));
+            billSurchargeTextView.setText(FormatHelper.asCurrency(DEFAULT_MONEY));
+            billBarTextView.setText(FormatHelper.asCurrency(DEFAULT_MONEY));
+            billBonusTextView.setText(FormatHelper.asCurrency(DEFAULT_MONEY));
+            billDiscountTextView.setText(FormatHelper.asCurrency(DEFAULT_MONEY));
+            billPaidTextView.setText(FormatHelper.asCurrency(DEFAULT_MONEY));
+            billTotalTextView.setText(FormatHelper.asCurrency(DEFAULT_MONEY));
+        } else {
+            String specialOffer = getString(R.string.no_value);
+            if (!accountInfo.specialOffer.equals("")) {
+                specialOffer = accountInfo.specialOffer;
+            }
+            specialOfferTextView.setText(specialOffer);
+            shiftStartTextView.setText(FormatHelper.asTime(accountInfo.shiftStartTime));
+            shiftEndTextView.setText(FormatHelper.asTime(accountInfo.shiftEndTime));
+            alarmTextView.setText(FormatHelper.asTime(accountInfo.alarmTime));
+            billLodgingTextView.setText(FormatHelper.asCurrency(accountInfo.billLodging));
+            billSurchargeTextView.setText(FormatHelper.asCurrency(accountInfo.billSurcharge));
+            billBarTextView.setText(FormatHelper.asCurrency(accountInfo.billBar));
+            billBonusTextView.setText(FormatHelper.asCurrency(accountInfo.billBonus));
+            billDiscountTextView.setText(FormatHelper.asCurrency(accountInfo.billDiscount));
+            billPaidTextView.setText(FormatHelper.asCurrency(accountInfo.billPaid));
+            billTotalTextView.setText(FormatHelper.asCurrency(accountInfo.billTotal));
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(GetServicesEvent event) {
         serviceAdapter.replaceList(event.services);
@@ -203,5 +238,20 @@ public class InfoFragment extends Fragment {
             popupTariffListViewHeaderLayout.setVisibility(View.GONE);
         }
         serviceTariffAdapter.replaceList(event.serviceTariffs);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(TPCAccountInfoCommandEvent event) {
+        accountInfo = event.command;
+        // Update time
+        if (RootHelper.canRunRootCommands(getContext())) {
+            Date date = accountInfo.date;
+            Time time = accountInfo.time;
+            DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+            DateFormat timeFormat = new SimpleDateFormat("HHmmss");
+            String command = "date -s " + dateFormat.format(date) + "." + timeFormat.format(time);
+            RootHelper.execute(command);
+        }
+        updateInfo();
     }
 }

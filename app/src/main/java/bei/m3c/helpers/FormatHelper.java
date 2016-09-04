@@ -1,11 +1,14 @@
 package bei.m3c.helpers;
 
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 
 import bei.m3c.Application;
 import bei.m3c.R;
+import bei.m3c.activities.MainActivity;
 
 /**
  * This class contains static methods that formats data to be displayed in the UI
@@ -33,6 +36,15 @@ public final class FormatHelper {
         int remainingMillis = timeInMillis - minutes * (60 * 1000);
         long seconds = Math.round(((double) remainingMillis) / 1000);
         return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    public static String asTime(Time time) {
+        if (time != null) {
+            String timeFormat = MainActivity.getInstance().getString(R.string.format_time);
+            return (new SimpleDateFormat(timeFormat)).format(time);
+        } else {
+            return MainActivity.getInstance().getString(R.string.time_default);
+        }
     }
 
     public static String asAddress(String address, int port) {

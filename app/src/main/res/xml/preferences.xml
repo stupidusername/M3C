@@ -29,6 +29,9 @@
         <intent android:action="bei.m3c.activities.LightPreferencesActivity" />
     </Preference>
     <CheckBoxPreference
+        android:key="show_record_scene_controls"
+        android:title="@string/settings_show_record_scene_controls" />
+    <CheckBoxPreference
         android:defaultValue="true"
         android:key="show_ac_controls"
         android:title="@string/settings_show_ac_controls" />

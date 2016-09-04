@@ -21,7 +21,7 @@ public class TRCStatusCommand extends BaseCommand {
     }
 
     public TRCStatusCommand(byte[] command) {
-        this(Arrays.copyOf(command, Light.MAX_LIGHTS), command[Light.MAX_LIGHTS], command[Light.MAX_LIGHTS + 1]);
+        this(Arrays.copyOfRange(command, 1, Light.MAX_LIGHTS + 1), command[Light.MAX_LIGHTS + 1], command[Light.MAX_LIGHTS + 2]);
     }
 
     private static byte[] buildParams(byte[] lightValues, int acState, int acTemp) {

@@ -31,6 +31,7 @@ import bei.m3c.commands.TRCACOffCommand;
 import bei.m3c.commands.TRCACOnCommand;
 import bei.m3c.commands.TRCGetStatusCommand;
 import bei.m3c.commands.TRCRecordLightSceneCommand;
+import bei.m3c.commands.TRCRecordLightTypesCommand;
 import bei.m3c.commands.TRCSetACTempCommand;
 import bei.m3c.commands.TRCSetBrightCommand;
 import bei.m3c.commands.TRCStatusCommand;
@@ -53,6 +54,7 @@ public class LightsACFragment extends Fragment {
     public static final int LAYOUT_SMALL_WIDGETS_ROW_BOTTOM_MARGIN_DP = 10;
     public static final int GET_STATUS_DELAY_MILLIS = 5000;
     public static final int REENABLE_UPDATE_DELAY_MILLIS = 2500;
+    public static final int LIGHT_TYPES_RECORD_RETRY_INTERVAL_MILLIS = 1000;
 
     private List<Light> lights;
     private List<LightWidget> largeLightWidgets;
@@ -100,6 +102,7 @@ public class LightsACFragment extends Fragment {
         if (lights == null) {
             lights = PreferencesHelper.getLights();
         }
+        recordLightTypes();
 
         lightsLayout = (LinearLayout) view.findViewById(R.id.lights_layout);
         acLayout = (LinearLayout) view.findViewById(R.id.ac_layout);
@@ -440,6 +443,14 @@ public class LightsACFragment extends Fragment {
                 updateFromStatus = true;
             }
         }, REENABLE_UPDATE_DELAY_MILLIS);
+    }
+
+    private void recordLightTypes() {
+        byte[] lightTypes = new byte[Light.MAX_LIGHTS];
+        for(int i = 0; i < Light.MAX_LIGHTS; i++) {
+            lightTypes[i] = (byte) lights.get(i).type;
+        }
+        PICConnectionHelper.sendCommand(new TRCRecordLightTypesCommand(lightTypes), LIGHT_TYPES_RECORD_RETRY_INTERVAL_MILLIS, true);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

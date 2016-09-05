@@ -10,13 +10,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:hint="@string/name"/>
+        android:hint="@string/name" />
 
     <Spinner
         android:id="@+id/light_preference_type_spinner"
+        style="@style/spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"/>
+        android:layout_marginLeft="15dp" />
 
     <ImageButton
         android:id="@+id/light_preference_delete_button"

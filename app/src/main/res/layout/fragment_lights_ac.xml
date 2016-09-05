@@ -6,11 +6,11 @@
     tools:context=".fragments.LightsACFragment">
 
     <LinearLayout
+        style="@style/fragmentContentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="horizontal"
-        style="@style/fragmentContentLayout">
+        android:orientation="horizontal">
 
         <ScrollView
             style="@style/scrollview"
@@ -21,7 +21,39 @@
                 android:id="@+id/lights_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/lights_record_scene_controls_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/lights_scene_spinner"
+                        style="@style/spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/lights_record_scene_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/lights_record_scene" />
+
+                    <Button
+                        android:id="@+id/lights_hide_record_scene_controls_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/lights_hide_record_scene_controls" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </ScrollView>
 
@@ -29,11 +61,11 @@
             android:id="@+id/ac_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layoutMargin"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:padding="15dp"
-            android:layout_marginLeft="@dimen/layoutMargin">
+            android:padding="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -64,8 +96,8 @@
                 <TextView
                     android:id="@+id/ac_temp_textview"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:textSize="@dimen/textExtraLarge" />
 

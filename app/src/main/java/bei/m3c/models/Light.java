@@ -1,6 +1,7 @@
 package bei.m3c.models;
 
 import java.util.ArrayList;
+
 import bei.m3c.Application;
 import bei.m3c.R;
 
@@ -13,6 +14,10 @@ public class Light {
     public static final int TYPE_ON_OFF = 1;
     public static final int TYPE_RGB = 2;
     public static final int TYPE_MASTER = 3;
+    // Light Scenes
+    public static final byte CODE_INTRO_INIT = 0;
+    public static final byte CODE_INTRO_END = 1;
+    public static final byte CODE_CLEAN = 2;
 
     public String name;
     public int type;
@@ -32,7 +37,7 @@ public class Light {
     }
 
     public void setValue(byte value) {
-        if(value > MAX_VALUE) {
+        if (value > MAX_VALUE) {
             value = MAX_VALUE;
         }
         if (type == TYPE_ON_OFF) {
@@ -44,8 +49,16 @@ public class Light {
 
     public static ArrayList<String> getTypeNames() {
         ArrayList<String> typeNames = new ArrayList<>();
-        typeNames.add(TYPE_ON_OFF, Application.getInstance().getString(R.string.light_type_on_off));
         typeNames.add(TYPE_DIMMER, Application.getInstance().getString(R.string.light_type_dimmer));
+        typeNames.add(TYPE_ON_OFF, Application.getInstance().getString(R.string.light_type_on_off));
+        return typeNames;
+    }
+
+    public static ArrayList<String> getSceneNames() {
+        ArrayList<String> typeNames = new ArrayList<>();
+        typeNames.add(CODE_INTRO_INIT, Application.getInstance().getString(R.string.light_scene_intro_init));
+        typeNames.add(CODE_INTRO_END, Application.getInstance().getString(R.string.light_scene_intro_end));
+        typeNames.add(CODE_CLEAN, Application.getInstance().getString(R.string.light_scene_clean));
         return typeNames;
     }
 }

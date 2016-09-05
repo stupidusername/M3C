@@ -1,5 +1,6 @@
 package bei.m3c.fragments;
 
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,9 +9,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -26,6 +30,7 @@ import bei.m3c.R;
 import bei.m3c.commands.TRCACOffCommand;
 import bei.m3c.commands.TRCACOnCommand;
 import bei.m3c.commands.TRCGetStatusCommand;
+import bei.m3c.commands.TRCRecordLightSceneCommand;
 import bei.m3c.commands.TRCSetACTempCommand;
 import bei.m3c.commands.TRCSetBrightCommand;
 import bei.m3c.commands.TRCStatusCommand;
@@ -64,6 +69,11 @@ public class LightsACFragment extends Fragment {
     private ImageButton acPlusButton;
     private TextView acStatusTextView;
     private TextView acModeTextView;
+    // record scene control views
+    private LinearLayout recordSceneControlsLayout;
+    private Spinner sceneSpinner;
+    private Button recordSceneButton;
+    private Button hideRecordSceneControlsButton;
 
     private int updateIndex = 0;
     private int largeLightColumns = LAYOUT_LARGE_LIGHT_COLUMNS;
@@ -99,6 +109,10 @@ public class LightsACFragment extends Fragment {
         acPlusButton = (ImageButton) view.findViewById(R.id.ac_plus_button);
         acStatusTextView = (TextView) view.findViewById(R.id.ac_status_textview);
         acModeTextView = (TextView) view.findViewById(R.id.ac_mode_textview);
+        recordSceneControlsLayout = (LinearLayout) view.findViewById(R.id.lights_record_scene_controls_layout);
+        sceneSpinner = (Spinner) view.findViewById(R.id.lights_scene_spinner);
+        recordSceneButton = (Button) view.findViewById(R.id.lights_record_scene_button);
+        hideRecordSceneControlsButton = (Button) view.findViewById(R.id.lights_hide_record_scene_controls_button);
 
         updateACControls();
 
@@ -241,6 +255,31 @@ public class LightsACFragment extends Fragment {
                 sendACTempCommand();
             }
         });
+
+        // Populate scene spinner and set scene controls UI listeners
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, Light.getSceneNames());
+        sceneSpinner.setAdapter(adapter);
+        recordSceneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                byte sceneCode = (byte) sceneSpinner.getSelectedItemPosition();
+                PICConnectionHelper.sendCommand(new TRCRecordLightSceneCommand(sceneCode));
+            }
+        });
+        hideRecordSceneControlsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = PreferencesHelper.getSharedPreferences().edit();
+                editor.putBoolean(PreferencesHelper.KEY_SHOW_RECORD_SCENE_CONTROLS, false);
+                editor.commit();
+                recordSceneControlsLayout.setVisibility(View.GONE);
+            }
+        });
+        // show record scene controls if needed
+        if (PreferencesHelper.showRecordSceneControls()) {
+            recordSceneControlsLayout.setVisibility(View.VISIBLE);
+        }
 
         // Register events and jobs
         EventBus.getDefault().register(this);
@@ -390,8 +429,9 @@ public class LightsACFragment extends Fragment {
     }
 
     private void startReenableUpdateTimer() {
-        if(reenableUpdateTimer == null) {
+        if (reenableUpdateTimer != null) {
             reenableUpdateTimer.cancel();
+            reenableUpdateTimer = null;
         }
         reenableUpdateTimer = new Timer();
         reenableUpdateTimer.schedule(new TimerTask() {

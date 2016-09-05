@@ -49,7 +49,7 @@ public class LightPreference extends Preference {
 
         // Populate spinner
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, Light.getTypeNames());
+                new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, Light.getTypeNames());
         spinner.setAdapter(adapter);
 
         // Get saved values

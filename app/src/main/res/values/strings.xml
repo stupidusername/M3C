@@ -52,6 +52,11 @@
     <string name="light_type_dimmer">Dimmer</string>
     <string name="light_default_name">Luz</string>
     <string name="light_master">Master</string>
+    <string name="lights_record_scene">Grabar</string>
+    <string name="lights_hide_record_scene_controls">Esconder controles</string>
+    <string name="light_scene_intro_init">Comienzo intro</string>
+    <string name="light_scene_intro_end">Final intro</string>
+    <string name="light_scene_clean">Limpieza</string>
 
     <!--AC-->
     <string name="ac_temp_unit">°C</string>
@@ -93,7 +98,7 @@
     <string name="settings_m3s_address">Dirección del servidor M3S</string>
     <string name="settings_start_on_boot">Ejecutar al iniciar dispositivo</string>
     <string name="settings_reboot_allowed">Permitir reinicio del dispositivo</string>
-    <string name="settings_show_record_scene_controls">Mostrar controles para el grabado de escenas</string>
+    <string name="settings_show_record_scene_controls">Mostrar controles para el grabado de escenas de luz</string>
     <string name="settings_show_ac_controls">Mostrar controles del aire</string>
     <string name="settings_message_volume_percentage">Volumen para los mensajes (%)</string>
     <string name="settings_tv_remote_code">Código del control de TV</string>

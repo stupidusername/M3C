@@ -272,7 +272,7 @@ public class LightsACFragment extends Fragment {
             public void onClick(View v) {
                 SharedPreferences.Editor editor = PreferencesHelper.getSharedPreferences().edit();
                 editor.putBoolean(PreferencesHelper.KEY_SHOW_RECORD_SCENE_CONTROLS, false);
-                editor.commit();
+                editor.apply();
                 recordSceneControlsLayout.setVisibility(View.GONE);
             }
         });

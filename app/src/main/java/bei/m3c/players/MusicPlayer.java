@@ -14,6 +14,8 @@ import java.util.List;
 import bei.m3c.activities.MainActivity;
 import bei.m3c.commands.TRCStartAudioCommand;
 import bei.m3c.events.GetRadioSongsEvent;
+import bei.m3c.events.MessagePlayerPlayEvent;
+import bei.m3c.events.MessagePlayerStopEvent;
 import bei.m3c.events.MusicPlayerPauseEvent;
 import bei.m3c.events.MusicPlayerPlayEvent;
 import bei.m3c.events.MusicPlayerSongChangedEvent;
@@ -33,6 +35,7 @@ public class MusicPlayer extends MediaPlayer {
     private List<Song> songs = new ArrayList<>();
     private int songPosition = 0;
     private boolean ready = false;
+    private boolean resumeAfterMessagePlayed;
 
     public MusicPlayer() {
         super();
@@ -165,5 +168,18 @@ public class MusicPlayer extends MediaPlayer {
         songs = event.songs;
         Collections.shuffle(songs);
         play();
+    }
+
+    @Subscribe
+    public void onEvent(MessagePlayerPlayEvent event) {
+        resumeAfterMessagePlayed = isPlaying();
+        pause();
+    }
+
+    @Subscribe
+    public void onEvent(MessagePlayerStopEvent event) {
+        if (resumeAfterMessagePlayed) {
+            play();
+        }
     }
 }

@@ -3,6 +3,7 @@ package bei.m3c.services;
 import java.util.List;
 
 import bei.m3c.models.AppVersion;
+import bei.m3c.models.AudioMessage;
 import bei.m3c.models.BarArticle;
 import bei.m3c.models.BarGroup;
 import bei.m3c.models.Channel;
@@ -42,4 +43,7 @@ public interface M3SService {
 
     @GET("api/get-update")
     Call<AppVersion> getUpdate();
+
+    @GET("api/get-audio-message")
+    Call<AudioMessage> getAudioMessage(@Query("name") String name, @Query("room") String room, @Query("suffix") String suffix);
 }

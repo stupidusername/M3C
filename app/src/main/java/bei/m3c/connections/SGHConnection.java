@@ -11,11 +11,13 @@ import bei.m3c.commands.BaseCommand;
 import bei.m3c.commands.TPCAccountInfo;
 import bei.m3c.commands.TPCKeepAliveCommand;
 import bei.m3c.commands.TPCPCStatusCommand;
+import bei.m3c.commands.TPCStartAudioMessageCommand;
 import bei.m3c.commands.TPCTabStatusCommand;
 import bei.m3c.events.TPCAccountInfoCommandEvent;
 import bei.m3c.helpers.FormatHelper;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.PowerHelper;
+import bei.m3c.jobs.PlayMessageJob;
 import bei.m3c.jobs.UpdateRebootJob;
 
 public class SGHConnection extends BaseConnection {
@@ -68,6 +70,9 @@ public class SGHConnection extends BaseConnection {
                     break;
                 case TPCAccountInfo.VALUE:
                     EventBus.getDefault().post(new TPCAccountInfoCommandEvent(new TPCAccountInfo(command)));
+                    break;
+                case TPCStartAudioMessageCommand.VALUE:
+                    JobManagerHelper.getJobManager().addJobInBackground(new PlayMessageJob(new TPCStartAudioMessageCommand(command)));
                     break;
             }
         }

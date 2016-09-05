@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bei.m3c.activities.MainActivity;
+import bei.m3c.commands.TPCStartAudioMessageCommand;
 import bei.m3c.models.AppVersion;
+import bei.m3c.models.AudioMessage;
 import bei.m3c.models.BarArticle;
 import bei.m3c.models.BarGroup;
 import bei.m3c.models.Channel;
@@ -137,6 +139,16 @@ public final class M3SHelper {
             return call.execute().body();
         } catch (IOException e) {
             Log.e(TAG, "Error getting update.", e);
+            return null;
+        }
+    }
+
+    public static AudioMessage getAudioMessage(TPCStartAudioMessageCommand command) {
+        try {
+            Call<AudioMessage> call = getM3SService().getAudioMessage(command.getTidName(), "" + command.roomNumber, command.getSuffix());
+            return call.execute().body();
+        } catch (IOException e) {
+            Log.e(TAG, "Error getting audio message.", e);
             return null;
         }
     }

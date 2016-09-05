@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class AudioMessage {
 
+    public static final String TAG = "AudioMessage";
+
     public int id;
 
     public int key;

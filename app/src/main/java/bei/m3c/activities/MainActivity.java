@@ -19,6 +19,7 @@ import bei.m3c.helpers.M3SHelper;
 import bei.m3c.helpers.PreferencesHelper;
 import bei.m3c.helpers.RootHelper;
 import bei.m3c.helpers.ThemeHelper;
+import bei.m3c.players.MessagePlayer;
 import bei.m3c.players.MusicPlayer;
 import bei.m3c.services.M3SService;
 import bei.m3c.services.MonitorService;
@@ -57,13 +58,14 @@ public class MainActivity extends AppCompatActivity {
     public static final int CONSUMER_MIN_COUNT = 1; //always keep at least one consumer alive
     public static final int CONSUMER_MAX_COUNT = 50; //up to 50 consumers at a time
     public static final int CONSUMER_LOAD_FACTOR = 1; //1 jobs per consumer
-    public static final int CONSUMER_KEEP_ALIVE = 120; //wait 2 minute
+    public static final int CONSUMER_KEEP_ALIVE = 120; //wait 2 minutes
     public static final int POSITION_MUSIC_TAB = 0;
 
     public static MainActivity instance;
     private JobManager jobManager = null;
     private Retrofit retrofit = null;
     private M3SService m3sService = null;
+    private MessagePlayer messagePlayer = null;
     private MusicPlayer musicPlayer = null;
     private PICConnection picConnection;
     private SGHConnection sghConnection;
@@ -246,6 +248,13 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, "Error creating M3S service.", e);
         }
         return m3sService;
+    }
+
+    public synchronized MessagePlayer getMessagePlayer() {
+        if (messagePlayer == null) {
+            messagePlayer = new MessagePlayer();
+        }
+        return messagePlayer;
     }
 
     public synchronized MusicPlayer getMusicPlayer() {

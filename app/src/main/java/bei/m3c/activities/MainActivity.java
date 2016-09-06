@@ -1,7 +1,10 @@
 package bei.m3c.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
 import bei.m3c.R;
@@ -25,6 +28,9 @@ import bei.m3c.services.M3SService;
 import bei.m3c.services.MonitorService;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -40,6 +46,7 @@ import android.widget.Toast;
 
 import com.birbit.android.jobqueue.JobManager;
 import com.birbit.android.jobqueue.config.Configuration;
+import com.github.pwittchen.reactivewifi.ReactiveWifi;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -69,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
     private MusicPlayer musicPlayer = null;
     private PICConnection picConnection;
     private SGHConnection sghConnection;
+    private boolean wifiWasConnected = true;
 
     // Views
     private TabLayout tabLayout;
@@ -189,6 +197,26 @@ public class MainActivity extends AppCompatActivity {
 
         // Register events and jobs
         EventBus.getDefault().register(this);
+
+        // Monitor wifi state
+        (new ReactiveWifi()).observeSupplicantState(getApplicationContext())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<SupplicantState>() {
+                    @Override
+                    public void call(SupplicantState supplicantState) {
+                        if (supplicantState == SupplicantState.DISCONNECTED && wifiWasConnected) {
+                            Log.w(TAG, "Wi-Fi disconnected. Restarting adapter.");
+                            wifiWasConnected = false;
+                            WifiManager wifiManager = (WifiManager) getBaseContext().getSystemService(Context.WIFI_SERVICE);
+                            wifiManager.setWifiEnabled(false);
+                            wifiManager.setWifiEnabled(true);
+                        } else if (supplicantState == SupplicantState.COMPLETED) {
+                            Log.w(TAG, "Wi-Fi connected.");
+                            wifiWasConnected = true;
+                        }
+                    }
+                });
     }
 
     // Use immersive mode

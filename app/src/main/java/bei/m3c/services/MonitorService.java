@@ -56,10 +56,16 @@ public class MonitorService extends Service {
 
     private boolean isRunning() {
         ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.AppTask> tasks = activityManager.getAppTasks();
-        if (!tasks.isEmpty()) {
-            return true;
+
+        @SuppressWarnings("deprecation")
+        List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
+
+        for (ActivityManager.RunningTaskInfo task : tasks) {
+            if (context.getPackageName().equalsIgnoreCase(task.baseActivity.getPackageName())) {
+                return true;
+            }
         }
+
         return false;
     }
 }

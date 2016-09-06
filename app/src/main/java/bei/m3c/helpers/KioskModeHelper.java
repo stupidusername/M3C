@@ -4,6 +4,7 @@ import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import bei.m3c.R;
@@ -14,6 +15,7 @@ import bei.m3c.receivers.DeviceAdminReceiver;
  */
 public final class KioskModeHelper {
 
+    public static final String TAG = "KioskModeHelper";
     private static AppCompatActivity activity;
 
     public static void initialize(AppCompatActivity newActivity) {
@@ -34,6 +36,10 @@ public final class KioskModeHelper {
     }
 
     public static void exitKioskMode() {
-        activity.stopLockTask();
+        try {
+            activity.stopLockTask();
+        } catch (Exception e) {
+            Log.e(TAG, "Could not stop lock task. Maybe the task wasn't locked.", e);
+        }
     }
 }

@@ -447,7 +447,7 @@ public class LightsACFragment extends Fragment {
 
     private void recordLightTypes() {
         byte[] lightTypes = new byte[Light.MAX_LIGHTS];
-        for(int i = 0; i < Light.MAX_LIGHTS; i++) {
+        for(int i = 0; i < lights.size(); i++) {
             lightTypes[i] = (byte) lights.get(i).type;
         }
         PICConnectionHelper.sendCommand(new TRCRecordLightTypesCommand(lightTypes), LIGHT_TYPES_RECORD_RETRY_INTERVAL_MILLIS, true);

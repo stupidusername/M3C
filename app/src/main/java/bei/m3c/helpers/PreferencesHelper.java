@@ -37,6 +37,7 @@ public final class PreferencesHelper {
     public static final String KEY_SHOW_RECORD_SCENE_CONTROLS = "show_record_scene_controls";
     public static final String KEY_SHOW_AC_CONTROLS = "show_ac_controls";
     public static final String KEY_MESSAGE_VOLUME_PERCENTAGE = "message_volume_percentage";
+    public static final String KEY_INTRO_VOLUME_PERCENTAGE = "intro_volume_percentage";
     public static final String KEY_TV_REMOTE_CODE = "tv_remote_code";
     public static final String KEY_THEME_COLOR = "theme_color";
 
@@ -47,7 +48,7 @@ public final class PreferencesHelper {
     public static final boolean DEFAULT_REBOOT_ALLOWED = false;
     public static final boolean DEFAULT_SHOW_RECORD_SCENE_CONTROLS = false;
     public static final boolean DEFAULT_SHOW_AC_CONTROLS = true;
-    public static final int DEFAULT_MESSAGE_VOLUME_PERCENTAGE = 50;
+    public static final String DEFAULT_VOLUME_PERCENTAGE = "50";
     public static final int DEFAULT_TV_CODE = -1;
 
     public static final String PORT_UNSET = "";
@@ -169,11 +170,18 @@ public final class PreferencesHelper {
     }
 
     public static int getMessageVolumePercentage() {
-        return getSharedPreferences().getInt(KEY_MESSAGE_VOLUME_PERCENTAGE, DEFAULT_MESSAGE_VOLUME_PERCENTAGE);
+        String string = getSharedPreferences().getString(KEY_MESSAGE_VOLUME_PERCENTAGE, DEFAULT_VOLUME_PERCENTAGE);
+        return Integer.parseInt(string);
+    }
+
+    public static int getIntroVolumePercentage() {
+        String string = getSharedPreferences().getString(KEY_INTRO_VOLUME_PERCENTAGE, DEFAULT_VOLUME_PERCENTAGE);
+        return Integer.parseInt(string);
     }
 
     public static int getTVRemoteCode() {
-        return getSharedPreferences().getInt(KEY_TV_REMOTE_CODE, DEFAULT_TV_CODE);
+        String string = getSharedPreferences().getString(KEY_TV_REMOTE_CODE, Integer.toString(DEFAULT_TV_CODE));
+        return Integer.parseInt(string);
     }
 
     public static int getThemeColor() {

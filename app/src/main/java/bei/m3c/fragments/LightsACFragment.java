@@ -418,9 +418,9 @@ public class LightsACFragment extends Fragment {
     }
 
     private void sendACPowerCommand() {
-        if (ac.getState() == AC.STATE_ON) {
+        if (ac.getState() == AC.STATE_TURNING_ON) {
             PICConnectionHelper.sendCommand(new TRCACOnCommand(ac.getTempCode()));
-        } else if (ac.getState() == AC.STATE_OFF) {
+        } else if (ac.getState() == AC.STATE_TURNING_OFF) {
             PICConnectionHelper.sendCommand(new TRCACOffCommand());
         }
         startReenableUpdateTimer();

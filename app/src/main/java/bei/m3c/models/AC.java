@@ -96,9 +96,9 @@ public class AC {
 
     public void toggle() {
         if (state == STATE_OFF) {
-            state = STATE_ON;
+            state = STATE_TURNING_ON;
         } else if (state == STATE_ON) {
-            state = STATE_OFF;
+            state = STATE_TURNING_OFF;
         }
     }
 

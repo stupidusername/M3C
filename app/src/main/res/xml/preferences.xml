@@ -41,6 +41,11 @@
         android:numeric="integer"
         android:title="@string/settings_message_volume_percentage" />
     <EditTextPreference
+        android:defaultValue="50"
+        android:key="intro_volume_percentage"
+        android:numeric="integer"
+        android:title="@string/settings_intro_volume_percentage" />
+    <EditTextPreference
         android:key="tv_remote_code"
         android:numeric="integer"
         android:title="@string/settings_tv_remote_code" />

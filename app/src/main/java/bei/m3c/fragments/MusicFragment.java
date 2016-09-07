@@ -29,6 +29,7 @@ import bei.m3c.events.MusicPlayerUpdateEvent;
 import bei.m3c.events.IntroEvent;
 import bei.m3c.helpers.FormatHelper;
 import bei.m3c.helpers.JobManagerHelper;
+import bei.m3c.helpers.PreferencesHelper;
 import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.helpers.VolumeHelper;
 import bei.m3c.jobs.GetRadiosJob;
@@ -314,8 +315,7 @@ public class MusicFragment extends Fragment {
         radioAdapter.replaceList(event.radios);
         // play radio if needed
         if (playOnCreate) {
-            playOnCreate = false;
-            play();
+            playIntro();
         }
     }
 
@@ -356,10 +356,19 @@ public class MusicFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(IntroEvent event) {
-        play();
+        playIntro();
     }
 
     public void setPlayOnCreate(boolean playOnCreate) {
         this.playOnCreate = playOnCreate;
+    }
+
+    public void playIntro() {
+        playOnCreate = false;
+        int volume = Math.round((float) (PreferencesHelper.getIntroVolumePercentage() * VolumeHelper.getMaxVolume()) / 100);
+        VolumeHelper.setVolume(volume);
+        updateVolumeButton();
+        updateVolumeSeekbar();
+        play();
     }
 }

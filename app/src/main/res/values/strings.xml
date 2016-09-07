@@ -101,6 +101,7 @@
     <string name="settings_show_record_scene_controls">Mostrar controles para el grabado de escenas de luz</string>
     <string name="settings_show_ac_controls">Mostrar controles del aire</string>
     <string name="settings_message_volume_percentage">Volumen para los mensajes (%)</string>
+    <string name="settings_intro_volume_percentage">Volumen para intro (%)</string>
     <string name="settings_tv_remote_code">Código del control de TV</string>
     <string name="settings_theme_color">Color del tema</string>
     <string name="settings_add_light">Añadir luz</string>

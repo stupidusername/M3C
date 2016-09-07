@@ -150,7 +150,10 @@ public class MusicPlayer extends MediaPlayer {
         ready = false;
         JobManagerHelper.cancelJobsInBackground(UpdateMusicPlayerJob.TAG);
         EventBus.getDefault().post(new MusicPlayerStopEvent());
-        PICConnectionHelper.sendCommand(new TRCStartAudioCommand(false));
+        // Send stop audio command only if the player is playing. Otherwise it would be sent already.
+        if (isPlaying()) {
+            PICConnectionHelper.sendCommand(new TRCStartAudioCommand(false));
+        }
         super.stop();
         reset();
     }

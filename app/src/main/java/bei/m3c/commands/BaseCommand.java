@@ -13,7 +13,7 @@ import java.util.Date;
 public abstract class BaseCommand {
 
     public static final String DATE_FORMAT = "ddMMyy";
-    public static final String TIME_FORMAT = "HH:mm";
+    public static final String TIME_FORMAT = "HHmm";
 
     public String tag;
     public byte value;

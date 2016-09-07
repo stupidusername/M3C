@@ -45,16 +45,18 @@ public class TPCAccountInfo extends BaseCommand {
         date = toDate(Arrays.copyOfRange(command, OFFSET_DATE, OFFSET_TIME));
         time = toTime(Arrays.copyOfRange(command, OFFSET_TIME, OFFSET_SERVICE_OPEN));
         serviceOpen = toBoolean(command[OFFSET_SERVICE_OPEN]);
-        shiftStartTime = toTime(Arrays.copyOfRange(command, OFFSET_SHIFT_START_TIME, OFFSET_SHIFT_END_TIME));
-        shiftEndTime = toTime(Arrays.copyOfRange(command, OFFSET_SHIFT_END_TIME, OFFSET_ALARM_TIME));
-        alarmTime = toTime(Arrays.copyOfRange(command, OFFSET_ALARM_TIME, OFFSET_BILL_LODGING));
-        billLodging = toBigDecimal(Arrays.copyOfRange(command, OFFSET_BILL_LODGING, OFFSET_BILL_SURCHARGE));
-        billSurcharge = toBigDecimal(Arrays.copyOfRange(command, OFFSET_BILL_SURCHARGE, OFFSET_BILL_BAR));
-        billBar = toBigDecimal(Arrays.copyOfRange(command, OFFSET_BILL_BAR, OFFSET_BILL_BONUS));
-        billBonus = toBigDecimal(Arrays.copyOfRange(command, OFFSET_BILL_BONUS, OFFSET_BILL_DISCOUNT));
-        billDiscount = toBigDecimal(Arrays.copyOfRange(command, OFFSET_BILL_DISCOUNT, OFFSET_BILL_TOTAL));
-        billPaid = toBigDecimal(Arrays.copyOfRange(command, OFFSET_BILL_PAID, OFFSET_BILL_TOTAL));
-        billTotal = toBigDecimal(Arrays.copyOfRange(command, OFFSET_BILL_TOTAL, OFFSET_SPECIAL_OFFER));
-        specialOffer = toString(Arrays.copyOfRange(command, OFFSET_SPECIAL_OFFER, COMMAND_LENGTH));
+        if (serviceOpen) {
+            shiftStartTime = toTime(Arrays.copyOfRange(command, OFFSET_SHIFT_START_TIME, OFFSET_SHIFT_END_TIME));
+            shiftEndTime = toTime(Arrays.copyOfRange(command, OFFSET_SHIFT_END_TIME, OFFSET_ALARM_TIME));
+            alarmTime = toTime(Arrays.copyOfRange(command, OFFSET_ALARM_TIME, OFFSET_BILL_LODGING));
+            billLodging = toBigDecimal(Arrays.copyOfRange(command, OFFSET_BILL_LODGING, OFFSET_BILL_SURCHARGE));
+            billSurcharge = toBigDecimal(Arrays.copyOfRange(command, OFFSET_BILL_SURCHARGE, OFFSET_BILL_BAR));
+            billBar = toBigDecimal(Arrays.copyOfRange(command, OFFSET_BILL_BAR, OFFSET_BILL_BONUS));
+            billBonus = toBigDecimal(Arrays.copyOfRange(command, OFFSET_BILL_BONUS, OFFSET_BILL_DISCOUNT));
+            billDiscount = toBigDecimal(Arrays.copyOfRange(command, OFFSET_BILL_DISCOUNT, OFFSET_BILL_PAID));
+            billPaid = toBigDecimal(Arrays.copyOfRange(command, OFFSET_BILL_PAID, OFFSET_BILL_TOTAL));
+            billTotal = toBigDecimal(Arrays.copyOfRange(command, OFFSET_BILL_TOTAL, OFFSET_SPECIAL_OFFER));
+            specialOffer = toString(Arrays.copyOfRange(command, OFFSET_SPECIAL_OFFER, COMMAND_LENGTH));
+        }
     }
 }

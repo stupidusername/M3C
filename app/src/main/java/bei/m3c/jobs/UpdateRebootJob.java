@@ -30,7 +30,9 @@ public class UpdateRebootJob extends Job {
     public static final int PRIORITY = 1;
     public static final String PACKAGE_NAME = "M3C.apk";
     public static final String REBOOT_COMMAND = "reboot";
-    public static final String UPDATE_COMMAND = "pm install -r /sdcard/" + PACKAGE_NAME;
+    public static final String PLACEHOLDER_PATH = "{path_placeholder}";
+    public static final String PACKAGE_INSTALL_PATH = "/sdcard/" + PACKAGE_NAME;
+    public static final String UPDATE_COMMAND = "mv " + PLACEHOLDER_PATH + " " + PACKAGE_INSTALL_PATH + "; pm install -r " + PACKAGE_INSTALL_PATH;
     public static final String UPDATE_REBOOT_COMMAND = "(" + UPDATE_COMMAND + "; " + REBOOT_COMMAND + ") &";
 
     public UpdateRebootJob() {
@@ -52,8 +54,8 @@ public class UpdateRebootJob extends Job {
                 } else if (appVersion.version != PreferencesHelper.getAppVersion() && appVersion.forceUpdate) {
                     update = true;
                 }
+                String path = MainActivity.getInstance().getFilesDir() + "/" + PACKAGE_NAME;
                 if (update) {
-                    String path = Environment.getExternalStorageDirectory() + "/" + PACKAGE_NAME;
                     DownloadHelper.download(appVersion.apkUrl, path);
                     // Don't update if the MD5 check fails
                     if (!MD5Helper.checkMD5(appVersion.md5, new File(path))) {
@@ -72,6 +74,8 @@ public class UpdateRebootJob extends Job {
                 } else if (rebootAllowed) {
                     command = REBOOT_COMMAND;
                 }
+
+                command = command.replace(PLACEHOLDER_PATH, path);
 
                 if (rebootAllowed) {
                     SGHConnectionHelper.sendCommand(new TPCTabStatusCommand(PowerHelper.isConnected(), true));

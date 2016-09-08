@@ -26,20 +26,16 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextClock
+                <TextView
                     android:id="@+id/info_date_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:format12Hour="@string/format_date_long"
-                    android:format24Hour="@string/format_date_long"
                     android:textSize="@dimen/textExtraLarge" />
 
-                <TextClock
+                <TextView
                     android:id="@+id/info_time_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:format12Hour="@string/format_time"
-                    android:format24Hour="@string/format_time"
                     android:textSize="@dimen/textGiant" />
 
                 <GridLayout

@@ -1,6 +1,7 @@
 package bei.m3c.helpers;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -44,6 +45,15 @@ public final class FormatHelper {
             return (new SimpleDateFormat(timeFormat)).format(time);
         } else {
             return MainActivity.getInstance().getString(R.string.time_default);
+        }
+    }
+
+    public static String asLongDate(Date date) {
+        if (date != null) {
+            String longDateFormat = MainActivity.getInstance().getString(R.string.format_date_long);
+            return (new SimpleDateFormat(longDateFormat)).format(date);
+        } else {
+            return MainActivity.getInstance().getString(R.string.no_value);
         }
     }
 

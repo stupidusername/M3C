@@ -25,9 +25,10 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.math.BigDecimal;
 import java.sql.Time;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import bei.m3c.R;
 import bei.m3c.adapters.ServiceAdapter;
@@ -40,7 +41,6 @@ import bei.m3c.events.TPCAccountInfoCommandEvent;
 import bei.m3c.helpers.FormatHelper;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.M3SHelper;
-import bei.m3c.helpers.RootHelper;
 import bei.m3c.helpers.SGHConnectionHelper;
 import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.jobs.GetServiceTariffsJob;
@@ -54,9 +54,16 @@ public class InfoFragment extends Fragment {
     public static final BigDecimal DEFAULT_MONEY = new BigDecimal(0);
     public static final int POPUP_MARGIN_DP = 50;
     public static final int GET_ACCOUNT_INFO_DELAY_MILLIS = 5000;
+    public static final int UPDATE_DATE_TIME_INTERVAL_MILLIS = 60000;
 
     private TPCAccountInfo accountInfo;
+    private Date date;
+    private Time time;
+    private Timer dateTimeUpdateTimer;
+    private long lastDateTimeUpdateTimeMillis;
     // views
+    private TextView dateTextView;
+    private TextView timeTextView;
     private RelativeLayout activityLayout;
     private GridLayout gridLayout;
     private TextView specialOfferTextView;
@@ -85,6 +92,10 @@ public class InfoFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        if (dateTimeUpdateTimer != null) {
+            dateTimeUpdateTimer.cancel();
+            dateTimeUpdateTimer = null;
+        }
         JobManagerHelper.cancelJobsInBackground(GetServicesJob.TAG);
         JobManagerHelper.cancelJobsInBackground(GetServiceTariffsJob.TAG);
         JobManagerHelper.cancelJobsInBackground(TPCGetAccountInfo.TAG);
@@ -103,6 +114,8 @@ public class InfoFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        dateTextView = (TextView) view.findViewById(R.id.info_date_textview);
+        timeTextView = (TextView) view.findViewById(R.id.info_time_textview);
         activityLayout = (RelativeLayout) getActivity().findViewById(R.id.activity_layout);
         gridLayout = (GridLayout) view.findViewById(R.id.info_gridlayout);
         specialOfferTextView = (TextView) view.findViewById(R.id.info_special_offer_textview);
@@ -171,6 +184,33 @@ public class InfoFragment extends Fragment {
         JobManagerHelper.getJobManager().addJobInBackground(new GetServicesJob());
         JobManagerHelper.getJobManager().addJobInBackground(new GetServiceTariffsJob());
         SGHConnectionHelper.sendCommand(new TPCGetAccountInfo(), GET_ACCOUNT_INFO_DELAY_MILLIS);
+
+        if (date == null) {
+            date = Calendar.getInstance().getTime();
+        }
+        if (time == null) {
+            time = new Time(date.getTime());
+        }
+        updateDateTime();
+
+        // Update date and time periodically
+        if (dateTimeUpdateTimer == null) {
+            dateTimeUpdateTimer = new Timer();
+            dateTimeUpdateTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            long timeDelta = System.currentTimeMillis() - lastDateTimeUpdateTimeMillis;
+                            time = new Time(time.getTime() + timeDelta);
+                            date = time;
+                            updateDateTime();
+                        }
+                    });
+                }
+            }, UPDATE_DATE_TIME_INTERVAL_MILLIS, UPDATE_DATE_TIME_INTERVAL_MILLIS);
+        }
     }
 
     private void showServicesPopup() {
@@ -191,6 +231,12 @@ public class InfoFragment extends Fragment {
 
     private void showPopup() {
         popupWindow.showAtLocation(activityLayout, Gravity.CENTER, 0, 0);
+    }
+
+    private void updateDateTime() {
+        lastDateTimeUpdateTimeMillis = System.currentTimeMillis();
+        dateTextView.setText(FormatHelper.asLongDate(date));
+        timeTextView.setText(FormatHelper.asTime(time));
     }
 
     private void updateInfo() {
@@ -243,15 +289,9 @@ public class InfoFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(TPCAccountInfoCommandEvent event) {
         accountInfo = event.command;
-        // Update time
-        if (RootHelper.canRunRootCommands(getContext())) {
-            Date date = accountInfo.date;
-            Time time = accountInfo.time;
-            DateFormat dateFormat = new SimpleDateFormat("MMdd");
-            DateFormat timeFormat = new SimpleDateFormat("HHmm");
-            String command = "date " + dateFormat.format(date) + timeFormat.format(time);
-            RootHelper.execute(command);
-        }
+        date = accountInfo.date;
+        time = accountInfo.time;
         updateInfo();
+        updateDateTime();
     }
 }

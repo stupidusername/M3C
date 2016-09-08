@@ -73,7 +73,7 @@ public abstract class BaseCommand {
 
     public BigDecimal toBigDecimal(byte[] value) {
         String valueString = toString(value);
-        valueString = valueString.replaceAll("[^0-9]+", "");
+        valueString = valueString.replaceAll("[^0-9-]+", "");
         try {
             return new BigDecimal(valueString);
         } catch (NumberFormatException e) {

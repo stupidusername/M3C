@@ -247,9 +247,9 @@ public class InfoFragment extends Fragment {
         if (RootHelper.canRunRootCommands(getContext())) {
             Date date = accountInfo.date;
             Time time = accountInfo.time;
-            DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-            DateFormat timeFormat = new SimpleDateFormat("HHmmss");
-            String command = "date -s " + dateFormat.format(date) + "." + timeFormat.format(time);
+            DateFormat dateFormat = new SimpleDateFormat("MMdd");
+            DateFormat timeFormat = new SimpleDateFormat("HHmm");
+            String command = "date " + dateFormat.format(date) + timeFormat.format(time);
             RootHelper.execute(command);
         }
         updateInfo();

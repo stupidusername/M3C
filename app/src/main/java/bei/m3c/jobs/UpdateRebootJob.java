@@ -1,5 +1,6 @@
 package bei.m3c.jobs;
 
+import android.content.ComponentName;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,9 +32,14 @@ public class UpdateRebootJob extends Job {
     public static final String PACKAGE_NAME = "M3C.apk";
     public static final String REBOOT_COMMAND = "reboot";
     public static final String PLACEHOLDER_PATH = "{path_placeholder}";
+    public static final String PLACEHOLDER_PACKAGE = "{package_placeholder}";
+    public static final String PLACEHOLDER_CLASS = "{class_placeholder}";
     public static final String PACKAGE_INSTALL_PATH = "/sdcard/" + PACKAGE_NAME;
     public static final String UPDATE_COMMAND = "mv " + PLACEHOLDER_PATH + " " + PACKAGE_INSTALL_PATH + "; pm install -r " + PACKAGE_INSTALL_PATH;
     public static final String UPDATE_REBOOT_COMMAND = "(" + UPDATE_COMMAND + "; " + REBOOT_COMMAND + ") &";
+    // Sleep 3 secs before launching app (android sucks)
+    public static final String LAUNCH_APP_COMMAND = "sleep 3; am start -n \"" + PLACEHOLDER_PACKAGE + "/" + PLACEHOLDER_CLASS + "\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER";
+    public static final String UPDATE_RELAUNCH_COMMAND = "(" + UPDATE_COMMAND + "; " + LAUNCH_APP_COMMAND + ") &";
 
     public UpdateRebootJob() {
         super(new Params(PRIORITY).requireNetwork().singleInstanceBy(TAG).addTags(TAG));
@@ -70,18 +76,20 @@ public class UpdateRebootJob extends Job {
                 if (update && rebootAllowed) {
                     command = UPDATE_REBOOT_COMMAND;
                 } else if (update) {
-                    command = UPDATE_COMMAND;
+                    command = UPDATE_RELAUNCH_COMMAND;
                 } else if (rebootAllowed) {
                     command = REBOOT_COMMAND;
                 }
-
-                command = command.replace(PLACEHOLDER_PATH, path);
 
                 if (rebootAllowed) {
                     SGHConnectionHelper.sendCommand(new TPCTabStatusCommand(PowerHelper.isConnected(), true));
                 }
 
                 if (command != null) {
+                    ComponentName componentName = MainActivity.getInstance().getComponentName();
+                    command = command.replace(PLACEHOLDER_PATH, path)
+                            .replace(PLACEHOLDER_PACKAGE, componentName.getPackageName())
+                            .replace(PLACEHOLDER_CLASS, componentName.getShortClassName());
                     RootHelper.execute(command);
                 }
             }

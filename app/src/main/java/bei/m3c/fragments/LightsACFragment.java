@@ -83,6 +83,7 @@ public class LightsACFragment extends Fragment {
     @Override
     public void onDestroyView() {
         JobManagerHelper.cancelJobsInBackground(TRCGetStatusCommand.TAG);
+        JobManagerHelper.cancelJobsInBackground(TRCRecordLightTypesCommand.TAG);
         EventBus.getDefault().unregister(this);
         super.onDestroyView();
     }

@@ -15,10 +15,9 @@ import bei.m3c.helpers.FormatHelper;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.jobs.ConnectJob;
 import bei.m3c.jobs.SendCommandJob;
+import bei.m3c.jobs.SendKeepAliveCommandJob;
 
 public abstract class BaseConnection {
-
-    public static final int KEEPALIVE_DELAY = 10000;
 
     public static final byte MESSAGE_START = 0x29;
     public static final byte[] MESSAGE_CRC = {0x00, 0x00};
@@ -52,7 +51,7 @@ public abstract class BaseConnection {
             outputStream = socket.getOutputStream();
             isConnected = true;
             JobManagerHelper.cancelJobsInBackground(this.tag);
-            JobManagerHelper.getJobManager().addJobInBackground(new SendCommandJob(this, getKeepAliveCommand(), KEEPALIVE_DELAY));
+            JobManagerHelper.getJobManager().addJobInBackground(new SendKeepAliveCommandJob(this));
             Log.v(tag, "Connected.");
             byte[] message;
             byte readByte = 0;

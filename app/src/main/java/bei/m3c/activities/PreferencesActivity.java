@@ -1,5 +1,6 @@
 package bei.m3c.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
@@ -55,6 +56,10 @@ public class PreferencesActivity extends PreferenceActivity {
     // Restart app after exit
     @Override
     public void onBackPressed() {
-        System.exit(0);
+        Intent intent = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        finish();
+        startActivity(intent);
     }
 }

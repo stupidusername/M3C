@@ -5,7 +5,6 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -13,7 +12,6 @@ import android.graphics.drawable.StateListDrawable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
-import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -35,6 +33,10 @@ public final class ThemeHelper {
     // Used for view color state list background shape
     public static final int ROW_CORNER_RADIUS_DIP = 5;
     public static final int ROW_STROKE_WIDTH_DIP = 2;
+
+    // Used for seekbar thumb
+    public static final int SEEKBAR_THUMB_DIAMETER_DIP = 85;
+    public static final int SEEKBAR_THUMB_STROKE_WIDTH_DIP = 70;
 
     /**
      * @return main accent color
@@ -65,20 +67,16 @@ public final class ThemeHelper {
      * Sets the color scheme for the given SeekBar
      */
     public static void setSeekBarTheme(final SeekBar seekBar) {
+        Resources resources = seekBar.getContext().getResources();
+        int diameter = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, SEEKBAR_THUMB_DIAMETER_DIP, resources.getDisplayMetrics()));
+        int strokeWidth = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, SEEKBAR_THUMB_STROKE_WIDTH_DIP, resources.getDisplayMetrics()));
+        GradientDrawable thumb = new GradientDrawable();
+        thumb.setShape(GradientDrawable.OVAL);
+        thumb.setColor(getAccentColor());
+        thumb.setSize(diameter, diameter);
+        thumb.setStroke(strokeWidth, Color.TRANSPARENT);
         setProgressBarTheme(seekBar);
-        seekBar.setThumbTintList(ColorStateList.valueOf(getAccentColor()));
-        final View parent = (View) seekBar.getParent();
-        parent.post( new Runnable() {
-            // Post in the parent's message queue to make sure the parent
-            // lays out its children before we call getHitRect()
-            public void run() {
-                final Rect r = new Rect();
-                seekBar.getHitRect(r);
-                r.top -= 100;
-                r.bottom += 4;
-                parent.setTouchDelegate( new TouchDelegate(r , seekBar));
-            }
-        });
+        seekBar.setThumb(thumb);
     }
 
     /**

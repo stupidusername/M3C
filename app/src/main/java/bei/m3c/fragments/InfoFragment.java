@@ -1,5 +1,6 @@
 package bei.m3c.fragments;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
@@ -110,6 +111,7 @@ public class InfoFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_info, container, false);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -148,6 +150,7 @@ public class InfoFragment extends Fragment {
         final int popupHeight = displayMetrics.heightPixels - popupMargin * 2;
         View popupView = getLayoutInflater(savedInstanceState).inflate(R.layout.popup_info, null);
         popupWindow = new PopupWindow(popupView, popupWidth, popupHeight);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setOutsideTouchable(true);
         popupImageView = (ImageView) popupView.findViewById(R.id.popup_info_imageview);
         Glide.with(this).load(M3SHelper.getServicesImageUrl()).centerCrop().crossFade().into(popupImageView);

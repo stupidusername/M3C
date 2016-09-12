@@ -1,6 +1,7 @@
 package bei.m3c.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import bei.m3c.R;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.KioskModeHelper;
+import bei.m3c.helpers.RootHelper;
 import bei.m3c.jobs.UpdateRebootJob;
 
 public class PreferencesActivity extends PreferenceActivity {
@@ -20,6 +22,13 @@ public class PreferencesActivity extends PreferenceActivity {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new PreferencesFragment()).commit();
         KioskModeHelper.exitKioskMode();
+        // Ask for root access
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                RootHelper.canRunRootCommands();
+            }
+        });
     }
 
     @Override

@@ -51,7 +51,7 @@ public class UpdateRebootJob extends Job {
 
     @Override
     public void onRun() throws Throwable {
-        if (RootHelper.canRunRootCommands(getApplicationContext())) {
+        if (RootHelper.canRunRootCommands()) {
             AppVersion appVersion = M3SHelper.getUpdate();
             boolean update = false;
             if (appVersion != null) {

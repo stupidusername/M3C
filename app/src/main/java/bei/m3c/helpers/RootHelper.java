@@ -4,17 +4,13 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
-
-import bei.m3c.R;
 
 public abstract class RootHelper {
 
     private static final String TAG = "RootHelper";
 
-    public static boolean canRunRootCommands(Context context) {
+    public static boolean canRunRootCommands() {
         boolean retval = false;
         Process suProcess;
 
@@ -33,7 +29,7 @@ public abstract class RootHelper {
 
                 @SuppressWarnings("deprecation")
                 String currUid = osRes.readLine();
-                boolean exitSu = false;
+                boolean exitSu;
                 if (currUid == null) {
                     retval = false;
                     exitSu = false;
@@ -61,8 +57,7 @@ public abstract class RootHelper {
         }
 
         if (!retval) {
-            Toast.makeText(context, context.getString(R.string.root_not_enabled),
-                    Toast.LENGTH_LONG).show();
+            Log.w(TAG, "Root access not enabled.");
         }
         return retval;
     }

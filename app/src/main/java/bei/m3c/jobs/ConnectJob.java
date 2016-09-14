@@ -15,7 +15,7 @@ public class ConnectJob extends Job {
     public BaseConnection connection;
     public static final int PRIORITY = 1;
     public static final int DELAY = 0; // delay in millis
-    public static final int INTERVAL = 1000; // interval in millis
+    public static final int INTERVAL = 5000; // interval in millis
 
     public ConnectJob(BaseConnection connection) {
         this(connection, DELAY);

@@ -91,7 +91,7 @@ public abstract class BaseConnection {
         }
     }
 
-    public void disconnect() {
+    public void disconnect(boolean reconnect) {
         Log.v(tag, "Disconnecting.");
         isConnected = false;
         try {
@@ -110,8 +110,10 @@ public abstract class BaseConnection {
         } catch (Exception e) {
             Log.e(tag, "Error during disconnection", e);
         }
-        JobManagerHelper.cancelJobsInBackground(getKeepAliveCommand().tag);
-        JobManagerHelper.getJobManager().addJobInBackground(new ConnectJob(this));
+        if (reconnect) {
+            JobManagerHelper.cancelJobsInBackground(getKeepAliveCommand().tag);
+            JobManagerHelper.getJobManager().addJobInBackground(new ConnectJob(this));
+        }
     }
 
     public boolean sendCommand(BaseCommand command) {
@@ -132,7 +134,7 @@ public abstract class BaseConnection {
             success = true;
         } catch (Exception e) {
             Log.e(tag, "Error sending command", e);
-            disconnect();
+            disconnect(true);
         }
         return success;
     }

@@ -41,7 +41,7 @@ public class SGHConnection extends BaseConnection {
                 @Override
                 public void run() {
                     Log.d(TAG, "ACK not received.");
-                    disconnect();
+                    disconnect(true);
                     ackTimer = null;
                 }
             }, ACK_MAX_DELAY_MILLIS);

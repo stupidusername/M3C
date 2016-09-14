@@ -1,7 +1,6 @@
 package bei.m3c.jobs;
 
 import android.content.ComponentName;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -53,6 +52,7 @@ public class UpdateRebootJob extends Job {
     public void onRun() throws Throwable {
         if (RootHelper.canRunRootCommands()) {
             AppVersion appVersion = M3SHelper.getUpdate();
+            String path = MainActivity.getInstance().getFilesDir() + "/" + PACKAGE_NAME;
             boolean update = false;
             if (appVersion != null) {
                 if (appVersion.version > PreferencesHelper.getAppVersion()) {
@@ -60,7 +60,6 @@ public class UpdateRebootJob extends Job {
                 } else if (appVersion.version != PreferencesHelper.getAppVersion() && appVersion.forceUpdate) {
                     update = true;
                 }
-                String path = MainActivity.getInstance().getFilesDir() + "/" + PACKAGE_NAME;
                 if (update) {
                     DownloadHelper.download(appVersion.apkUrl, path);
                     // Don't update if the MD5 check fails
@@ -69,29 +68,29 @@ public class UpdateRebootJob extends Job {
                         Log.w(TAG, "Update file MD5 check failed. Update aborted.");
                     }
                 }
+            }
 
-                String command = null;
-                boolean rebootAllowed = PreferencesHelper.rebootAllowed();
+            String command = null;
+            boolean rebootAllowed = PreferencesHelper.rebootAllowed();
 
-                if (update && rebootAllowed) {
-                    command = UPDATE_REBOOT_COMMAND;
-                } else if (update) {
-                    command = UPDATE_RELAUNCH_COMMAND;
-                } else if (rebootAllowed) {
-                    command = REBOOT_COMMAND;
-                }
+            if (update && rebootAllowed) {
+                command = UPDATE_REBOOT_COMMAND;
+            } else if (update) {
+                command = UPDATE_RELAUNCH_COMMAND;
+            } else if (rebootAllowed) {
+                command = REBOOT_COMMAND;
+            }
 
-                if (rebootAllowed) {
-                    SGHConnectionHelper.sendCommand(new TPCTabStatusCommand(PowerHelper.isConnected(), true));
-                }
+            if (rebootAllowed) {
+                SGHConnectionHelper.sendCommand(new TPCTabStatusCommand(PowerHelper.isConnected(), true));
+            }
 
-                if (command != null) {
-                    ComponentName componentName = MainActivity.getInstance().getComponentName();
-                    command = command.replace(PLACEHOLDER_PATH, path)
-                            .replace(PLACEHOLDER_PACKAGE, componentName.getPackageName())
-                            .replace(PLACEHOLDER_CLASS, componentName.getShortClassName());
-                    RootHelper.execute(command);
-                }
+            if (command != null) {
+                ComponentName componentName = MainActivity.getInstance().getComponentName();
+                command = command.replace(PLACEHOLDER_PATH, path)
+                        .replace(PLACEHOLDER_PACKAGE, componentName.getPackageName())
+                        .replace(PLACEHOLDER_CLASS, componentName.getShortClassName());
+                RootHelper.execute(command);
             }
         } else {
             Log.w(TAG, "Application does not have root access. Update not allowed.");

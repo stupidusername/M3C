@@ -1,5 +1,6 @@
 package bei.m3c.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,6 +32,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
+import android.os.PowerManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     private PICConnection picConnection;
     private SGHConnection sghConnection;
     private boolean wifiWasConnected = true;
+    private PowerManager.WakeLock wakeLock;
 
     // Views
     private TabLayout tabLayout;
@@ -185,11 +188,9 @@ public class MainActivity extends AppCompatActivity {
         KioskModeHelper.initialize(this);
         KioskModeHelper.enterKioskMode();
 
-        // Wake up
+        // Wake up and keep screen on
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-        window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         // Register events and jobs
         EventBus.getDefault().register(this);
@@ -228,6 +229,18 @@ public class MainActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        acquireWakeLock();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        releaseWakeLock();
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -321,6 +334,31 @@ public class MainActivity extends AppCompatActivity {
                 .loadFactor(CONSUMER_LOAD_FACTOR)
                 .consumerKeepAlive(CONSUMER_KEEP_ALIVE);
         jobManager = new JobManager(builder.build());
+    }
+
+    @SuppressWarnings("deprecation")
+    public void acquireWakeLock() {
+        if (wakeLock != null) {
+            if (wakeLock.isHeld() == false) {
+                wakeLock.acquire();
+            }
+        } else {
+            PowerManager pm = (PowerManager) this
+                    .getSystemService(Context.POWER_SERVICE);
+            wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP,
+                    TAG);
+            wakeLock.setReferenceCounted(false);
+            if (wakeLock.isHeld() == false) {
+                wakeLock.acquire();
+            }
+        }
+    }
+
+    public void releaseWakeLock() {
+        if (wakeLock != null) {
+            wakeLock.release();
+            wakeLock = null;
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

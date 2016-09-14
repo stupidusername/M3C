@@ -145,7 +145,9 @@ public class LightsACFragment extends Fragment {
         // Add master controls if there are more than one large light widget
         if (largeLightWidgets.size() > 1) {
             Light masterLight = new Light(getString(R.string.light_master), Light.TYPE_MASTER);
-            largeLightWidgets.add(0, new LightWidget(getContext(), masterLight));
+            LightWidget masterLightWidget = new LightWidget(getContext(), masterLight);
+            masterLightWidget.seekBar.setMax(Light.MAX_VALUE * getRealLightsCount());
+            largeLightWidgets.add(0, masterLightWidget);
         }
 
         // Add light widgets
@@ -354,26 +356,23 @@ public class LightsACFragment extends Fragment {
 
     private void updateMaster() {
         if (masterExists()) {
-            int realLightsCount = getRealLightsCount();
             int sum = 0;
             // Do not add master widget value
             for (LightWidget lightWidget : largeLightWidgets.subList(1, largeLightWidgets.size())) {
                 sum += lightWidget.getValue();
             }
-            largeLightWidgets.get(0).setValue(Math.round(sum / realLightsCount));
+            largeLightWidgets.get(0).setValue(sum);
         }
     }
 
     private void updateFromMaster(int delta) {
-        int realLightsCount = getRealLightsCount();
-        int totalDelta = delta * realLightsCount;
-        int individualDelta = totalDelta >= 0 ? 1 : -1;
+        int individualDelta = delta >= 0 ? 1 : -1;
         List<LightWidget> deltableLightWidgets = getDeltableLightWidgets(individualDelta);
-        while (!deltableLightWidgets.isEmpty() && totalDelta != 0) {
-            while (updateIndex < deltableLightWidgets.size() && totalDelta != 0) {
+        while (!deltableLightWidgets.isEmpty() && delta != 0) {
+            while (updateIndex < deltableLightWidgets.size() && delta != 0) {
                 LightWidget lightWidget = deltableLightWidgets.get(updateIndex);
                 lightWidget.setValue(lightWidget.getValue() + individualDelta);
-                totalDelta -= individualDelta;
+                delta -= individualDelta;
                 int oldSize = deltableLightWidgets.size();
                 deltableLightWidgets = getDeltableLightWidgets(individualDelta);
                 if (oldSize == deltableLightWidgets.size()) {

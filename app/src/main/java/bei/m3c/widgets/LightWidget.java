@@ -80,6 +80,8 @@ public class LightWidget extends LinearLayout {
         }
         if (seekBar != null) {
             seekBar.setProgress(value);
+            // Scale for master
+            value = Math.round(value * (Light.MAX_VALUE / (float) seekBar.getMax()));
         }
         light.setValue(value);
     }

@@ -70,15 +70,15 @@ public class MainActivity extends AppCompatActivity {
     public static final int POSITION_MUSIC_TAB = 0;
 
     public static MainActivity instance;
-    private JobManager jobManager = null;
-    private Retrofit retrofit = null;
-    private M3SService m3sService = null;
-    private MessagePlayer messagePlayer = null;
-    private MusicPlayer musicPlayer = null;
-    private PICConnection picConnection;
-    private SGHConnection sghConnection;
-    private boolean wifiWasConnected = true;
-    private PowerManager.WakeLock wakeLock;
+    private static JobManager jobManager = null;
+    private static Retrofit retrofit = null;
+    private static M3SService m3sService = null;
+    private static MessagePlayer messagePlayer = null;
+    private static MusicPlayer musicPlayer = null;
+    private static PICConnection picConnection;
+    private static SGHConnection sghConnection;
+    private static boolean wifiWasConnected = true;
+    private static PowerManager.WakeLock wakeLock;
 
     // Views
     private TabLayout tabLayout;

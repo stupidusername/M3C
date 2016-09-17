@@ -96,7 +96,7 @@ public final class PreferencesHelper {
     }
 
     public static int getRoomNumber() throws RuntimeException {
-        String roomNumberString = getSharedPreferences().getString(KEY_ROOM_NUMBER, DEFAULT_ROOM_NUMBER);
+        String roomNumberString = getSharedPreferences().getString(KEY_ROOM_NUMBER, DEFAULT_ROOM_NUMBER).trim();
         if (roomNumberString == null) {
             throw new RuntimeException("Room number is not set.");
         }
@@ -105,7 +105,7 @@ public final class PreferencesHelper {
     }
 
     public static String getPICAddress() {
-        String address = getSharedPreferences().getString(KEY_PIC_ADDRESS, DEFAULT_ADDRESS);
+        String address = getSharedPreferences().getString(KEY_PIC_ADDRESS, DEFAULT_ADDRESS).trim();
         if (address.equals(DEFAULT_ADDRESS)) {
             address = getDefaultPICAddress();
         }
@@ -128,7 +128,7 @@ public final class PreferencesHelper {
     }
 
     public static String getSGHAddress() throws RuntimeException {
-        String sghAdress = getSharedPreferences().getString(KEY_SGH_ADDRESS, DEFAULT_ADDRESS);
+        String sghAdress = getSharedPreferences().getString(KEY_SGH_ADDRESS, DEFAULT_ADDRESS).trim();
         if (sghAdress.equals(DEFAULT_ADDRESS)) {
             throw new RuntimeException("SGH address is not set.");
         }
@@ -136,7 +136,7 @@ public final class PreferencesHelper {
     }
 
     public static int getSGHPort() {
-        String portString = getSharedPreferences().getString(KEY_SGH_PORT, PORT_UNSET);
+        String portString = getSharedPreferences().getString(KEY_SGH_PORT, PORT_UNSET).trim();
         int port = portString.equals(PORT_UNSET) ? getDefaultSGHPort() : Integer.parseInt(portString);
         return port;
     }
@@ -150,7 +150,7 @@ public final class PreferencesHelper {
     }
 
     public static String getM3SAddress() {
-        return getSharedPreferences().getString(KEY_M3S_ADDRESS, DEFAULT_ADDRESS);
+        return getSharedPreferences().getString(KEY_M3S_ADDRESS, DEFAULT_ADDRESS).trim();
     }
 
     public static boolean startOnBoot() {
@@ -170,17 +170,17 @@ public final class PreferencesHelper {
     }
 
     public static int getMessageVolumePercentage() {
-        String string = getSharedPreferences().getString(KEY_MESSAGE_VOLUME_PERCENTAGE, DEFAULT_VOLUME_PERCENTAGE);
+        String string = getSharedPreferences().getString(KEY_MESSAGE_VOLUME_PERCENTAGE, DEFAULT_VOLUME_PERCENTAGE).trim();
         return Integer.parseInt(string);
     }
 
     public static int getIntroVolumePercentage() {
-        String string = getSharedPreferences().getString(KEY_INTRO_VOLUME_PERCENTAGE, DEFAULT_VOLUME_PERCENTAGE);
+        String string = getSharedPreferences().getString(KEY_INTRO_VOLUME_PERCENTAGE, DEFAULT_VOLUME_PERCENTAGE).trim();
         return Integer.parseInt(string);
     }
 
     public static int getTVRemoteCode() {
-        String string = getSharedPreferences().getString(KEY_TV_REMOTE_CODE, Integer.toString(DEFAULT_TV_CODE));
+        String string = getSharedPreferences().getString(KEY_TV_REMOTE_CODE, Integer.toString(DEFAULT_TV_CODE)).trim();
         return Integer.parseInt(string);
     }
 
@@ -191,7 +191,7 @@ public final class PreferencesHelper {
     public static List<Light> getLights() {
         List<Light> lights = new ArrayList<Light>();
         for (int i = 0; i < Light.MAX_LIGHTS; i++) {
-            String name = getSharedPreferences().getString(LightPreference.getNameKey(i), null);
+            String name = getSharedPreferences().getString(LightPreference.getNameKey(i), null).trim();
             if (name != null) {
                 int type = getSharedPreferences().getInt(LightPreference.getTypeKey(i), LightPreference.getDefaultType());
                 lights.add(new Light(name, type));

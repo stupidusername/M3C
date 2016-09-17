@@ -27,6 +27,7 @@ import bei.m3c.events.MusicPlayerSongChangedEvent;
 import bei.m3c.events.MusicPlayerStopEvent;
 import bei.m3c.events.MusicPlayerUpdateEvent;
 import bei.m3c.events.IntroEvent;
+import bei.m3c.events.VolumeChangedEvent;
 import bei.m3c.helpers.FormatHelper;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.PreferencesHelper;
@@ -118,11 +119,8 @@ public class MusicFragment extends Fragment {
         EventBus.getDefault().register(this);
         JobManagerHelper.getJobManager().addJobInBackground(new GetRadiosJob());
 
-        // Set volume seekbar max value and update with current volume
+        // Set volume seekbar max volume
         volumeSeekbar.setMax(VolumeHelper.getMaxVolume());
-        updateVolumeSeekbar();
-        saveVolume();
-        updateVolumeButton();
 
         // Set UI listeners
         radiosListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -216,6 +214,14 @@ public class MusicFragment extends Fragment {
             updateSong(MusicPlayer.getInstance().getCurrentSong());
             updatePlaybackTime();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateVolumeSeekbar();
+        saveVolume();
+        updateVolumeButton();
     }
 
     private void setPlayButton() {
@@ -357,6 +363,12 @@ public class MusicFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(IntroEvent event) {
         playIntro();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(VolumeChangedEvent event) {
+        updateVolumeSeekbar();
+        updateVolumeButton();
     }
 
     public void setPlayOnCreate(boolean playOnCreate) {

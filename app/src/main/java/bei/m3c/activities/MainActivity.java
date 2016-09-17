@@ -22,6 +22,7 @@ import bei.m3c.helpers.KioskModeHelper;
 import bei.m3c.helpers.M3SHelper;
 import bei.m3c.helpers.PreferencesHelper;
 import bei.m3c.helpers.ThemeHelper;
+import bei.m3c.observers.SettingsContentObserver;
 import bei.m3c.players.MessagePlayer;
 import bei.m3c.players.MusicPlayer;
 import bei.m3c.services.M3SService;
@@ -32,6 +33,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
+import android.os.Handler;
 import android.os.PowerManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private static SGHConnection sghConnection;
     private static boolean wifiWasConnected = true;
     private static PowerManager.WakeLock wakeLock;
+    private static SettingsContentObserver settingsContentObserver;
 
     // Views
     private TabLayout tabLayout;
@@ -235,12 +238,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         acquireWakeLock();
+        if (settingsContentObserver == null) {
+            settingsContentObserver = new SettingsContentObserver(this, new Handler());
+        }
+        getApplicationContext().getContentResolver()
+                .registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, settingsContentObserver);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         releaseWakeLock();
+        getApplicationContext().getContentResolver().unregisterContentObserver(settingsContentObserver);
     }
 
     private void setupViewPager(ViewPager viewPager) {

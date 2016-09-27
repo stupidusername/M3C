@@ -147,7 +147,7 @@ public class InfoFragment extends Fragment {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int popupMargin = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, POPUP_MARGIN_DP, getResources().getDisplayMetrics()));
         int popupWidth = displayMetrics.widthPixels - popupMargin * 2;
-        final int popupHeight = displayMetrics.heightPixels - popupMargin * 2;
+        int popupHeight = displayMetrics.heightPixels - popupMargin * 2;
         View popupView = getLayoutInflater(savedInstanceState).inflate(R.layout.popup_info, null);
         popupWindow = new PopupWindow(popupView, popupWidth, popupHeight);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());

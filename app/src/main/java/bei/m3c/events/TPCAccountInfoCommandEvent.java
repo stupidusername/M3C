@@ -1,12 +1,12 @@
 package bei.m3c.events;
 
-import bei.m3c.commands.TPCAccountInfo;
+import bei.m3c.commands.TPCAccountInfoCommand;
 
 public class TPCAccountInfoCommandEvent {
 
-    public TPCAccountInfo command;
+    public TPCAccountInfoCommand command;
 
-    public TPCAccountInfoCommandEvent(TPCAccountInfo command) {
+    public TPCAccountInfoCommandEvent(TPCAccountInfoCommand command) {
         this.command = command;
     }
 }

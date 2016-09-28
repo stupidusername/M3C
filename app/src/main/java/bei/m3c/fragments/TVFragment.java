@@ -21,15 +21,15 @@ import java.util.ArrayList;
 import bei.m3c.R;
 import bei.m3c.adapters.ChannelAdapter;
 import bei.m3c.adapters.ChannelCategoryAdapter;
-import bei.m3c.commands.TRCChannelDown;
-import bei.m3c.commands.TRCChannelUp;
-import bei.m3c.commands.TRCDigit;
-import bei.m3c.commands.TRCInfo;
-import bei.m3c.commands.TRCMacro;
-import bei.m3c.commands.TRCSetVideoType;
-import bei.m3c.commands.TRCVideoOnOff;
-import bei.m3c.commands.TRCVolumeDown;
-import bei.m3c.commands.TRCVolumeUp;
+import bei.m3c.commands.TRCChannelDownCommand;
+import bei.m3c.commands.TRCChannelUpCommand;
+import bei.m3c.commands.TRCDigitCommand;
+import bei.m3c.commands.TRCInfoCommand;
+import bei.m3c.commands.TRCMacroCommand;
+import bei.m3c.commands.TRCSetVideoTypeCommand;
+import bei.m3c.commands.TRCVideoOnOffCommand;
+import bei.m3c.commands.TRCVolumeDownCommand;
+import bei.m3c.commands.TRCVolumeUpCommand;
 import bei.m3c.events.GetChannelCategoriesEvent;
 import bei.m3c.events.GetChannelsEvent;
 import bei.m3c.helpers.JobManagerHelper;
@@ -88,7 +88,7 @@ public class TVFragment extends Fragment {
         // Send TV code
         int tvRemoteCode = PreferencesHelper.getTVRemoteCode();
         if (tvRemoteCode != PreferencesHelper.DEFAULT_TV_CODE) {
-            PICConnectionHelper.sendCommand(new TRCSetVideoType(tvRemoteCode));
+            PICConnectionHelper.sendCommand(new TRCSetVideoTypeCommand(tvRemoteCode));
         }
 
         listViewHeaderLayout = (LinearLayout) view.findViewById(R.id.tv_listview_header_layout);
@@ -113,7 +113,7 @@ public class TVFragment extends Fragment {
             numberButtons[number].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PICConnectionHelper.sendCommand(new TRCDigit(finalNumber));
+                    PICConnectionHelper.sendCommand(new TRCDigitCommand(finalNumber));
                 }
             });
         }
@@ -145,19 +145,19 @@ public class TVFragment extends Fragment {
         powerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PICConnectionHelper.sendCommand(new TRCVideoOnOff());
+                PICConnectionHelper.sendCommand(new TRCVideoOnOffCommand());
             }
         });
         plusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PICConnectionHelper.sendCommand(new TRCVolumeUp());
+                PICConnectionHelper.sendCommand(new TRCVolumeUpCommand());
             }
         });
         minusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PICConnectionHelper.sendCommand(new TRCVolumeDown());
+                PICConnectionHelper.sendCommand(new TRCVolumeDownCommand());
             }
         });
         muteButton.setOnClickListener(new View.OnClickListener() {
@@ -169,19 +169,19 @@ public class TVFragment extends Fragment {
         upButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PICConnectionHelper.sendCommand(new TRCChannelUp());
+                PICConnectionHelper.sendCommand(new TRCChannelUpCommand());
             }
         });
         downButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PICConnectionHelper.sendCommand(new TRCChannelDown());
+                PICConnectionHelper.sendCommand(new TRCChannelDownCommand());
             }
         });
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PICConnectionHelper.sendCommand(new TRCInfo());
+                PICConnectionHelper.sendCommand(new TRCInfoCommand());
             }
         });
 
@@ -221,7 +221,7 @@ public class TVFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Channel channel = channelAdapter.getItem(position);
-                PICConnectionHelper.sendCommand(new TRCMacro(channel.number));
+                PICConnectionHelper.sendCommand(new TRCMacroCommand(channel.number));
             }
         });
     }

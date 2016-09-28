@@ -5,9 +5,9 @@ import java.sql.Time;
 import java.util.Arrays;
 import java.util.Date;
 
-public class TPCAccountInfo extends BaseCommand {
+public class TPCAccountInfoCommand extends BaseCommand {
 
-    public static final String TAG = "TPCAccountInfo";
+    public static final String TAG = "TPCAccountInfoCommand";
     public static final byte VALUE = 6;
     public static final int OFFSET_DATE = 1;
     public static final int OFFSET_TIME = 7;
@@ -40,7 +40,7 @@ public class TPCAccountInfo extends BaseCommand {
     public BigDecimal billTotal;
     public String specialOffer;
 
-    public TPCAccountInfo(byte[] command) {
+    public TPCAccountInfoCommand(byte[] command) {
         super(TAG, VALUE, Arrays.copyOfRange(command, OFFSET_DATE, COMMAND_LENGTH));
         date = toDate(Arrays.copyOfRange(command, OFFSET_DATE, OFFSET_TIME));
         time = toTime(Arrays.copyOfRange(command, OFFSET_TIME, OFFSET_SERVICE_OPEN));

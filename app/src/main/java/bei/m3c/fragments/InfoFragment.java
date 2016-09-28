@@ -34,8 +34,8 @@ import java.util.TimerTask;
 import bei.m3c.R;
 import bei.m3c.adapters.ServiceAdapter;
 import bei.m3c.adapters.ServiceTariffAdapter;
-import bei.m3c.commands.TPCAccountInfo;
-import bei.m3c.commands.TPCGetAccountInfo;
+import bei.m3c.commands.TPCAccountInfoCommand;
+import bei.m3c.commands.TPCGetAccountInfoCommand;
 import bei.m3c.events.GetServiceTariffsEvent;
 import bei.m3c.events.GetServicesEvent;
 import bei.m3c.events.TPCAccountInfoCommandEvent;
@@ -57,7 +57,7 @@ public class InfoFragment extends Fragment {
     public static final int GET_ACCOUNT_INFO_DELAY_MILLIS = 5000;
     public static final int UPDATE_DATE_TIME_INTERVAL_MILLIS = 60000;
 
-    private TPCAccountInfo accountInfo;
+    private TPCAccountInfoCommand accountInfo;
     private Date date;
     private Time time;
     private Timer dateTimeUpdateTimer;
@@ -99,7 +99,7 @@ public class InfoFragment extends Fragment {
         }
         JobManagerHelper.cancelJobsInBackground(GetServicesJob.TAG);
         JobManagerHelper.cancelJobsInBackground(GetServiceTariffsJob.TAG);
-        JobManagerHelper.cancelJobsInBackground(TPCGetAccountInfo.TAG);
+        JobManagerHelper.cancelJobsInBackground(TPCGetAccountInfoCommand.TAG);
         EventBus.getDefault().unregister(this);
         super.onDestroyView();
     }
@@ -186,7 +186,7 @@ public class InfoFragment extends Fragment {
         EventBus.getDefault().register(this);
         JobManagerHelper.getJobManager().addJobInBackground(new GetServicesJob());
         JobManagerHelper.getJobManager().addJobInBackground(new GetServiceTariffsJob());
-        SGHConnectionHelper.sendCommand(new TPCGetAccountInfo(), GET_ACCOUNT_INFO_DELAY_MILLIS);
+        SGHConnectionHelper.sendCommand(new TPCGetAccountInfoCommand(), GET_ACCOUNT_INFO_DELAY_MILLIS);
 
         if (date == null) {
             date = Calendar.getInstance().getTime();

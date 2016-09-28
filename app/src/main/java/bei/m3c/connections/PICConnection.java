@@ -5,7 +5,7 @@ import android.util.Log;
 import org.greenrobot.eventbus.EventBus;
 
 import bei.m3c.commands.BaseCommand;
-import bei.m3c.commands.TRCIntro;
+import bei.m3c.commands.TRCIntroCommand;
 import bei.m3c.commands.TRCKeepAliveCommand;
 import bei.m3c.commands.TRCStatusCommand;
 import bei.m3c.events.IntroEvent;
@@ -27,7 +27,7 @@ public class PICConnection extends BaseConnection {
         if (command.length > 0) {
             byte value = command[0];
             switch (value) {
-                case TRCIntro.VALUE:
+                case TRCIntroCommand.VALUE:
                     EventBus.getDefault().post(new IntroEvent());
                     break;
                 case TRCStatusCommand.VALUE:

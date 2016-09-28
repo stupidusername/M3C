@@ -8,7 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import bei.m3c.commands.BaseCommand;
-import bei.m3c.commands.TPCAccountInfo;
+import bei.m3c.commands.TPCAccountInfoCommand;
 import bei.m3c.commands.TPCKeepAliveCommand;
 import bei.m3c.commands.TPCPCStatusCommand;
 import bei.m3c.commands.TPCStartAudioMessageCommand;
@@ -68,8 +68,8 @@ public class SGHConnection extends BaseConnection {
                         JobManagerHelper.getJobManager().addJobInBackground(new UpdateRebootJob());
                     }
                     break;
-                case TPCAccountInfo.VALUE:
-                    EventBus.getDefault().post(new TPCAccountInfoCommandEvent(new TPCAccountInfo(command)));
+                case TPCAccountInfoCommand.VALUE:
+                    EventBus.getDefault().post(new TPCAccountInfoCommandEvent(new TPCAccountInfoCommand(command)));
                     break;
                 case TPCStartAudioMessageCommand.VALUE:
                     JobManagerHelper.getJobManager().addJobInBackground(new PlayMessageJob(new TPCStartAudioMessageCommand(command)));

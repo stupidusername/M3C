@@ -67,7 +67,7 @@
     <string name="ac_mode">Modo:</string>
     <string name="ac_mode_auto">auto</string>
     <string name="ac_mode_heat">calor</string>
-    <string name="ac_mode_cool">apagado</string>
+    <string name="ac_mode_cool">frío</string>
 
     <!--Info-->
     <string name="info_special_offer">Promoción</string>

@@ -2,6 +2,7 @@ package bei.m3c.jobs;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.birbit.android.jobqueue.Job;
 import com.birbit.android.jobqueue.Params;
@@ -17,6 +18,7 @@ import bei.m3c.players.MessagePlayer;
 public class PlayMessageJob extends Job {
 
     public static final int PRIORITY = 1;
+    public static final String TAG = "PlayMessageJob";
 
     private TPCStartAudioMessageCommand command;
 
@@ -32,7 +34,11 @@ public class PlayMessageJob extends Job {
     @Override
     public void onRun() throws Throwable {
         AudioMessage audioMessage = M3SHelper.getAudioMessage(command);
-        MessagePlayer.getInstance().addAudioMessage(audioMessage);
+        if (audioMessage != null) {
+            MessagePlayer.getInstance().addAudioMessage(audioMessage);
+        } else {
+            Log.w(TAG, "Audio message not found.");
+        }
     }
 
     @Override

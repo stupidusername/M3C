@@ -176,7 +176,9 @@ public class MusicPlayer extends MediaPlayer {
     @Subscribe
     public void onEvent(MessagePlayerPlayEvent event) {
         resumeAfterMessagePlayed = isPlaying();
-        pause();
+        if (isPlaying()) {
+            pause();
+        }
     }
 
     @Subscribe

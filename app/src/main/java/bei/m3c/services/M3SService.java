@@ -45,5 +45,5 @@ public interface M3SService {
     Call<AppVersion> getUpdate();
 
     @GET("api/get-audio-message")
-    Call<AudioMessage> getAudioMessage(@Query("name") String name, @Query("room") String room, @Query("suffix") String suffix);
+    Call<AudioMessage> getAudioMessage(@Query("tid") String name, @Query("room") String room, @Query("suffix") String suffix);
 }

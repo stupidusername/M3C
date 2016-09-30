@@ -3,7 +3,7 @@ package bei.m3c.commands;
 public class TRCStartAudioMessageCommand extends BaseCommand {
 
     public static final String TAG = "TRCStartAudioMessageCommand";
-    public static final byte VALUE = 5;
+    public static final byte VALUE = 6;
 
     public boolean isPlaying;
     public int audioMessageKey;

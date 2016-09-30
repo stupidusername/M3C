@@ -92,7 +92,9 @@ public class MessagePlayer extends android.media.MediaPlayer {
 
     private void playNext() {
         getNextMessage();
-        play();
+        if (currentMessage != null) {
+            play();
+        }
     }
 
     private void getNextMessage() {

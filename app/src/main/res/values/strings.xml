@@ -102,6 +102,9 @@
     <string name="settings_message_volume_percentage">Volumen para los mensajes (%)</string>
     <string name="settings_intro_volume_percentage">Volumen para intro (%)</string>
     <string name="settings_tv_remote_code">Código del control de TV</string>
+    <string name="settings_show_video_controls">Mostrar controles de video</string>
+    <string name="settings_kodi_address">Dirección del media center Kodi</string>
+    <string name="settings_kodi_port">Puerto de la conexión con el media center Kodi</string>
     <string name="settings_theme_color">Color del tema</string>
     <string name="settings_add_light">Añadir luz</string>
     <string name="settings_max_lights_reached">No se pueden añadir mas luces</string>

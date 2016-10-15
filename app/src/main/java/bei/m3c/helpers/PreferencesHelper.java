@@ -39,6 +39,9 @@ public final class PreferencesHelper {
     public static final String KEY_MESSAGE_VOLUME_PERCENTAGE = "message_volume_percentage";
     public static final String KEY_INTRO_VOLUME_PERCENTAGE = "intro_volume_percentage";
     public static final String KEY_TV_REMOTE_CODE = "tv_remote_code";
+    public static final String KEY_SHOW_VIDEO_CONTROLS = "show_video_contros";
+    public static final String KEY_KODI_ADDRESS = "kodi_address";
+    public static final String KEY_KODI_PORT = "kodi_port";
     public static final String KEY_THEME_COLOR = "theme_color";
 
     // Default values
@@ -50,6 +53,8 @@ public final class PreferencesHelper {
     public static final boolean DEFAULT_SHOW_AC_CONTROLS = true;
     public static final String DEFAULT_VOLUME_PERCENTAGE = "50";
     public static final int DEFAULT_TV_CODE = -1;
+    public static final boolean DEFAULT_SHOW_VIDEO_CONTROLS = false;
+    public static final int DEFAULT_KODI_PORT = 9090;
 
     public static final String PORT_UNSET = "";
 
@@ -181,6 +186,23 @@ public final class PreferencesHelper {
 
     public static int getTVRemoteCode() {
         String string = getSharedPreferences().getString(KEY_TV_REMOTE_CODE, Integer.toString(DEFAULT_TV_CODE)).trim();
+        return Integer.parseInt(string);
+    }
+
+    public static boolean showVideoControls() {
+        return getSharedPreferences().getBoolean(KEY_SHOW_VIDEO_CONTROLS, DEFAULT_SHOW_VIDEO_CONTROLS);
+    }
+
+    public static String getKodiAddress() throws RuntimeException {
+        String kodiAdress = getSharedPreferences().getString(KEY_KODI_ADDRESS, DEFAULT_ADDRESS).trim();
+        if (kodiAdress.equals(DEFAULT_ADDRESS)) {
+            throw new RuntimeException("Kodi address is not set.");
+        }
+        return kodiAdress;
+    }
+
+    public static int getKodiPort() {
+        String string = getSharedPreferences().getString(KEY_KODI_PORT, Integer.toString(DEFAULT_KODI_PORT)).trim();
         return Integer.parseInt(string);
     }
 

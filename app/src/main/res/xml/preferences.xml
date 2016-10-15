@@ -49,6 +49,18 @@
         android:key="tv_remote_code"
         android:numeric="integer"
         android:title="@string/settings_tv_remote_code" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="show_video_controls"
+        android:title="@string/settings_show_video_controls" />
+    <EditTextPreference
+        android:key="kodi_address"
+        android:title="@string/settings_kodi_address" />
+    <EditTextPreference
+        android:key="kodi_port"
+        android:numeric="integer"
+        android:summary="@string/settings_automatic_if_empty"
+        android:title="@string/settings_kodi_port" />
     <net.margaritov.preference.colorpicker.ColorPickerPreference
         android:defaultValue="@color/default_accent_color"
         android:key="theme_color"

@@ -18,6 +18,8 @@ import bei.m3c.models.Radio;
 import bei.m3c.models.Service;
 import bei.m3c.models.ServiceTariff;
 import bei.m3c.models.Song;
+import bei.m3c.models.Video;
+import bei.m3c.models.VideoCategory;
 import bei.m3c.services.M3SService;
 import retrofit2.Call;
 
@@ -80,6 +82,26 @@ public final class M3SHelper {
             return call.execute().body();
         } catch (IOException e) {
             Log.e(TAG, "Error getting channels.", e);
+            return new ArrayList<>();
+        }
+    }
+
+    public static List<VideoCategory> getVideoCategories() {
+        try {
+            Call<List<VideoCategory>> call = getM3SService().getVideoCategories();
+            return call.execute().body();
+        } catch (IOException e) {
+            Log.e(TAG, "Error getting video categories.", e);
+            return new ArrayList<>();
+        }
+    }
+
+    public static List<Video> getVideos(int categoryId) {
+        try {
+            Call<List<Video>> call = getM3SService().getVideos(categoryId);
+            return call.execute().body();
+        } catch (IOException e) {
+            Log.e(TAG, "Error getting videos.", e);
             return new ArrayList<>();
         }
     }

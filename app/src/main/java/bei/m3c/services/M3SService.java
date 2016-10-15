@@ -12,6 +12,8 @@ import bei.m3c.models.Radio;
 import bei.m3c.models.Service;
 import bei.m3c.models.ServiceTariff;
 import bei.m3c.models.Song;
+import bei.m3c.models.Video;
+import bei.m3c.models.VideoCategory;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -28,6 +30,12 @@ public interface M3SService {
 
     @GET("api/get-channels")
     Call<List<Channel>> getChannels(@Query("categoryId") int id);
+
+    @GET("api/get-video-categories")
+    Call<List<VideoCategory>> getVideoCategories();
+
+    @GET("api/get-videos")
+    Call<List<Video>> getVideos(@Query("categoryId") int id);
 
     @GET("api/get-bar-groups")
     Call<List<BarGroup>> getBarGroups();

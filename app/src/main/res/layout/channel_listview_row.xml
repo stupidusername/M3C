@@ -8,7 +8,7 @@
 
     <ImageView
         android:id="@+id/channel_listview_row_imageview"
-        style="@style/imageChannelLogo"
+        style="@style/imageLogo"
         android:src="@drawable/channel_logo_placeholder" />
 
     <TextView

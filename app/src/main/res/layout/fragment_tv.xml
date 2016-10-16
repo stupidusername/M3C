@@ -29,7 +29,7 @@
                 android:visibility="gone">
 
                 <ImageView
-                    style="@style/imageChannelLogo"
+                    style="@style/imageLogo"
                     android:src="@drawable/back" />
 
                 <TextView

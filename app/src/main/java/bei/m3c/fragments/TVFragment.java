@@ -196,14 +196,14 @@ public class TVFragment extends Fragment {
     public void showChannelCategories() {
         // Clear selected channel
         selectedChannelCategory = null;
-        // Hide categoty header
+        // Hide category header
         listViewHeaderLayout.setVisibility(View.GONE);
         // Populate listview with channel categories
         listView.setAdapter(channelCategoryAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Clear old listview and save selected channel
+                // Clear old listview and save selected category
                 channelAdapter.replaceList(new ArrayList<Channel>());
                 selectedChannelCategory = channelCategoryAdapter.getItem(position);
                 showChannels();

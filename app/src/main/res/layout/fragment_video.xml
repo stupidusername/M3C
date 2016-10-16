@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.VideoFragment">
+
+    <LinearLayout
+        style="@style/fragmentContentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/video_listview_header_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="gone">
+
+                <ImageView
+                    style="@style/imageLogo"
+                    android:src="@drawable/back" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:duplicateParentState="true"
+                    android:textColor="@drawable/selector_text"
+                    android:textSize="@dimen/textLarge"
+                    android:text="@string/back"/>
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/video_listview"
+                style="@style/listview"
+                android:layout_width="match_parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/video_play_pause_button"
+                style="@style/imageButtonNormal"
+                android:src="@drawable/play" />
+
+            <ImageButton
+                android:id="@+id/video_rewind_button"
+                style="@style/imageButtonNormal"
+                android:src="@drawable/rewind" />
+
+            <ImageButton
+                android:id="@+id/video_stop_button"
+                style="@style/imageButtonNormal"
+                android:src="@drawable/stop" />
+
+            <ImageButton
+                android:id="@+id/video_fast_forward_button"
+                style="@style/imageButtonNormal"
+                android:src="@drawable/fast_forward" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

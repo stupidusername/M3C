@@ -39,7 +39,7 @@ public final class PreferencesHelper {
     public static final String KEY_MESSAGE_VOLUME_PERCENTAGE = "message_volume_percentage";
     public static final String KEY_INTRO_VOLUME_PERCENTAGE = "intro_volume_percentage";
     public static final String KEY_TV_REMOTE_CODE = "tv_remote_code";
-    public static final String KEY_SHOW_VIDEO_CONTROLS = "show_video_contros";
+    public static final String KEY_SHOW_VIDEO_CONTROLS = "show_video_controls";
     public static final String KEY_KODI_ADDRESS = "kodi_address";
     public static final String KEY_KODI_PORT = "kodi_port";
     public static final String KEY_THEME_COLOR = "theme_color";

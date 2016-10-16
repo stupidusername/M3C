@@ -4,6 +4,7 @@
     <string name="app_name">M3C</string>
     <string name="music_title">Música</string>
     <string name="tv_title">TV</string>
+    <string name="video_title">Video</string>
     <string name="lights_title">Luces</string>
     <string name="ac_title">Aire</string>
     <string name="bar_title">Bar</string>

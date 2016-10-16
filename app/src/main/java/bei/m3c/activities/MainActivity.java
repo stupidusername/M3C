@@ -18,6 +18,7 @@ import bei.m3c.fragments.InfoFragment;
 import bei.m3c.fragments.LightsACFragment;
 import bei.m3c.fragments.MusicFragment;
 import bei.m3c.fragments.TVFragment;
+import bei.m3c.fragments.VideoFragment;
 import bei.m3c.helpers.KioskModeHelper;
 import bei.m3c.helpers.M3SHelper;
 import bei.m3c.helpers.PreferencesHelper;
@@ -262,6 +263,9 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MusicFragment(), getString(R.string.music_title));
         adapter.addFragment(new TVFragment(), getString(R.string.tv_title));
+        if (PreferencesHelper.showVideoControls()) {
+            adapter.addFragment(new VideoFragment(), getString(R.string.video_title));
+        }
         adapter.addFragment(new LightsACFragment(), lightsACTitle);
         adapter.addFragment(new BarFragment(), getString(R.string.bar_title));
         adapter.addFragment(new InfoFragment(), getString(R.string.info_title));

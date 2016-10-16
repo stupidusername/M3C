@@ -24,7 +24,7 @@
         <item name="android:adjustViewBounds">true</item>
     </style>
 
-    <style name="imageChannelLogo" parent="image">
+    <style name="imageLogo" parent="image">
         <item name="android:layout_width">@dimen/layoutSmall</item>
         <item name="android:layout_height">@dimen/layoutSmall</item>
         <item name="android:scaleType">centerCrop</item>

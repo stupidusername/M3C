@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Text dimensions-->
-    <dimen name="textNormal">22dp</dimen>
-    <dimen name="textLarge">26dp</dimen>
-    <dimen name="textExtraLarge">30dp</dimen>
-    <dimen name="textExtraExtraLarge">40dp</dimen>
-    <dimen name="textGiant">90dp</dimen>
+    <dimen name="textNormal">20dp</dimen>
+    <dimen name="textLarge">22dp</dimen>
+    <dimen name="textExtraLarge">24dp</dimen>
+    <dimen name="textExtraExtraLarge">36dp</dimen>
+    <dimen name="textGiant">86dp</dimen>
 
     <!--Layout dimensions-->
     <dimen name="layoutSmall">40dp</dimen>

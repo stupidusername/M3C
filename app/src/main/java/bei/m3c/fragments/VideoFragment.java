@@ -22,9 +22,11 @@ import bei.m3c.adapters.VideoCategoryAdapter;
 import bei.m3c.events.GetVideoCategoriesEvent;
 import bei.m3c.events.GetVideosEvent;
 import bei.m3c.helpers.JobManagerHelper;
+import bei.m3c.helpers.KodiConnectionHelper;
 import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.jobs.GetVideoCategoriesJob;
 import bei.m3c.jobs.GetVideosJob;
+import bei.m3c.kodiMethods.PlayerOpenKodiMethod;
 import bei.m3c.models.Video;
 import bei.m3c.models.VideoCategory;
 
@@ -152,7 +154,7 @@ public class VideoFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Video video = videoAdapter.getItem(position);
-
+                KodiConnectionHelper.sendMethod(new PlayerOpenKodiMethod("1", video.videoUrl));
             }
         });
     }

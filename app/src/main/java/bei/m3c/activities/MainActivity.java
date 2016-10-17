@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import bei.m3c.R;
 import bei.m3c.adapters.ViewPagerAdapter;
+import bei.m3c.connections.KodiConnection;
 import bei.m3c.connections.PICConnection;
 import bei.m3c.connections.SGHConnection;
 import bei.m3c.events.IntroEvent;
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private static MusicPlayer musicPlayer = null;
     private static PICConnection picConnection;
     private static SGHConnection sghConnection;
+    private static KodiConnection kodiConnection;
     private static boolean wifiWasConnected = true;
     private static PowerManager.WakeLock wakeLock;
     private static SettingsContentObserver settingsContentObserver;
@@ -138,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
         getM3SService();
         getPICConnection();
         getSGHConnection();
+        getKodiConnection();
 
         setContentView(R.layout.activity_main);
 
@@ -338,6 +341,19 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return sghConnection;
+    }
+
+    public synchronized KodiConnection getKodiConnection() {
+        if (kodiConnection == null) {
+            try {
+                String address = PreferencesHelper.getKodiAddress();
+                int port = PreferencesHelper.getKodiPort();
+                kodiConnection = new KodiConnection(address, port);
+            } catch (Exception e) {
+                Log.e(TAG, "Error creating Kodi connection.", e);
+            }
+        }
+        return kodiConnection;
     }
 
     private void configureJobManager() {

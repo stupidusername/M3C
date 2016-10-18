@@ -28,6 +28,9 @@ import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.jobs.GetVideoCategoriesJob;
 import bei.m3c.jobs.GetVideosJob;
 import bei.m3c.kodiMethods.PlayerOpenKodiMethod;
+import bei.m3c.kodiMethods.PlayerPlayPauseKodiMethod;
+import bei.m3c.kodiMethods.PlayerSetSpeedKodiMethod;
+import bei.m3c.kodiMethods.PlayerStopKodiMethod;
 import bei.m3c.models.Video;
 import bei.m3c.models.VideoCategory;
 
@@ -97,25 +100,25 @@ public class VideoFragment extends Fragment {
         playPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                KodiConnectionHelper.sendMethod(new PlayerPlayPauseKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), 1));
             }
         });
         rewindButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                KodiConnectionHelper.sendMethod(new PlayerSetSpeedKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), 1, -2));
             }
         });
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                KodiConnectionHelper.sendMethod(new PlayerStopKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), 1));
             }
         });
         fastForwardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                KodiConnectionHelper.sendMethod(new PlayerSetSpeedKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), 1, 2));
             }
         });
 

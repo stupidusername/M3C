@@ -14,6 +14,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import bei.m3c.R;
@@ -154,7 +155,7 @@ public class VideoFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Video video = videoAdapter.getItem(position);
-                KodiConnectionHelper.sendMethod(new PlayerOpenKodiMethod("1", video.videoUrl));
+                KodiConnectionHelper.sendMethod(new PlayerOpenKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), video.videoUrl));
             }
         });
     }

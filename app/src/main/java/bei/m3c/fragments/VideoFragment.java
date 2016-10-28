@@ -2,28 +2,38 @@ package bei.m3c.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.text.TextDirectionHeuristicCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
 import bei.m3c.R;
 import bei.m3c.adapters.VideoAdapter;
 import bei.m3c.adapters.VideoCategoryAdapter;
+import bei.m3c.commands.TRCVideoSourceCommand;
+import bei.m3c.commands.TRCVolumeDownCommand;
+import bei.m3c.commands.TRCVolumeUpCommand;
 import bei.m3c.events.GetVideoCategoriesEvent;
 import bei.m3c.events.GetVideosEvent;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.KodiConnectionHelper;
+import bei.m3c.helpers.PICConnectionHelper;
 import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.jobs.GetVideoCategoriesJob;
 import bei.m3c.jobs.GetVideosJob;
@@ -39,18 +49,25 @@ import bei.m3c.models.VideoCategory;
  */
 public class VideoFragment extends Fragment {
 
-    // Views
-    private LinearLayout listViewHeaderLayout;
-    private ListView listView;
+    // views
+    private LinearLayout selectionLayout;
+    private LinearLayout playerLayout;
+    private ListView categoriesListView;
+    private GridView videosGridView;
+    private ImageView coverImageView;
+    private TextView titleTextView;
     private ImageButton playPauseButton;
     private ImageButton rewindButton;
     private ImageButton stopButton;
     private ImageButton fastForwardButton;
-    // Adapters
+    private ImageButton volumeDownButton;
+    private ImageButton volumeUpButton;
+    private Button srcButton;
+    // adapters
     private VideoCategoryAdapter videoCategoryAdapter;
     private VideoAdapter videoAdapter;
-    // Variables
-    private VideoCategory selectedVideoCategory;
+
+    private boolean isPlaying = false;
 
     @Override
     public void onDestroyView() {
@@ -66,41 +83,70 @@ public class VideoFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_video, container, false);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        listViewHeaderLayout = (LinearLayout) view.findViewById(R.id.video_listview_header_layout);
-        listView = (ListView) view.findViewById(R.id.video_listview);
+        selectionLayout = (LinearLayout) view.findViewById(R.id.video_selection_layout);
+        playerLayout = (LinearLayout) view.findViewById(R.id.video_player_layout);
+        categoriesListView = (ListView) view.findViewById(R.id.video_categories_listview);
+        videosGridView = (GridView) view.findViewById(R.id.videos_gridview);
+        coverImageView = (ImageView) view.findViewById(R.id.video_cover_imageview);
+        titleTextView = (TextView) view.findViewById(R.id.video_title_textview);
         playPauseButton = (ImageButton) view.findViewById(R.id.video_play_pause_button);
         rewindButton = (ImageButton) view.findViewById(R.id.video_rewind_button);
         stopButton = (ImageButton) view.findViewById(R.id.video_stop_button);
         fastForwardButton = (ImageButton) view.findViewById(R.id.video_fast_forward_button);
+        volumeDownButton = (ImageButton) view.findViewById(R.id.video_volume_down_button);
+        volumeUpButton = (ImageButton) view.findViewById(R.id.video_volume_up_button);
+        srcButton = (Button) view.findViewById(R.id.video_src_button);
 
-        videoCategoryAdapter = new VideoCategoryAdapter(getLayoutInflater(savedInstanceState));
-        videoAdapter = new VideoAdapter(getLayoutInflater(savedInstanceState));
-
-        ThemeHelper.setColorStateListTheme(listViewHeaderLayout);
+        // Set theme
         ThemeHelper.setImageButtonTheme(playPauseButton);
         ThemeHelper.setImageButtonTheme(rewindButton);
         ThemeHelper.setImageButtonTheme(stopButton);
         ThemeHelper.setImageButtonTheme(fastForwardButton);
+        ThemeHelper.setImageButtonTheme(volumeDownButton);
+        ThemeHelper.setImageButtonTheme(volumeUpButton);
+        ThemeHelper.setButtonTheme(srcButton);
+
+        videoCategoryAdapter = new VideoCategoryAdapter(getLayoutInflater(savedInstanceState));
+        categoriesListView.setAdapter(videoCategoryAdapter);
+        categoriesListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+        videoAdapter = new VideoAdapter(getLayoutInflater(savedInstanceState));
+        videosGridView.setAdapter(videoAdapter);
 
         // Register events and jobs
         EventBus.getDefault().register(this);
         JobManagerHelper.getJobManager().addJobInBackground(new GetVideoCategoriesJob());
 
-        // Register UI listeners
-        listViewHeaderLayout.setOnClickListener(new View.OnClickListener() {
+        // Set UI click listeners
+        categoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                showVideoCategories();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                loadSelectedCategoryVideos();
+            }
+        });
+        videosGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Video video = (Video) parent.getItemAtPosition(position);
+                startVideo(video);
             }
         });
         playPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 KodiConnectionHelper.sendMethod(new PlayerPlayPauseKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), 1));
+                if (isPlaying) {
+                    showPlayButton();
+                    isPlaying = false;
+                } else {
+                    showPauseButton();
+                    isPlaying = true;
+                }
             }
         });
         rewindButton.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +159,7 @@ public class VideoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 KodiConnectionHelper.sendMethod(new PlayerStopKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), 1));
+                showSelectionLayout();
             }
         });
         fastForwardButton.setOnClickListener(new View.OnClickListener() {
@@ -121,51 +168,76 @@ public class VideoFragment extends Fragment {
                 KodiConnectionHelper.sendMethod(new PlayerSetSpeedKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), 1, 2));
             }
         });
+        volumeDownButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PICConnectionHelper.sendCommand(new TRCVolumeDownCommand());
+            }
+        });
+        volumeUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PICConnectionHelper.sendCommand(new TRCVolumeUpCommand());
+            }
+        });
+        srcButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PICConnectionHelper.sendCommand(new TRCVideoSourceCommand());
+            }
+        });
+    }
 
-        // Show videos or categories depending on saved video category
-        if (selectedVideoCategory == null) {
-            showVideoCategories();
-        } else {
-            showVideos();
+    private void selectDefaultCategory() {
+        // Select default category if no one is selected and the list view is not empty
+        int categoryPosition = categoriesListView.getCheckedItemPosition();
+        if (categoryPosition == AdapterView.INVALID_POSITION && categoriesListView.getCount() > 0) {
+            categoriesListView.setItemChecked(0, true);
         }
     }
 
-    public void showVideoCategories() {
-        // Clear selected video
-        selectedVideoCategory = null;
-        // Hide category header
-        listViewHeaderLayout.setVisibility(View.GONE);
-        // Populate listview with video categories
-        listView.setAdapter(videoCategoryAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Clear old listview and save selected category
-                videoAdapter.replaceList(new ArrayList<Video>());
-                selectedVideoCategory = videoCategoryAdapter.getItem(position);
-                showVideos();
-            }
-        });
+    private void loadSelectedCategoryVideos() {
+        int categoryPosition = categoriesListView.getCheckedItemPosition();
+        if (categoryPosition != AdapterView.INVALID_POSITION) {
+            VideoCategory videoCategory = videoCategoryAdapter.getItem(categoryPosition);
+            JobManagerHelper.getJobManager().addJobInBackground(new GetVideosJob(videoCategory));
+        }
     }
 
-    public void showVideos() {
-        // Show category header
-        listViewHeaderLayout.setVisibility(View.VISIBLE);
-        // Populate listview with videos
-        JobManagerHelper.getJobManager().addJobInBackground(new GetVideosJob(selectedVideoCategory));
-        listView.setAdapter(videoAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Video video = videoAdapter.getItem(position);
-                KodiConnectionHelper.sendMethod(new PlayerOpenKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), video.videoUrl));
-            }
-        });
+    private void startVideo(Video video) {
+        KodiConnectionHelper.sendMethod(new PlayerOpenKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), video.videoUrl));
+        showPauseButton();
+        showPlayerLayout(video);
+        isPlaying = true;
+    }
+
+    private void showSelectionLayout() {
+        playerLayout.setVisibility(View.GONE);
+        selectionLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void showPlayerLayout(Video video) {
+        Glide.with(this).load(video.coverUrl).centerCrop().placeholder(R.drawable.albumart_placeholder).crossFade().into(coverImageView);
+        titleTextView.setText(video.title);
+        selectionLayout.setVisibility(View.GONE);
+        playerLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void showPlayButton() {
+        playPauseButton.setImageResource(R.drawable.play);
+        ThemeHelper.setImageButtonTheme(playPauseButton);
+    }
+
+    private void showPauseButton() {
+        playPauseButton.setImageResource(R.drawable.pause);
+        ThemeHelper.setImageButtonTheme(playPauseButton);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(GetVideoCategoriesEvent event) {
         videoCategoryAdapter.replaceList(event.videoCategories);
+        selectDefaultCategory();
+        loadSelectedCategoryVideos();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

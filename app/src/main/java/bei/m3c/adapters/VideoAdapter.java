@@ -3,16 +3,19 @@ package bei.m3c.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import bei.m3c.R;
-import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.models.Video;
 
 public class VideoAdapter extends BaseListAdapter<Video> {
 
     private final LayoutInflater layoutInflater;
-    private TextView textView;
+    private ImageView imageView;
+    private TextView titleTextView;
 
     public VideoAdapter(LayoutInflater layoutInflater) {
         this.layoutInflater = layoutInflater;
@@ -27,17 +30,21 @@ public class VideoAdapter extends BaseListAdapter<Video> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.listview_row, null);
-            ThemeHelper.setColorStateListTheme(convertView);
+            convertView = layoutInflater.inflate(R.layout.video_gridview_item, parent, false);
         }
 
         Video video = getItem(position);
 
         if (video != null) {
-            textView = (TextView) convertView.findViewById(R.id.listview_row_text);
+            imageView = (ImageView) convertView.findViewById(R.id.video_gridview_row_imageview);
+            titleTextView = (TextView) convertView.findViewById(R.id.video_gridview_item_title_text);
 
-            if (textView != null) {
-                textView.setText(video.title);
+            if (imageView != null) {
+                Glide.with(layoutInflater.getContext()).load(video.coverUrl).centerCrop()
+                        .placeholder(R.drawable.bar_article_placeholder).crossFade().into(imageView);
+            }
+            if (titleTextView != null) {
+                titleTextView.setText(video.title);
             }
         }
 

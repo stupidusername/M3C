@@ -13,69 +13,118 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/video_selection_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/video_listview_header_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:visibility="gone">
-
-                <ImageView
-                    style="@style/imageLogo"
-                    android:src="@drawable/back" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:duplicateParentState="true"
-                    android:textColor="@drawable/selector_text"
-                    android:textSize="@dimen/textLarge"
-                    android:text="@string/back"/>
-            </LinearLayout>
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <ListView
-                android:id="@+id/video_listview"
+                android:id="@+id/video_categories_listview"
                 style="@style/listview"
-                android:layout_width="match_parent" />
+                android:layout_width="0dp"
+                android:layout_weight="1" />
+
+            <GridView
+                android:id="@+id/videos_gridview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_weight="3"
+                android:columnWidth="175dp"
+                android:gravity="center"
+                android:horizontalSpacing="25dp"
+                android:numColumns="auto_fit"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="25dp" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/video_player_layout"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <ImageButton
-                android:id="@+id/video_play_pause_button"
-                style="@style/imageButtonNormal"
-                android:src="@drawable/play" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp">
 
-            <ImageButton
-                android:id="@+id/video_rewind_button"
-                style="@style/imageButtonNormal"
-                android:src="@drawable/rewind" />
+                <ImageView
+                    android:id="@+id/video_cover_imageview"
+                    style="@style/image"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/albumart_placeholder" />
 
-            <ImageButton
-                android:id="@+id/video_stop_button"
-                style="@style/imageButtonNormal"
-                android:src="@drawable/stop" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp">
 
-            <ImageButton
-                android:id="@+id/video_fast_forward_button"
-                style="@style/imageButtonNormal"
-                android:src="@drawable/fast_forward" />
+                    <TextView
+                        android:id="@+id/video_title_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/textExtraExtraLarge" />
 
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/video_play_pause_button"
+                    style="@style/imageButtonNormal"
+                    android:src="@drawable/play" />
+
+                <ImageButton
+                    android:id="@+id/video_rewind_button"
+                    style="@style/imageButtonNormal"
+                    android:src="@drawable/rewind" />
+
+                <ImageButton
+                    android:id="@+id/video_stop_button"
+                    style="@style/imageButtonNormal"
+                    android:src="@drawable/stop" />
+
+                <ImageButton
+                    android:id="@+id/video_fast_forward_button"
+                    style="@style/imageButtonNormal"
+                    android:src="@drawable/fast_forward" />
+
+                <ImageButton
+                    android:id="@+id/video_volume_down_button"
+                    style="@style/imageButtonNormal"
+                    android:src="@drawable/volume_low" />
+
+                <ImageButton
+                    android:id="@+id/video_volume_up_button"
+                    style="@style/imageButtonNormal"
+                    android:src="@drawable/volume_high" />
+
+                <Button
+                    android:id="@+id/video_src_button"
+                    style="@style/buttonLarge"
+                    android:layout_width="wrap_content"
+                    android:text="@string/src" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

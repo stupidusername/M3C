@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +26,7 @@ import java.sql.Timestamp;
 import bei.m3c.R;
 import bei.m3c.adapters.VideoAdapter;
 import bei.m3c.adapters.VideoCategoryAdapter;
+import bei.m3c.commands.TRCVideoOnOffCommand;
 import bei.m3c.commands.TRCVideoSourceCommand;
 import bei.m3c.commands.TRCVolumeDownCommand;
 import bei.m3c.commands.TRCVolumeUpCommand;
@@ -55,13 +57,18 @@ public class VideoFragment extends Fragment {
     private GridView videosGridView;
     private ImageView coverImageView;
     private TextView titleTextView;
+    private TextView timeElapsedTextView;
+    private SeekBar timeSeekbar;
+    private TextView timeRemainingTextView;
     private ImageButton playPauseButton;
     private ImageButton rewindButton;
     private ImageButton stopButton;
     private ImageButton fastForwardButton;
-    private ImageButton volumeDownButton;
-    private ImageButton volumeUpButton;
-    private ImageButton srcButton;
+    private LinearLayout tvControlsLayout;
+    private ImageButton tvPowerButton;
+    private ImageButton tvSrcButton;
+    private ImageButton tvVolumeDownButton;
+    private ImageButton tvVolumeUpButton;
     // adapters
     private VideoCategoryAdapter videoCategoryAdapter;
     private VideoAdapter videoAdapter;
@@ -87,28 +94,37 @@ public class VideoFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Find views
         selectionLayout = (LinearLayout) view.findViewById(R.id.video_selection_layout);
         playerLayout = (LinearLayout) view.findViewById(R.id.video_player_layout);
         categoriesListView = (ListView) view.findViewById(R.id.video_categories_listview);
         videosGridView = (GridView) view.findViewById(R.id.videos_gridview);
         coverImageView = (ImageView) view.findViewById(R.id.video_cover_imageview);
         titleTextView = (TextView) view.findViewById(R.id.video_title_textview);
+        timeElapsedTextView = (TextView) view.findViewById(R.id.video_time_elapsed_textview);
+        timeSeekbar = (SeekBar) view.findViewById(R.id.video_time_seekbar);
+        timeRemainingTextView = (TextView) view.findViewById(R.id.video_time_remaining_textview);
         playPauseButton = (ImageButton) view.findViewById(R.id.video_play_pause_button);
         rewindButton = (ImageButton) view.findViewById(R.id.video_rewind_button);
         stopButton = (ImageButton) view.findViewById(R.id.video_stop_button);
         fastForwardButton = (ImageButton) view.findViewById(R.id.video_fast_forward_button);
-        volumeDownButton = (ImageButton) view.findViewById(R.id.video_volume_down_button);
-        volumeUpButton = (ImageButton) view.findViewById(R.id.video_volume_up_button);
-        srcButton = (ImageButton) view.findViewById(R.id.video_src_button);
+        tvControlsLayout = (LinearLayout) view.findViewById(R.id.video_tv_controls_layout);
+        tvPowerButton = (ImageButton) view.findViewById(R.id.video_tv_power_button);
+        tvSrcButton = (ImageButton) view.findViewById(R.id.video_tv_src_button);
+        tvVolumeDownButton = (ImageButton) view.findViewById(R.id.video_tv_volume_down_button);
+        tvVolumeUpButton = (ImageButton) view.findViewById(R.id.video_tv_volume_up_button);
 
         // Set theme
+        ThemeHelper.setSeekBarTheme(timeSeekbar);
         ThemeHelper.setImageButtonTheme(playPauseButton);
         ThemeHelper.setImageButtonTheme(rewindButton);
         ThemeHelper.setImageButtonTheme(stopButton);
         ThemeHelper.setImageButtonTheme(fastForwardButton);
-        ThemeHelper.setImageButtonTheme(volumeDownButton);
-        ThemeHelper.setImageButtonTheme(volumeUpButton);
-        ThemeHelper.setImageButtonTheme(srcButton);
+        ThemeHelper.setColorStateListTheme(tvControlsLayout);
+        ThemeHelper.setImageButtonTheme(tvPowerButton);
+        ThemeHelper.setImageButtonTheme(tvSrcButton);
+        ThemeHelper.setImageButtonTheme(tvVolumeDownButton);
+        ThemeHelper.setImageButtonTheme(tvVolumeUpButton);
 
         videoCategoryAdapter = new VideoCategoryAdapter(getLayoutInflater(savedInstanceState));
         categoriesListView.setAdapter(videoCategoryAdapter);
@@ -167,22 +183,28 @@ public class VideoFragment extends Fragment {
                 KodiConnectionHelper.sendMethod(new PlayerSetSpeedKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), 1, 2));
             }
         });
-        volumeDownButton.setOnClickListener(new View.OnClickListener() {
+        tvPowerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PICConnectionHelper.sendCommand(new TRCVideoOnOffCommand());
+            }
+        });
+        tvSrcButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PICConnectionHelper.sendCommand(new TRCVideoSourceCommand());
+            }
+        });
+        tvVolumeDownButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PICConnectionHelper.sendCommand(new TRCVolumeDownCommand());
             }
         });
-        volumeUpButton.setOnClickListener(new View.OnClickListener() {
+        tvVolumeUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PICConnectionHelper.sendCommand(new TRCVolumeUpCommand());
-            }
-        });
-        srcButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PICConnectionHelper.sendCommand(new TRCVideoSourceCommand());
             }
         });
     }

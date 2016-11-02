@@ -48,6 +48,9 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
 
+    <!--Video-->
+    <string name="tv_controls">TV</string>
+
     <!--Lights-->
     <string name="light_type_on_off">On/Off</string>
     <string name="light_type_dimmer">Dimmer</string>

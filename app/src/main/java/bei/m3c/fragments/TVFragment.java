@@ -28,6 +28,7 @@ import bei.m3c.commands.TRCInfoCommand;
 import bei.m3c.commands.TRCMacroCommand;
 import bei.m3c.commands.TRCSetVideoTypeCommand;
 import bei.m3c.commands.TRCVideoOnOffCommand;
+import bei.m3c.commands.TRCVideoSourceCommand;
 import bei.m3c.commands.TRCVolumeDownCommand;
 import bei.m3c.commands.TRCVolumeUpCommand;
 import bei.m3c.events.GetChannelCategoriesEvent;
@@ -53,6 +54,7 @@ public class TVFragment extends Fragment {
     private LinearLayout listViewHeaderLayout;
     private ListView listView;
     private ImageButton powerButton;
+    private ImageButton srcButton;
     private ImageButton plusButton;
     private ImageButton upButton;
     private ImageButton minusButton;
@@ -94,6 +96,7 @@ public class TVFragment extends Fragment {
         listViewHeaderLayout = (LinearLayout) view.findViewById(R.id.tv_listview_header_layout);
         listView = (ListView) view.findViewById(R.id.tv_listview);
         powerButton = (ImageButton) view.findViewById(R.id.tv_power_button);
+        srcButton = (ImageButton) view.findViewById(R.id.tv_src_button);
         plusButton = (ImageButton) view.findViewById(R.id.tv_plus_button);
         upButton = (ImageButton) view.findViewById(R.id.tv_up_button);
         minusButton = (ImageButton) view.findViewById(R.id.tv_minus_button);
@@ -123,6 +126,7 @@ public class TVFragment extends Fragment {
 
         ThemeHelper.setColorStateListTheme(listViewHeaderLayout);
         ThemeHelper.setImageButtonTheme(powerButton);
+        ThemeHelper.setImageButtonTheme(srcButton);
         ThemeHelper.setImageButtonTheme(plusButton);
         ThemeHelper.setImageButtonTheme(upButton);
         ThemeHelper.setImageButtonTheme(minusButton);
@@ -146,6 +150,12 @@ public class TVFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 PICConnectionHelper.sendCommand(new TRCVideoOnOffCommand());
+            }
+        });
+        srcButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PICConnectionHelper.sendCommand(new TRCVideoSourceCommand());
             }
         });
         plusButton.setOnClickListener(new View.OnClickListener() {

@@ -13,6 +13,5 @@
     <dimen name="layoutLarge">75dp</dimen>
     <dimen name="layoutExtraLarge">100dp</dimen>
     <dimen name="layoutMargin">15dp</dimen>
-    <dimen name="gridLayoutSpace">30dp</dimen>
     <dimen name="lightWidgetOnOffWidth">150dp</dimen>
 </resources>

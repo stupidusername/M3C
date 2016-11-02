@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -62,7 +61,7 @@ public class VideoFragment extends Fragment {
     private ImageButton fastForwardButton;
     private ImageButton volumeDownButton;
     private ImageButton volumeUpButton;
-    private Button srcButton;
+    private ImageButton srcButton;
     // adapters
     private VideoCategoryAdapter videoCategoryAdapter;
     private VideoAdapter videoAdapter;
@@ -100,7 +99,7 @@ public class VideoFragment extends Fragment {
         fastForwardButton = (ImageButton) view.findViewById(R.id.video_fast_forward_button);
         volumeDownButton = (ImageButton) view.findViewById(R.id.video_volume_down_button);
         volumeUpButton = (ImageButton) view.findViewById(R.id.video_volume_up_button);
-        srcButton = (Button) view.findViewById(R.id.video_src_button);
+        srcButton = (ImageButton) view.findViewById(R.id.video_src_button);
 
         // Set theme
         ThemeHelper.setImageButtonTheme(playPauseButton);
@@ -109,7 +108,7 @@ public class VideoFragment extends Fragment {
         ThemeHelper.setImageButtonTheme(fastForwardButton);
         ThemeHelper.setImageButtonTheme(volumeDownButton);
         ThemeHelper.setImageButtonTheme(volumeUpButton);
-        ThemeHelper.setButtonTheme(srcButton);
+        ThemeHelper.setImageButtonTheme(srcButton);
 
         videoCategoryAdapter = new VideoCategoryAdapter(getLayoutInflater(savedInstanceState));
         categoriesListView.setAdapter(videoCategoryAdapter);

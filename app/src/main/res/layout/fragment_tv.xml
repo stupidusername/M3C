@@ -56,24 +56,28 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/tv_power_button"
-                style="@style/imageButtonLarge"
-                android:src="@drawable/power" />
-
             <GridLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:columnCount="3">
+                android:columnCount="2">
+
+                <ImageButton
+                    android:id="@+id/tv_power_button"
+                    style="@style/imageButtonLarge"
+                    android:src="@drawable/power"
+                    android:layout_marginBottom="30dp"/>
+
+                <ImageButton
+                    android:id="@+id/tv_src_button"
+                    style="@style/imageButtonLarge"
+                    android:src="@drawable/src"
+                    android:layout_marginBottom="30dp"/>
 
                 <ImageButton
                     android:id="@+id/tv_plus_button"
                     style="@style/imageButtonNormal"
                     android:layout_gravity="center"
                     android:src="@drawable/plus" />
-
-                <Space android:layout_width="@dimen/gridLayoutSpace" />
 
                 <ImageButton
                     android:id="@+id/tv_up_button"
@@ -89,8 +93,6 @@
                     android:textAllCaps="true"
                     android:textSize="@dimen/textNormal" />
 
-                <Space android:layout_width="@dimen/gridLayoutSpace" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -105,8 +107,6 @@
                     android:layout_gravity="center"
                     android:src="@drawable/minus" />
 
-                <Space android:layout_width="@dimen/gridLayoutSpace" />
-
                 <ImageButton
                     android:id="@+id/tv_down_button"
                     style="@style/imageButtonNormal"
@@ -118,8 +118,6 @@
                     style="@style/imageButtonNormal"
                     android:layout_gravity="center"
                     android:src="@drawable/volume_muted" />
-
-                <Space android:layout_width="@dimen/gridLayoutSpace" />
 
                 <Button
                     android:id="@+id/tv_info_button"

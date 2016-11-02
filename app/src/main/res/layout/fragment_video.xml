@@ -119,11 +119,10 @@
                     style="@style/imageButtonNormal"
                     android:src="@drawable/volume_high" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/video_src_button"
-                    style="@style/buttonLarge"
-                    android:layout_width="wrap_content"
-                    android:text="@string/src" />
+                    style="@style/imageButtonNormal"
+                    android:src="@drawable/src" />
             </LinearLayout>
         </LinearLayout>
 

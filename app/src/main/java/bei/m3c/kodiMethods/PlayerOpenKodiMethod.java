@@ -2,7 +2,7 @@ package bei.m3c.kodiMethods;
 
 import java.util.HashMap;
 
-public class PlayerOpenKodiMethod extends BaseMethod {
+public class PlayerOpenKodiMethod extends BaseKodiMethod {
 
     public static final String METHOD = "Player.Open";
     public static final String ITEM_FILE = "file";

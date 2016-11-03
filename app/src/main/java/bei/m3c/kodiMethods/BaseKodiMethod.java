@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class BaseMethod {
+public abstract class BaseKodiMethod {
 
     @SuppressWarnings("unused")
     public String jsonrpc = "2.0";
@@ -14,11 +14,11 @@ public abstract class BaseMethod {
     public String method;
     public Map<String, Object> params;
 
-    public BaseMethod(String id, String method) {
+    public BaseKodiMethod(String id, String method) {
         this(id, method, new HashMap<String, Object>());
     }
 
-    public BaseMethod(String id, String method, Map<String, Object> params) {
+    public BaseKodiMethod(String id, String method, Map<String, Object> params) {
         this.id = id;
         this.method = method;
         this.params = params;

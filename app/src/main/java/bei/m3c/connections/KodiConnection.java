@@ -13,7 +13,7 @@ import bei.m3c.helpers.FormatHelper;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.jobs.ConnectKodiJob;
 import bei.m3c.jobs.SendKodiMethodJob;
-import bei.m3c.kodiMethods.BaseMethod;
+import bei.m3c.kodiMethods.BaseKodiMethod;
 
 public class KodiConnection {
 
@@ -87,7 +87,7 @@ public class KodiConnection {
         }
     }
 
-    public boolean sendMethod(BaseMethod method) {
+    public boolean sendMethod(BaseKodiMethod method) {
         boolean success = false;
         try {
             String methodString = method.getJsonRPCString();
@@ -101,7 +101,7 @@ public class KodiConnection {
         return success;
     }
 
-    public void addMethodJob(BaseMethod method, int interval, boolean retry) {
+    public void addMethodJob(BaseKodiMethod method, int interval, boolean retry) {
         // Stop previous method job
         JobManagerHelper.cancelJobsInBackground(method.method);
         // Start new method job

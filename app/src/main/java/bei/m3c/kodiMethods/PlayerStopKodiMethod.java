@@ -2,7 +2,7 @@ package bei.m3c.kodiMethods;
 
 import java.util.HashMap;
 
-public class PlayerStopKodiMethod extends BaseMethod {
+public class PlayerStopKodiMethod extends BaseKodiMethod {
 
     public static final String METHOD = "Player.Stop";
     public static final String PARAM_PLAYER_ID = "playerid";

@@ -2,7 +2,7 @@ package bei.m3c.kodiMethods;
 
 import java.util.HashMap;
 
-public class PlayerSetSpeedKodiMethod extends BaseMethod {
+public class PlayerSetSpeedKodiMethod extends BaseKodiMethod {
 
     public static final String METHOD = "Player.SetSpeed";
     public static final String PARAM_PLAYER_ID = "playerid";

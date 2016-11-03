@@ -1,8 +1,6 @@
 package bei.m3c.kodiMethods;
 
-import java.util.HashMap;
-
-public class PlayerGetActivePlayersKodiMethod extends BaseMethod {
+public class PlayerGetActivePlayersKodiMethod extends BaseKodiMethod {
 
     public static final String METHOD = "Player.GetActivePlayers";
 

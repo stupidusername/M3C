@@ -1,6 +1,7 @@
 package bei.m3c.helpers;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.sql.Time;
 import java.text.DecimalFormat;
@@ -81,12 +82,20 @@ public final class FormatHelper {
         return new String(hexChars);
     }
 
+    public static String asString(ArrayList<Character> chars) {
+        StringBuilder builder = new StringBuilder(chars.size());
+        for (Character ch : chars) {
+            builder.append(ch);
+        }
+        return builder.toString();
+    }
+
     public static byte[] asNumberByteArray(int number) {
         String temp = Integer.toString(number);
         byte[] byteArrayNumber = new byte[temp.length()];
         for (int i = 0; i < temp.length(); i++) {
             byteArrayNumber[i] = (byte) ((byte) temp.charAt(i) - '0');
         }
-        return  byteArrayNumber;
+        return byteArrayNumber;
     }
 }

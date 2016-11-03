@@ -3,6 +3,7 @@ package bei.m3c.kodiMethods;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class BaseMethod {
@@ -12,6 +13,10 @@ public abstract class BaseMethod {
     public String id;
     public String method;
     public Map<String, Object> params;
+
+    public BaseMethod(String id, String method) {
+        this(id, method, new HashMap<String, Object>());
+    }
 
     public BaseMethod(String id, String method, Map<String, Object> params) {
         this.id = id;

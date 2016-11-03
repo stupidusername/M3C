@@ -38,6 +38,7 @@ import bei.m3c.helpers.PICConnectionHelper;
 import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.jobs.GetVideoCategoriesJob;
 import bei.m3c.jobs.GetVideosJob;
+import bei.m3c.kodiMethods.PlayerGetActivePlayersKodiMethod;
 import bei.m3c.kodiMethods.PlayerOpenKodiMethod;
 import bei.m3c.kodiMethods.PlayerPlayPauseKodiMethod;
 import bei.m3c.kodiMethods.PlayerSetSpeedKodiMethod;
@@ -49,6 +50,8 @@ import bei.m3c.models.VideoCategory;
  * Video fragment
  */
 public class VideoFragment extends Fragment {
+
+    public static final int GET_ACTIVE_PLAYERS_INTERVAL_MILLIS = 1000;
 
     // views
     private LinearLayout selectionLayout;
@@ -78,6 +81,7 @@ public class VideoFragment extends Fragment {
     @Override
     public void onDestroyView() {
         JobManagerHelper.cancelJobsInBackground(GetVideoCategoriesJob.TAG);
+        JobManagerHelper.cancelJobsInBackground(PlayerGetActivePlayersKodiMethod.METHOD);
         EventBus.getDefault().unregister(this);
         super.onDestroyView();
     }
@@ -136,6 +140,7 @@ public class VideoFragment extends Fragment {
         // Register events and jobs
         EventBus.getDefault().register(this);
         JobManagerHelper.getJobManager().addJobInBackground(new GetVideoCategoriesJob());
+        KodiConnectionHelper.sendMethod(new PlayerGetActivePlayersKodiMethod(new Timestamp(System.currentTimeMillis()).toString()), GET_ACTIVE_PLAYERS_INTERVAL_MILLIS);
 
         // Set UI click listeners
         categoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import bei.m3c.helpers.FormatHelper;
 import bei.m3c.helpers.JobManagerHelper;
@@ -40,10 +42,21 @@ public class KodiConnection {
             isConnected = true;
             JobManagerHelper.cancelJobsInBackground(TAG);
             Log.v(TAG, "Connected.");
-            byte[] message;
-            byte readByte = 0;
-            while (readByte != END_OF_STREAM) {
-
+            ArrayList<Character> readChars = new ArrayList<>();
+            char readChar = 0;
+            while (readChar != END_OF_STREAM) {
+                readChar = (char) inputStream.read();
+                readChars.add(readChar);
+                int beginCount = Collections.frequency(readChars, '{');
+                int endCount = Collections.frequency(readChars, '}');
+                if (endCount > beginCount) {
+                    // drop message
+                    readChars = new ArrayList<>();
+                } else if (endCount == beginCount) {
+                    // Read message and get ready for the next one
+                    readMessage(readChars);
+                    readChars = new ArrayList<>();
+                }
             }
         } catch (Exception e) {
             Log.e(TAG, "Error during connection.", e);
@@ -93,5 +106,10 @@ public class KodiConnection {
         JobManagerHelper.cancelJobsInBackground(method.method);
         // Start new method job
         JobManagerHelper.getJobManager().addJobInBackground(new SendKodiMethodJob(this, method, interval, SendKodiMethodJob.DELAY, retry));
+    }
+
+    public void readMessage(ArrayList<Character> readChars) {
+        String readString = FormatHelper.asString(readChars);
+        Log.d(TAG, "Received message: " + readString);
     }
 }

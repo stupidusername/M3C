@@ -29,7 +29,7 @@ import bei.m3c.commands.TRCVideoOnOffCommand;
 import bei.m3c.commands.TRCVideoSourceCommand;
 import bei.m3c.commands.TRCVolumeDownCommand;
 import bei.m3c.commands.TRCVolumeUpCommand;
-import bei.m3c.events.ActiveVideoPlayerEvent;
+import bei.m3c.events.ActiveVideoPlayersEvent;
 import bei.m3c.events.GetVideoCategoriesEvent;
 import bei.m3c.events.GetVideosEvent;
 import bei.m3c.helpers.JobManagerHelper;
@@ -43,6 +43,7 @@ import bei.m3c.kodiMethods.PlayerOpenKodiMethod;
 import bei.m3c.kodiMethods.PlayerPlayPauseKodiMethod;
 import bei.m3c.kodiMethods.PlayerSetSpeedKodiMethod;
 import bei.m3c.kodiMethods.PlayerStopKodiMethod;
+import bei.m3c.models.Player;
 import bei.m3c.models.Video;
 import bei.m3c.models.VideoCategory;
 
@@ -70,11 +71,13 @@ public class VideoFragment extends Fragment {
     private ImageButton tvSrcButton;
     private ImageButton tvVolumeDownButton;
     private ImageButton tvVolumeUpButton;
+
     // adapters
     private VideoCategoryAdapter videoCategoryAdapter;
     private VideoAdapter videoAdapter;
 
-    private boolean isPlaying = false;
+    private Player player; // Kodi video player
+    private Video selectedVideo;
 
     @Override
     public void onDestroyView() {
@@ -157,33 +160,25 @@ public class VideoFragment extends Fragment {
         playPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                KodiConnectionHelper.sendMethod(new PlayerPlayPauseKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), 1));
-                if (isPlaying) {
-                    showPlayButton();
-                    isPlaying = false;
-                } else {
-                    showPauseButton();
-                    isPlaying = true;
-                }
+                KodiConnectionHelper.sendMethod(new PlayerPlayPauseKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid));
             }
         });
         rewindButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                KodiConnectionHelper.sendMethod(new PlayerSetSpeedKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), 1, -2));
+                KodiConnectionHelper.sendMethod(new PlayerSetSpeedKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid, -2));
             }
         });
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                KodiConnectionHelper.sendMethod(new PlayerStopKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), 1));
-                showSelectionLayout();
+                KodiConnectionHelper.sendMethod(new PlayerStopKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid));
             }
         });
         fastForwardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                KodiConnectionHelper.sendMethod(new PlayerSetSpeedKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), 1, 2));
+                KodiConnectionHelper.sendMethod(new PlayerSetSpeedKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid, 2));
             }
         });
         tvPowerButton.setOnClickListener(new View.OnClickListener() {
@@ -230,9 +225,7 @@ public class VideoFragment extends Fragment {
 
     private void startVideo(Video video) {
         KodiConnectionHelper.sendMethod(new PlayerOpenKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), video.videoUrl));
-        showPauseButton();
-        showPlayerLayout(video);
-        isPlaying = true;
+        selectedVideo = video;
     }
 
     private void showSelectionLayout() {
@@ -241,8 +234,10 @@ public class VideoFragment extends Fragment {
     }
 
     private void showPlayerLayout(Video video) {
-        Glide.with(this).load(video.coverUrl).centerCrop().placeholder(R.drawable.albumart_placeholder).crossFade().into(coverImageView);
-        titleTextView.setText(video.title);
+        if (selectedVideo != null) {
+            Glide.with(this).load(video.coverUrl).centerCrop().placeholder(R.drawable.albumart_placeholder).crossFade().into(coverImageView);
+            titleTextView.setText(video.title);
+        }
         selectionLayout.setVisibility(View.GONE);
         playerLayout.setVisibility(View.VISIBLE);
     }
@@ -270,7 +265,20 @@ public class VideoFragment extends Fragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(ActiveVideoPlayerEvent event) {
-        
+    public void onEvent(ActiveVideoPlayersEvent event) {
+        Player foundPlayer = null;
+        for (Player eventPlayer : event.players) {
+            if (eventPlayer.type.equals(Player.TYPE_VIDEO)) {
+                foundPlayer = eventPlayer;
+                break;
+            }
+        }
+        player = foundPlayer;
+        if (player != null) {
+            showPlayerLayout(selectedVideo);
+        } else {
+            selectedVideo = null;
+            showSelectionLayout();
+        }
     }
 }

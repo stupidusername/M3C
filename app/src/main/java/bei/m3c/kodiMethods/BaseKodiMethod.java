@@ -6,6 +6,8 @@ import com.google.gson.GsonBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
+import bei.m3c.kodiResults.BaseKodiResult;
+
 public abstract class BaseKodiMethod {
 
     @SuppressWarnings("unused")
@@ -27,5 +29,11 @@ public abstract class BaseKodiMethod {
     public String getJsonRPCString() {
         Gson gson = new GsonBuilder().create();
         return gson.toJson(this);
+    }
+
+    /**
+     * This method does nothings but an implementation can be done on child classes
+     */
+    public void processResult(String readString) {
     }
 }

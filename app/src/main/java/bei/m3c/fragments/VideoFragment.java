@@ -29,6 +29,7 @@ import bei.m3c.commands.TRCVideoOnOffCommand;
 import bei.m3c.commands.TRCVideoSourceCommand;
 import bei.m3c.commands.TRCVolumeDownCommand;
 import bei.m3c.commands.TRCVolumeUpCommand;
+import bei.m3c.events.ActiveVideoPlayerEvent;
 import bei.m3c.events.GetVideoCategoriesEvent;
 import bei.m3c.events.GetVideosEvent;
 import bei.m3c.helpers.JobManagerHelper;
@@ -266,5 +267,10 @@ public class VideoFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(GetVideosEvent event) {
         videoAdapter.replaceList(event.videos);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(ActiveVideoPlayerEvent event) {
+        
     }
 }

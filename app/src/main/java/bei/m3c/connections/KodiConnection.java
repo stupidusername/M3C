@@ -2,23 +2,29 @@ package bei.m3c.connections;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 
 import bei.m3c.helpers.FormatHelper;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.jobs.ConnectKodiJob;
 import bei.m3c.jobs.SendKodiMethodJob;
 import bei.m3c.kodiMethods.BaseKodiMethod;
+import bei.m3c.kodiResults.BaseKodiResult;
 
 public class KodiConnection {
 
     public static final String TAG = "KodiConnection";
     public static final int END_OF_STREAM = -1;
+    public static final int MAX_METHOD_QEUE_SIZE = 10;
 
     private String address;
     private int port;
@@ -26,6 +32,7 @@ public class KodiConnection {
     private InputStream inputStream;
     private OutputStream outputStream;
     public boolean isConnected = false;
+    private ArrayDeque<BaseKodiMethod> methodQeue= new ArrayDeque<>();
 
     public KodiConnection(String address, int port) {
         this.address = address;
@@ -93,6 +100,10 @@ public class KodiConnection {
             String methodString = method.getJsonRPCString();
             Log.d(TAG, "Sending method: " + methodString);
             outputStream.write(methodString.getBytes(Charset.forName("UTF-8")));
+            if (methodQeue.size() == MAX_METHOD_QEUE_SIZE) {
+                methodQeue.poll();
+            }
+            methodQeue.add(method);
             success = true;
         } catch (Exception e) {
             Log.e(TAG, "Error sending command", e);
@@ -111,5 +122,19 @@ public class KodiConnection {
     public void readMessage(ArrayList<Character> readChars) {
         String readString = FormatHelper.asString(readChars);
         Log.d(TAG, "Received message: " + readString);
+        // find id on method qeue
+        Gson gson = new Gson();
+        BaseKodiResult result = gson.fromJson(readString, BaseKodiResult.class);
+        if(result.id != null) {
+            for (Iterator iterator = methodQeue.iterator(); iterator.hasNext(); ) {
+                BaseKodiMethod method = (BaseKodiMethod) iterator.next();
+                if (result.id.equals(method.id)) {
+                    Log.d(TAG, "Result id found: " + method.id);
+                    method.processResult(readString);
+                    methodQeue.remove(method);
+                    break;
+                }
+            }
+        }
     }
 }

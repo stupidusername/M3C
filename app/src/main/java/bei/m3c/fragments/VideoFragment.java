@@ -33,6 +33,7 @@ import bei.m3c.events.ActiveVideoPlayersEvent;
 import bei.m3c.events.GetVideoCategoriesEvent;
 import bei.m3c.events.GetVideosEvent;
 import bei.m3c.events.PlayerPropertiesEvent;
+import bei.m3c.helpers.FormatHelper;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.KodiConnectionHelper;
 import bei.m3c.helpers.PICConnectionHelper;
@@ -43,8 +44,10 @@ import bei.m3c.jobs.GetVideosJob;
 import bei.m3c.kodiMethods.PlayerGetPropertiesKodiMethod;
 import bei.m3c.kodiMethods.PlayerOpenKodiMethod;
 import bei.m3c.kodiMethods.PlayerPlayPauseKodiMethod;
+import bei.m3c.kodiMethods.PlayerSeekKodiMethod;
 import bei.m3c.kodiMethods.PlayerSetSpeedKodiMethod;
 import bei.m3c.kodiMethods.PlayerStopKodiMethod;
+import bei.m3c.models.GlobalTime;
 import bei.m3c.models.Player;
 import bei.m3c.models.PlayerProperties;
 import bei.m3c.models.Video;
@@ -80,7 +83,9 @@ public class VideoFragment extends Fragment {
     private VideoAdapter videoAdapter;
 
     private Player player; // Kodi video player
+    private PlayerProperties properties;
     private Video selectedVideo;
+    private boolean updatePlayerTime = true;
 
     @Override
     public void onDestroyView() {
@@ -99,7 +104,7 @@ public class VideoFragment extends Fragment {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         // Find views
@@ -169,7 +174,15 @@ public class VideoFragment extends Fragment {
         rewindButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                KodiConnectionHelper.sendMethod(new PlayerSetSpeedKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid, -2));
+                int speed = -2;
+                if (properties.speed < 0) {
+                    if (properties.speed > -32) {
+                        speed = properties.speed * 2;
+                    } else {
+                        speed = properties.speed;
+                    }
+                }
+                KodiConnectionHelper.sendMethod(new PlayerSetSpeedKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid, speed));
             }
         });
         stopButton.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +194,15 @@ public class VideoFragment extends Fragment {
         fastForwardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                KodiConnectionHelper.sendMethod(new PlayerSetSpeedKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid, 2));
+                int speed = 2;
+                if (properties.speed > 0) {
+                    if (properties.speed < 32) {
+                        speed = properties.speed * 2;
+                    } else {
+                        speed = properties.speed;
+                    }
+                }
+                KodiConnectionHelper.sendMethod(new PlayerSetSpeedKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid, speed));
             }
         });
         tvPowerButton.setOnClickListener(new View.OnClickListener() {
@@ -206,6 +227,24 @@ public class VideoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 PICConnectionHelper.sendCommand(new TRCVolumeUpCommand());
+            }
+        });
+        timeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
+                timeRemainingTextView.setText(FormatHelper.asTimer(seekbar.getMax() - progress));
+                timeElapsedTextView.setText(FormatHelper.asTimer(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekbar) {
+                updatePlayerTime = false;
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekbar) {
+                KodiConnectionHelper.sendMethod(new PlayerSeekKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid, new GlobalTime(seekbar.getProgress())));
+                updatePlayerTime = true;
             }
         });
     }
@@ -255,11 +294,15 @@ public class VideoFragment extends Fragment {
         ThemeHelper.setImageButtonTheme(playPauseButton);
     }
 
-    private void updatePlayer(PlayerProperties properties) {
-        if (properties.speed == 1){
+    private void updatePlayer() {
+        if (properties.speed == 1) {
             showPauseButton();
         } else {
             showPlayButton();
+        }
+        timeSeekbar.setMax(properties.totalTime.toMilliseconds());
+        if (updatePlayerTime) {
+            timeSeekbar.setProgress(properties.time.toMilliseconds());
         }
     }
 
@@ -296,6 +339,7 @@ public class VideoFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PlayerPropertiesEvent event) {
-        updatePlayer(event.properties);
+        properties = event.properties;
+        updatePlayer();
     }
 }

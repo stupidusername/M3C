@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import bei.m3c.Application;
 import bei.m3c.R;
 import bei.m3c.activities.MainActivity;
+import bei.m3c.models.GlobalTime;
 
 /**
  * This class contains static methods that formats data to be displayed in the UI
@@ -31,6 +32,15 @@ public final class FormatHelper {
             formated = SYMBOL_CURRENCY + currency.format(number);
         }
         return formated;
+    }
+
+    public static String asTimerWithHours(int timeInMillis) {
+        int hours = timeInMillis / (60 * 60 * 1000);
+        int remainingMillis = timeInMillis - hours * (60 * 60 * 1000);
+        int minutes = remainingMillis / (60 * 1000);
+        remainingMillis = remainingMillis - minutes * (60 * 1000);
+        long seconds = Math.round(((double) remainingMillis) / 1000);
+        return String.format("%01d:%02d:%02d", hours, minutes, seconds);
     }
 
     public static String asTimer(int timeInMillis) {

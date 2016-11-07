@@ -12,6 +12,7 @@
     <string name="preferences_title">Configuración</string>
     <string name="tab_title_separator">/</string>
     <string name="time_default">--:--</string>
+    <string name="time_default_with_hours">-:--:--</string>
     <string name="no_value">----</string>
     <string name="ok">Aceptar</string>
     <string name="cancel">cancelar</string>

@@ -97,7 +97,7 @@
                                 android:id="@+id/video_time_elapsed_textview"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/time_default"
+                                android:text="@string/time_default_with_hours"
                                 android:textSize="@dimen/textNormal" />
 
                             <SeekBar
@@ -111,7 +111,7 @@
                                 android:id="@+id/video_time_remaining_textview"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/time_default"
+                                android:text="@string/time_default_with_hours"
                                 android:textSize="@dimen/textNormal" />
                         </LinearLayout>
 

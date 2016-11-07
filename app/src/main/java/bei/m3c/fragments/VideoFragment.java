@@ -32,6 +32,7 @@ import bei.m3c.commands.TRCVolumeUpCommand;
 import bei.m3c.events.ActiveVideoPlayersEvent;
 import bei.m3c.events.GetVideoCategoriesEvent;
 import bei.m3c.events.GetVideosEvent;
+import bei.m3c.events.PlayerPropertiesEvent;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.KodiConnectionHelper;
 import bei.m3c.helpers.PICConnectionHelper;
@@ -45,6 +46,7 @@ import bei.m3c.kodiMethods.PlayerPlayPauseKodiMethod;
 import bei.m3c.kodiMethods.PlayerSetSpeedKodiMethod;
 import bei.m3c.kodiMethods.PlayerStopKodiMethod;
 import bei.m3c.models.Player;
+import bei.m3c.models.PlayerProperties;
 import bei.m3c.models.Video;
 import bei.m3c.models.VideoCategory;
 
@@ -253,6 +255,14 @@ public class VideoFragment extends Fragment {
         ThemeHelper.setImageButtonTheme(playPauseButton);
     }
 
+    private void updatePlayer(PlayerProperties properties) {
+        if (properties.speed == 1){
+            showPauseButton();
+        } else {
+            showPlayButton();
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(GetVideoCategoriesEvent event) {
         videoCategoryAdapter.replaceList(event.videoCategories);
@@ -282,5 +292,10 @@ public class VideoFragment extends Fragment {
             selectedVideo = null;
             showSelectionLayout();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(PlayerPropertiesEvent event) {
+        updatePlayer(event.properties);
     }
 }

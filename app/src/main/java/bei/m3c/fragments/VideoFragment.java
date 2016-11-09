@@ -58,6 +58,8 @@ import bei.m3c.models.VideoCategory;
  */
 public class VideoFragment extends Fragment {
 
+    public static final String DEFAULT_VIDEO_TITLE = "";
+
     // views
     private LinearLayout selectionLayout;
     private LinearLayout playerLayout;
@@ -271,6 +273,14 @@ public class VideoFragment extends Fragment {
     }
 
     private void showSelectionLayout() {
+        // Clear player layout
+        Glide.with(this).load(R.drawable.albumart_placeholder).centerCrop().crossFade().into(coverImageView);
+        titleTextView.setText(DEFAULT_VIDEO_TITLE);
+        timeElapsedTextView.setText(getString(R.string.time_default_with_hours));
+        timeSeekbar.setProgress(0);
+        timeRemainingTextView.setText(getString(R.string.time_default_with_hours));
+        showPlayButton();
+        // Show selection layout
         playerLayout.setVisibility(View.GONE);
         selectionLayout.setVisibility(View.VISIBLE);
     }

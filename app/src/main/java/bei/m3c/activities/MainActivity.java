@@ -1,9 +1,9 @@
 package bei.m3c.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -20,10 +20,12 @@ import bei.m3c.fragments.LightsACFragment;
 import bei.m3c.fragments.MusicFragment;
 import bei.m3c.fragments.TVFragment;
 import bei.m3c.fragments.VideoFragment;
+import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.KioskModeHelper;
 import bei.m3c.helpers.M3SHelper;
 import bei.m3c.helpers.PreferencesHelper;
 import bei.m3c.helpers.ThemeHelper;
+import bei.m3c.jobs.ConnectKodiJob;
 import bei.m3c.observers.SettingsContentObserver;
 import bei.m3c.players.MessagePlayer;
 import bei.m3c.players.MusicPlayer;
@@ -37,6 +39,7 @@ import rx.schedulers.Schedulers;
 
 import android.os.Handler;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private static boolean wifiWasConnected = true;
     private static PowerManager.WakeLock wakeLock;
     private static SettingsContentObserver settingsContentObserver;
+    private SharedPreferences.OnSharedPreferenceChangeListener prefListener;
 
     // Views
     private TabLayout tabLayout;
@@ -221,6 +225,36 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+        // Listen to preference changes
+        prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+                if (key.equals(PreferencesHelper.KEY_SGH_ADDRESS) || key.equals(PreferencesHelper.KEY_SGH_ADDRESS)) {
+                    if (sghConnection != null) {
+                        JobManagerHelper.cancelJobsInBackground(sghConnection.tag);
+                        sghConnection.disconnect(false);
+                        sghConnection = null;
+                        getSGHConnection();
+                    }
+                } else if (key.equals(PreferencesHelper.KEY_PIC_ADDRESS) || key.equals(PreferencesHelper.KEY_PIC_ADDRESS)) {
+                    if (picConnection != null) {
+                        JobManagerHelper.cancelJobsInBackground(picConnection.tag);
+                        picConnection.disconnect(false);
+                        picConnection = null;
+                        getPICConnection();
+                    }
+                }
+                if (key.equals(PreferencesHelper.KEY_KODI_ADDRESS) || key.equals(PreferencesHelper.KEY_KODI_PORT)) {
+                    if (kodiConnection != null) {
+                        JobManagerHelper.cancelJobsInBackground(ConnectKodiJob.TAG);
+                        kodiConnection.disconnect(false);
+                        kodiConnection = null;
+                        getKodiConnection();
+                    }
+                }
+            }
+        };
+        PreferencesHelper.getSharedPreferences().registerOnSharedPreferenceChangeListener(prefListener);
     }
 
     // Use immersive mode

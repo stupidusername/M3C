@@ -15,7 +15,7 @@ public class GlobalTime {
         int remainingMillis = timeInMillis - hours * (60 * 60 * 1000);
         int minutes = remainingMillis / (60 * 1000);
         remainingMillis = remainingMillis - minutes * (60 * 1000);
-        int seconds = (int) Math.round(((double) remainingMillis) / 1000);
+        int seconds = remainingMillis / 1000;
         remainingMillis = remainingMillis - seconds * (1000);
         this.hours = hours;
         this.minutes = minutes;

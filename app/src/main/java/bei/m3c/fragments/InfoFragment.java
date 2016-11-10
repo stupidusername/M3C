@@ -44,13 +44,14 @@ import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.M3SHelper;
 import bei.m3c.helpers.SGHConnectionHelper;
 import bei.m3c.helpers.ThemeHelper;
+import bei.m3c.interfaces.FragmentInterface;
 import bei.m3c.jobs.GetServiceTariffsJob;
 import bei.m3c.jobs.GetServicesJob;
 
 /**
  * Info fragment
  */
-public class InfoFragment extends Fragment {
+public class InfoFragment extends Fragment implements FragmentInterface {
 
     public static final BigDecimal DEFAULT_MONEY = new BigDecimal(0);
     public static final int POPUP_MARGIN_DP = 50;
@@ -296,5 +297,10 @@ public class InfoFragment extends Fragment {
         time = accountInfo.time;
         updateInfo();
         updateDateTime();
+    }
+
+    @Override
+    public void fragmentBecameVisible() {
+
     }
 }

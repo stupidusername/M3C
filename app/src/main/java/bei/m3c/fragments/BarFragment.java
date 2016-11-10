@@ -33,6 +33,7 @@ import bei.m3c.events.GetBarGroupsEvent;
 import bei.m3c.helpers.FormatHelper;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.ThemeHelper;
+import bei.m3c.interfaces.FragmentInterface;
 import bei.m3c.jobs.GetBarArticlesJob;
 import bei.m3c.jobs.GetBarGroupsJob;
 import bei.m3c.models.BarArticle;
@@ -41,7 +42,7 @@ import bei.m3c.models.BarGroup;
 /**
  * Bar fragment
  */
-public class BarFragment extends Fragment {
+public class BarFragment extends Fragment implements FragmentInterface {
 
     public static final int POPUP_MARGIN_DP = 25;
     public static final String POPUP_TITLE_SEPARATOR = " - ";
@@ -175,5 +176,10 @@ public class BarFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(GetBarArticlesEvent event) {
         barArticleAdapter.replaceList(event.barArticles);
+    }
+
+    @Override
+    public void fragmentBecameVisible() {
+
     }
 }

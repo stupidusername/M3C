@@ -48,9 +48,11 @@
     <string name="seven">7</string>
     <string name="eight">8</string>
     <string name="nine">9</string>
+    <string name="tv_warning">Asegúrese de que la TV esté encendida y utilizando la entrada de cable</string>
 
     <!--Video-->
     <string name="tv_controls">TV</string>
+    <string name="video_warning">Asegúrese de que la TV esté encendida y utilizando la entrada HDMI</string>
 
     <!--Lights-->
     <string name="light_type_on_off">On/Off</string>

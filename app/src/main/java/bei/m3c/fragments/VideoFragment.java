@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -38,6 +39,7 @@ import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.KodiConnectionHelper;
 import bei.m3c.helpers.PICConnectionHelper;
 import bei.m3c.helpers.ThemeHelper;
+import bei.m3c.interfaces.FragmentInterface;
 import bei.m3c.jobs.GetKodiActivePlayersJob;
 import bei.m3c.jobs.GetVideoCategoriesJob;
 import bei.m3c.jobs.GetVideosJob;
@@ -56,7 +58,7 @@ import bei.m3c.models.VideoCategory;
 /**
  * Video fragment
  */
-public class VideoFragment extends Fragment {
+public class VideoFragment extends Fragment implements FragmentInterface {
 
     public static final String DEFAULT_VIDEO_TITLE = "";
 
@@ -88,6 +90,7 @@ public class VideoFragment extends Fragment {
     private PlayerProperties properties;
     private Video selectedVideo;
     private boolean updatePlayerTime = true;
+    private boolean displayWarning = false;
 
     @Override
     public void onDestroyView() {
@@ -164,6 +167,7 @@ public class VideoFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Video video = (Video) parent.getItemAtPosition(position);
+                displayWarning = true;
                 startVideo(video);
             }
         });
@@ -292,6 +296,10 @@ public class VideoFragment extends Fragment {
         }
         selectionLayout.setVisibility(View.GONE);
         playerLayout.setVisibility(View.VISIBLE);
+        if (displayWarning) {
+            showWarning();
+            displayWarning = false;
+        }
     }
 
     private void showPlayButton() {
@@ -314,6 +322,11 @@ public class VideoFragment extends Fragment {
         if (updatePlayerTime) {
             timeSeekbar.setProgress(properties.time.toMilliseconds());
         }
+    }
+
+    private void showWarning() {
+        Toast.makeText(getContext(), getContext().getString(R.string.video_warning),
+                Toast.LENGTH_LONG).show();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -351,5 +364,10 @@ public class VideoFragment extends Fragment {
     public void onEvent(PlayerPropertiesEvent event) {
         properties = event.properties;
         updatePlayer();
+    }
+
+    @Override
+    public void fragmentBecameVisible() {
+        displayWarning = true;
     }
 }

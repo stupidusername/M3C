@@ -25,6 +25,7 @@ import bei.m3c.helpers.KioskModeHelper;
 import bei.m3c.helpers.M3SHelper;
 import bei.m3c.helpers.PreferencesHelper;
 import bei.m3c.helpers.ThemeHelper;
+import bei.m3c.interfaces.FragmentInterface;
 import bei.m3c.jobs.ConnectKodiJob;
 import bei.m3c.observers.SettingsContentObserver;
 import bei.m3c.players.MessagePlayer;
@@ -290,14 +291,14 @@ public class MainActivity extends AppCompatActivity {
         getApplicationContext().getContentResolver().unregisterContentObserver(settingsContentObserver);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager(final ViewPager viewPager) {
         // Set lights/ac tab title according to preferences
         String lightsACTitle = getString(R.string.lights_title);
         if (PreferencesHelper.showACControls()) {
             lightsACTitle += getString(R.string.tab_title_separator) + getString(R.string.ac_title);
         }
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MusicFragment(), getString(R.string.music_title));
         adapter.addFragment(new TVFragment(), getString(R.string.tv_title));
         if (PreferencesHelper.showVideoControls()) {
@@ -307,6 +308,23 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new BarFragment(), getString(R.string.bar_title));
         adapter.addFragment(new InfoFragment(), getString(R.string.info_title));
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                FragmentInterface fragment = (FragmentInterface) adapter.getItem(position);
+                if (fragment != null) {
+                    fragment.fragmentBecameVisible();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     public synchronized JobManager getJobManager() {

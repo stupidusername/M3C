@@ -40,6 +40,7 @@ import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.PICConnectionHelper;
 import bei.m3c.helpers.PreferencesHelper;
 import bei.m3c.helpers.ThemeHelper;
+import bei.m3c.interfaces.FragmentInterface;
 import bei.m3c.models.AC;
 import bei.m3c.models.Light;
 import bei.m3c.widgets.LightWidget;
@@ -47,7 +48,7 @@ import bei.m3c.widgets.LightWidget;
 /**
  * Lights and AC fragment
  */
-public class LightsACFragment extends Fragment {
+public class LightsACFragment extends Fragment implements FragmentInterface {
 
     public static final int LAYOUT_LARGE_LIGHT_COLUMNS_WITH_AC = 4;
     public static final int LAYOUT_LARGE_LIGHT_COLUMNS = 6;
@@ -458,5 +459,10 @@ public class LightsACFragment extends Fragment {
         if (updateFromStatus) {
             updateFromStatusCommand(event.command);
         }
+    }
+
+    @Override
+    public void fragmentBecameVisible() {
+
     }
 }

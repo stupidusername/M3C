@@ -11,6 +11,7 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -37,6 +38,7 @@ import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.PICConnectionHelper;
 import bei.m3c.helpers.PreferencesHelper;
 import bei.m3c.helpers.ThemeHelper;
+import bei.m3c.interfaces.FragmentInterface;
 import bei.m3c.jobs.GetChannelCategoriesJob;
 import bei.m3c.jobs.GetChannelsJob;
 import bei.m3c.models.Channel;
@@ -45,7 +47,7 @@ import bei.m3c.models.ChannelCategory;
 /**
  * TV fragment
  */
-public class TVFragment extends Fragment {
+public class TVFragment extends Fragment implements FragmentInterface {
 
     // Max number in number grid layout
     public static final int NUMBER_MAX = 9;
@@ -236,6 +238,11 @@ public class TVFragment extends Fragment {
         });
     }
 
+    private void showWarning() {
+        Toast.makeText(getContext(), getContext().getString(R.string.tv_warning),
+                Toast.LENGTH_LONG).show();
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(GetChannelCategoriesEvent event) {
         channelCategoryAdapter.replaceList(event.channelCategories);
@@ -244,5 +251,10 @@ public class TVFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(GetChannelsEvent event) {
         channelAdapter.replaceList(event.channels);
+    }
+
+    @Override
+    public void fragmentBecameVisible() {
+        showWarning();
     }
 }

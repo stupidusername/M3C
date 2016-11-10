@@ -33,6 +33,7 @@ import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.helpers.PreferencesHelper;
 import bei.m3c.helpers.ThemeHelper;
 import bei.m3c.helpers.VolumeHelper;
+import bei.m3c.interfaces.FragmentInterface;
 import bei.m3c.jobs.GetRadiosJob;
 import bei.m3c.jobs.UpdateMusicPlayerJob;
 import bei.m3c.models.Radio;
@@ -42,7 +43,7 @@ import bei.m3c.players.MusicPlayer;
 /**
  * Music fragment
  */
-public class MusicFragment extends Fragment {
+public class MusicFragment extends Fragment implements FragmentInterface {
 
     public static final int DEFAULT_RADIO_POSITION = 0;
 
@@ -382,5 +383,10 @@ public class MusicFragment extends Fragment {
         updateVolumeButton();
         updateVolumeSeekbar();
         play();
+    }
+
+    @Override
+    public void fragmentBecameVisible() {
+
     }
 }

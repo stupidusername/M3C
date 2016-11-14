@@ -213,8 +213,9 @@ public final class PreferencesHelper {
     public static List<Light> getLights() {
         List<Light> lights = new ArrayList<Light>();
         for (int i = 0; i < Light.MAX_LIGHTS; i++) {
-            String name = getSharedPreferences().getString(LightPreference.getNameKey(i), null).trim();
+            String name = getSharedPreferences().getString(LightPreference.getNameKey(i), null);
             if (name != null) {
+                name = name.trim();
                 int type = getSharedPreferences().getInt(LightPreference.getTypeKey(i), LightPreference.getDefaultType());
                 lights.add(new Light(name, type));
             }

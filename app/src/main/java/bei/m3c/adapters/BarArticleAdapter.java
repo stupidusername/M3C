@@ -7,6 +7,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.ImageViewTarget;
 
 import bei.m3c.R;
 import bei.m3c.helpers.FormatHelper;
@@ -44,7 +47,19 @@ public class BarArticleAdapter extends BaseListAdapter<BarArticle> {
 
             if (imageView != null) {
                 Glide.with(layoutInflater.getContext()).load(barArticle.pictureUrl).centerCrop()
-                        .placeholder(R.drawable.bar_article_placeholder).crossFade().into(imageView);
+                        .placeholder(R.drawable.bar_article_placeholder).crossFade().into(new ImageViewTarget<GlideDrawable>(imageView) {
+                    @Override
+                    protected void setResource(GlideDrawable resource) {
+
+                    }
+
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        view.setImageDrawable(resource);
+                        super.onResourceReady(resource, glideAnimation);
+
+                    }
+                });
             }
             if (titleTextView != null) {
                 titleTextView.setText(barArticle.name);

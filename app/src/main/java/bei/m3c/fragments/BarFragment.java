@@ -15,6 +15,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -50,7 +51,9 @@ public class BarFragment extends Fragment implements FragmentInterface {
     // views
     private RelativeLayout activityLayout;
     private ListView groupsListView;
+    private ProgressBar groupsListViewLoadingProgressBar;
     private GridView articlesGridView;
+    private ProgressBar articlesGridViewLoadingProgressBar;
     private PopupWindow popupWindow;
     private ImageView popupImageView;
     private TextView popupTitleTextView;
@@ -82,7 +85,12 @@ public class BarFragment extends Fragment implements FragmentInterface {
 
         activityLayout = (RelativeLayout) getActivity().findViewById(R.id.activity_layout);
         groupsListView = (ListView) view.findViewById(R.id.bar_listview);
+        groupsListViewLoadingProgressBar = (ProgressBar) view.findViewById(R.id.bar_listview_loading_progress_bar);
         articlesGridView = (GridView) view.findViewById(R.id.bar_gridview);
+        articlesGridViewLoadingProgressBar = (ProgressBar) view.findViewById(R.id.bar_gridview_loading_progress_bar);
+
+        groupsListView.setEmptyView(groupsListViewLoadingProgressBar);
+        articlesGridView.setEmptyView(articlesGridViewLoadingProgressBar);
 
         barGroupAdapter = new BarGroupAdapter(getLayoutInflater(savedInstanceState));
         groupsListView.setAdapter(barGroupAdapter);
@@ -90,6 +98,10 @@ public class BarFragment extends Fragment implements FragmentInterface {
 
         barArticleAdapter = new BarArticleAdapter(getLayoutInflater(savedInstanceState));
         articlesGridView.setAdapter(barArticleAdapter);
+
+        // Set UI theme
+        ThemeHelper.setProgressBarTheme(groupsListViewLoadingProgressBar);
+        ThemeHelper.setProgressBarTheme(articlesGridViewLoadingProgressBar);
 
         // Register events and jobs
         EventBus.getDefault().register(this);

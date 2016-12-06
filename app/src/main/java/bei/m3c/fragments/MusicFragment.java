@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -49,6 +50,7 @@ public class MusicFragment extends Fragment implements FragmentInterface {
 
     // views
     private ListView radiosListView;
+    private ProgressBar radioListViewLoadingProgressBar;
     private ImageButton playPauseButton;
     private ImageButton previousButton;
     private ImageButton stopButton;
@@ -88,6 +90,7 @@ public class MusicFragment extends Fragment implements FragmentInterface {
         super.onViewCreated(view, savedInstanceState);
 
         radiosListView = (ListView) view.findViewById(R.id.music_listview);
+        radioListViewLoadingProgressBar = (ProgressBar) view.findViewById(R.id.music_listview_loading_progress_bar);
         playPauseButton = (ImageButton) view.findViewById(R.id.music_play_pause_button);
         previousButton = (ImageButton) view.findViewById(R.id.music_previous_button);
         stopButton = (ImageButton) view.findViewById(R.id.music_stop_button);
@@ -108,8 +111,10 @@ public class MusicFragment extends Fragment implements FragmentInterface {
         radioAdapter = new RadioAdapter(getLayoutInflater(savedInstanceState));
         radiosListView.setAdapter(radioAdapter);
         radiosListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        radiosListView.setEmptyView(radioListViewLoadingProgressBar);
 
         // Set UI theme
+        ThemeHelper.setProgressBarTheme(radioListViewLoadingProgressBar);
         ThemeHelper.setImageButtonTheme(previousButton);
         ThemeHelper.setImageButtonTheme(stopButton);
         ThemeHelper.setImageButtonTheme(nextButton);

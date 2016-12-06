@@ -11,11 +11,23 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <ListView
-            android:id="@+id/music_listview"
-            style="@style/listview"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/music_listview"
+                style="@style/listview"
+                android:layout_width="match_parent" />
+
+            <ProgressBar
+                android:id="@+id/music_listview_loading_progress_bar"
+                style="@style/loadingProgressBar" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"

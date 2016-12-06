@@ -162,6 +162,7 @@ public class InfoFragment extends Fragment implements FragmentInterface {
         ThemeHelper.setButtonTheme(popupCloseButton);
         serviceAdapter = new ServiceAdapter(getLayoutInflater(savedInstanceState));
         serviceTariffAdapter = new ServiceTariffAdapter(getLayoutInflater(savedInstanceState));
+        popupListView.setEmptyView(popupView.findViewById(R.id.popup_info_listview_loading_progress_bar));
 
         // Add UI listeners
         servicesButton.setOnClickListener(new View.OnClickListener() {

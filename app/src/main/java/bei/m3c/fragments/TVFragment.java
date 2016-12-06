@@ -11,6 +11,7 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -55,6 +56,7 @@ public class TVFragment extends Fragment implements FragmentInterface {
     // Views
     private LinearLayout listViewHeaderLayout;
     private ListView listView;
+    private ProgressBar listViewLoadingProgressBar;
     private ImageButton powerButton;
     private ImageButton srcButton;
     private ImageButton plusButton;
@@ -97,6 +99,7 @@ public class TVFragment extends Fragment implements FragmentInterface {
 
         listViewHeaderLayout = (LinearLayout) view.findViewById(R.id.tv_listview_header_layout);
         listView = (ListView) view.findViewById(R.id.tv_listview);
+        listViewLoadingProgressBar = (ProgressBar) view.findViewById(R.id.tv_listview_loading_progress_bar);
         powerButton = (ImageButton) view.findViewById(R.id.tv_power_button);
         srcButton = (ImageButton) view.findViewById(R.id.tv_src_button);
         plusButton = (ImageButton) view.findViewById(R.id.tv_plus_button);
@@ -127,6 +130,7 @@ public class TVFragment extends Fragment implements FragmentInterface {
         channelAdapter = new ChannelAdapter(getLayoutInflater(savedInstanceState));
 
         ThemeHelper.setColorStateListTheme(listViewHeaderLayout);
+        ThemeHelper.setProgressBarTheme(listViewLoadingProgressBar);
         ThemeHelper.setImageButtonTheme(powerButton);
         ThemeHelper.setImageButtonTheme(srcButton);
         ThemeHelper.setImageButtonTheme(plusButton);
@@ -136,6 +140,8 @@ public class TVFragment extends Fragment implements FragmentInterface {
         ThemeHelper.setImageButtonTheme(muteButton);
         ThemeHelper.setButtonTheme(infoButton);
         ThemeHelper.setColorStateListTheme(numberGridLayout);
+
+        listView.setEmptyView(listViewLoadingProgressBar);
 
         // Register events and jobs
         EventBus.getDefault().register(this);

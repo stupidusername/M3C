@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,7 +67,9 @@ public class VideoFragment extends Fragment implements FragmentInterface {
     private LinearLayout selectionLayout;
     private LinearLayout playerLayout;
     private ListView categoriesListView;
+    private ProgressBar categoriesListViewLoadingProgressBar;
     private GridView videosGridView;
+    private ProgressBar videosGridViewLoadingProgressBar;
     private ImageView coverImageView;
     private TextView titleTextView;
     private TextView timeElapsedTextView;
@@ -116,6 +119,8 @@ public class VideoFragment extends Fragment implements FragmentInterface {
         selectionLayout = (LinearLayout) view.findViewById(R.id.video_selection_layout);
         playerLayout = (LinearLayout) view.findViewById(R.id.video_player_layout);
         categoriesListView = (ListView) view.findViewById(R.id.video_categories_listview);
+        categoriesListViewLoadingProgressBar = (ProgressBar) view.findViewById(R.id.video_categories_listview_loading_progress_bar);
+        videosGridViewLoadingProgressBar = (ProgressBar) view.findViewById(R.id.videos_gridview_loading_progress_bar);
         videosGridView = (GridView) view.findViewById(R.id.videos_gridview);
         coverImageView = (ImageView) view.findViewById(R.id.video_cover_imageview);
         titleTextView = (TextView) view.findViewById(R.id.video_title_textview);
@@ -133,6 +138,8 @@ public class VideoFragment extends Fragment implements FragmentInterface {
         tvVolumeUpButton = (ImageButton) view.findViewById(R.id.video_tv_volume_up_button);
 
         // Set theme
+        ThemeHelper.setProgressBarTheme(categoriesListViewLoadingProgressBar);
+        ThemeHelper.setProgressBarTheme(videosGridViewLoadingProgressBar);
         ThemeHelper.setSeekBarTheme(timeSeekbar);
         ThemeHelper.setImageButtonTheme(playPauseButton);
         ThemeHelper.setImageButtonTheme(rewindButton);
@@ -143,6 +150,9 @@ public class VideoFragment extends Fragment implements FragmentInterface {
         ThemeHelper.setImageButtonTheme(tvSrcButton);
         ThemeHelper.setImageButtonTheme(tvVolumeDownButton);
         ThemeHelper.setImageButtonTheme(tvVolumeUpButton);
+
+        categoriesListView.setEmptyView(categoriesListViewLoadingProgressBar);
+        videosGridView.setEmptyView(videosGridViewLoadingProgressBar);
 
         videoCategoryAdapter = new VideoCategoryAdapter(getLayoutInflater(savedInstanceState));
         categoriesListView.setAdapter(videoCategoryAdapter);

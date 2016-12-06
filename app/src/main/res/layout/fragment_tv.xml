@@ -14,8 +14,9 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
+            android:gravity="center"
             android:orientation="vertical">
 
             <LinearLayout
@@ -37,15 +38,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:duplicateParentState="true"
+                    android:text="@string/back"
                     android:textColor="@drawable/selector_text"
-                    android:textSize="@dimen/textLarge"
-                    android:text="@string/back"/>
+                    android:textSize="@dimen/textLarge" />
             </LinearLayout>
 
             <ListView
                 android:id="@+id/tv_listview"
                 style="@style/listview"
                 android:layout_width="match_parent" />
+
+            <ProgressBar
+                android:id="@+id/tv_listview_loading_progress_bar"
+                style="@style/loadingProgressBar" />
 
         </LinearLayout>
 
@@ -64,14 +69,14 @@
                 <ImageButton
                     android:id="@+id/tv_power_button"
                     style="@style/imageButtonLarge"
-                    android:src="@drawable/power"
-                    android:layout_marginBottom="30dp"/>
+                    android:layout_marginBottom="30dp"
+                    android:src="@drawable/power" />
 
                 <ImageButton
                     android:id="@+id/tv_src_button"
                     style="@style/imageButtonLarge"
-                    android:src="@drawable/src"
-                    android:layout_marginBottom="30dp"/>
+                    android:layout_marginBottom="30dp"
+                    android:src="@drawable/src" />
 
                 <ImageButton
                     android:id="@+id/tv_plus_button"
@@ -122,11 +127,11 @@
                 <Button
                     android:id="@+id/tv_info_button"
                     style="@style/buttonNormal"
+                    android:layout_width="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
-                    android:text="@string/info"
-                    android:layout_width="wrap_content" />
+                    android:text="@string/info" />
 
             </GridLayout>
 

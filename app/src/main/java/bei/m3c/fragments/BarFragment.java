@@ -26,6 +26,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+
 import bei.m3c.R;
 import bei.m3c.adapters.BarArticleAdapter;
 import bei.m3c.adapters.BarGroupAdapter;
@@ -172,9 +174,13 @@ public class BarFragment extends Fragment implements FragmentInterface {
 
     private void loadSelectedBarGroupArticles() {
         int barGroupPosition = groupsListView.getCheckedItemPosition();
-        if (barGroupPosition != AdapterView.INVALID_POSITION) {
+        if (!barGroupAdapter.isEmpty() && barGroupPosition != AdapterView.INVALID_POSITION) {
             BarGroup barGroup = barGroupAdapter.getItem(barGroupPosition);
             JobManagerHelper.getJobManager().addJobInBackground(new GetBarArticlesJob(barGroup));
+        }
+        // Clear selection if apadater is empty
+        if (barGroupAdapter.isEmpty()) {
+            barArticleAdapter.replaceList(new ArrayList<BarArticle>());
         }
     }
 

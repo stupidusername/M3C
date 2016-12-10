@@ -23,6 +23,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import bei.m3c.R;
 import bei.m3c.adapters.VideoAdapter;
@@ -275,9 +276,13 @@ public class VideoFragment extends Fragment implements FragmentInterface {
 
     private void loadSelectedCategoryVideos() {
         int categoryPosition = categoriesListView.getCheckedItemPosition();
-        if (categoryPosition != AdapterView.INVALID_POSITION) {
+        if (!videoCategoryAdapter.isEmpty() && categoryPosition != AdapterView.INVALID_POSITION) {
             VideoCategory videoCategory = videoCategoryAdapter.getItem(categoryPosition);
             JobManagerHelper.getJobManager().addJobInBackground(new GetVideosJob(videoCategory));
+        }
+        // Clear selection if apadater is empty
+        if (videoCategoryAdapter.isEmpty()) {
+            videoAdapter.replaceList(new ArrayList<Video>());
         }
     }
 

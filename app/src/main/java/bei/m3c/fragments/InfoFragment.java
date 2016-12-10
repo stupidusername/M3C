@@ -283,7 +283,7 @@ public class InfoFragment extends Fragment implements FragmentInterface {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(GetServiceTariffsEvent event) {
-        if (event.serviceTariffs.size() > 0) {
+        if (event.serviceTariffs.size() > 0 && popupListView.getAdapter() instanceof ServiceTariffAdapter) {
             popupTariffListViewHeaderLayout.setVisibility(View.VISIBLE);
         } else {
             popupTariffListViewHeaderLayout.setVisibility(View.GONE);

@@ -304,4 +304,9 @@ public class InfoFragment extends Fragment implements FragmentInterface {
     public void fragmentBecameVisible() {
 
     }
+
+    @Override
+    public void fragmentBecameInvisible() {
+
+    }
 }

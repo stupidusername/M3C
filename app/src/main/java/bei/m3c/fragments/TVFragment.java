@@ -44,6 +44,7 @@ import bei.m3c.jobs.GetChannelCategoriesJob;
 import bei.m3c.jobs.GetChannelsJob;
 import bei.m3c.models.Channel;
 import bei.m3c.models.ChannelCategory;
+import bei.m3c.widgets.ToastWidget;
 
 /**
  * TV fragment
@@ -72,6 +73,8 @@ public class TVFragment extends Fragment implements FragmentInterface {
     private ChannelAdapter channelAdapter;
     // Variables
     private ChannelCategory selectedChannelCategory;
+    // Toast widget
+    private ToastWidget toastWidget;
 
     @Override
     public void onDestroyView() {
@@ -245,8 +248,10 @@ public class TVFragment extends Fragment implements FragmentInterface {
     }
 
     private void showWarning() {
-        Toast.makeText(getContext(), getContext().getString(R.string.tv_warning),
-                Toast.LENGTH_LONG).show();
+        if(toastWidget == null) {
+            toastWidget = new ToastWidget(getContext(), getContext().getString(R.string.tv_warning), getActivity().findViewById(android.R.id.content));
+        }
+        toastWidget.flash();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -262,5 +267,12 @@ public class TVFragment extends Fragment implements FragmentInterface {
     @Override
     public void fragmentBecameVisible() {
         showWarning();
+    }
+
+    @Override
+    public void fragmentBecameInvisible() {
+        if (toastWidget != null) {
+            toastWidget.dismiss();
+        }
     }
 }

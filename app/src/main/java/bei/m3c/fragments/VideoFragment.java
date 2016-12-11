@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -56,6 +55,7 @@ import bei.m3c.models.Player;
 import bei.m3c.models.PlayerProperties;
 import bei.m3c.models.Video;
 import bei.m3c.models.VideoCategory;
+import bei.m3c.widgets.ToastWidget;
 
 /**
  * Video fragment
@@ -95,6 +95,8 @@ public class VideoFragment extends Fragment implements FragmentInterface {
     private Video selectedVideo;
     private boolean updatePlayerTime = true;
     private boolean displayWarning = false;
+    // Toast widget
+    private ToastWidget toastWidget;
 
     @Override
     public void onDestroyView() {
@@ -340,8 +342,10 @@ public class VideoFragment extends Fragment implements FragmentInterface {
     }
 
     private void showWarning() {
-        Toast.makeText(getContext(), getContext().getString(R.string.video_warning),
-                Toast.LENGTH_LONG).show();
+        if(toastWidget == null) {
+            toastWidget = new ToastWidget(getContext(), getContext().getString(R.string.video_warning), getActivity().findViewById(android.R.id.content));
+        }
+        toastWidget.flash();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -383,6 +387,13 @@ public class VideoFragment extends Fragment implements FragmentInterface {
 
     @Override
     public void fragmentBecameVisible() {
-        displayWarning = true;
+        showWarning();
+    }
+
+    @Override
+    public void fragmentBecameInvisible() {
+        if (toastWidget != null) {
+            toastWidget.dismiss();
+        }
     }
 }

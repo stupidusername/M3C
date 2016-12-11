@@ -465,4 +465,9 @@ public class LightsACFragment extends Fragment implements FragmentInterface {
     public void fragmentBecameVisible() {
 
     }
+
+    @Override
+    public void fragmentBecameInvisible() {
+
+    }
 }

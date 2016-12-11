@@ -135,4 +135,16 @@ public final class ThemeHelper {
         stateList.addState(new int[]{}, shape);
         view.setBackground(stateList);
     }
+
+    /**
+     * Sets the color for a layout
+     */
+    public static void setLayoutTheme(View view) {
+        Resources resources = view.getContext().getResources();
+        float cornerRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, ROW_CORNER_RADIUS_DIP, resources.getDisplayMetrics());
+        GradientDrawable shape = new GradientDrawable();
+        shape.setCornerRadius(cornerRadius);
+        shape.setColor(getDarkAccentColor());
+        view.setBackground(shape);
+    }
 }

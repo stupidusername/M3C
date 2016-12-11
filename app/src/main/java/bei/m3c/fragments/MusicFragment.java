@@ -394,4 +394,9 @@ public class MusicFragment extends Fragment implements FragmentInterface {
     public void fragmentBecameVisible() {
 
     }
+
+    @Override
+    public void fragmentBecameInvisible() {
+
+    }
 }

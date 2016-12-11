@@ -200,4 +200,9 @@ public class BarFragment extends Fragment implements FragmentInterface {
     public void fragmentBecameVisible() {
 
     }
+
+    @Override
+    public void fragmentBecameInvisible() {
+
+    }
 }

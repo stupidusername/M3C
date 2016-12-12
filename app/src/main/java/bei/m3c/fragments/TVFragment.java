@@ -248,7 +248,7 @@ public class TVFragment extends Fragment implements FragmentInterface {
     }
 
     private void showWarning() {
-        if(toastWidget == null) {
+        if(toastWidget == null && getContext() != null) {
             toastWidget = new ToastWidget(getContext(), getContext().getString(R.string.tv_warning), getActivity().findViewById(android.R.id.content));
         }
         toastWidget.flash();

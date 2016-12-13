@@ -42,22 +42,29 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <ScrollView
-                android:id="@+id/popup_bar_description_layout"
-                style="@style/scrollview"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/gray_transparent"
-                android:padding="@dimen/layoutMargin">
+                android:layout_alignParentBottom="true">
 
-                <TextView
-                    android:id="@+id/popup_bar_description_textview"
+                <ScrollView
+                    android:id="@+id/popup_bar_description_layout"
+                    style="@style/scrollview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/textLarge" />
+                    android:background="@color/gray_transparent"
+                    android:padding="@dimen/layoutMargin"
+                    android:layout_gravity="bottom">
 
-            </ScrollView>
+                    <TextView
+                        android:id="@+id/popup_bar_description_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/textLarge" />
+
+                </ScrollView>
+
+            </LinearLayout>
 
         </RelativeLayout>
 

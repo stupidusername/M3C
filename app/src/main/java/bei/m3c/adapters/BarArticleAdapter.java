@@ -47,7 +47,7 @@ public class BarArticleAdapter extends BaseListAdapter<BarArticle> {
 
             if (imageView != null) {
                 Glide.with(layoutInflater.getContext()).load(barArticle.pictureUrl).centerCrop()
-                        .placeholder(R.drawable.bar_article_placeholder).crossFade().into(new ImageViewTarget<GlideDrawable>(imageView) {
+                        .placeholder(R.drawable.bar_article_placeholder).dontAnimate().into(new ImageViewTarget<GlideDrawable>(imageView) {
                     @Override
                     protected void setResource(GlideDrawable resource) {
 

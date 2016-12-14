@@ -277,7 +277,7 @@ public class MusicFragment extends Fragment implements FragmentInterface {
         // Set time seekbar max value
         timeSeekbar.setMax(MusicPlayer.getInstance().getDuration());
         // Set albumart image
-        Glide.with(this).load(currentSong.albumartUrl).centerCrop().placeholder(R.drawable.albumart_placeholder).crossFade().into(albumartImageView);
+        Glide.with(this).load(currentSong.albumartUrl).centerCrop().placeholder(R.drawable.albumart_placeholder).dontAnimate().into(albumartImageView);
     }
 
     public void updatePlaybackTime() {

@@ -43,7 +43,7 @@ public class ChannelAdapter extends BaseListAdapter<Channel> {
 
             if (imageView != null) {
                 Glide.with(layoutInflater.getContext()).load(channel.logoUrl).centerCrop()
-                        .placeholder(R.drawable.channel_logo_placeholder).crossFade().into(imageView);
+                        .placeholder(R.drawable.channel_logo_placeholder).dontAnimate().into(imageView);
             }
 
             if (textView != null) {

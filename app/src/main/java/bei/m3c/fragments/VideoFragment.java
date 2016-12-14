@@ -295,7 +295,7 @@ public class VideoFragment extends Fragment implements FragmentInterface {
 
     private void showSelectionLayout() {
         // Clear player layout
-        Glide.with(this).load(R.drawable.video_cover_placeholder).centerCrop().crossFade().into(coverImageView);
+        Glide.with(this).load(R.drawable.video_cover_placeholder).centerCrop().dontAnimate().into(coverImageView);
         titleTextView.setText(DEFAULT_VIDEO_TITLE);
         timeElapsedTextView.setText(getString(R.string.time_default_with_hours));
         timeSeekbar.setProgress(0);
@@ -308,7 +308,7 @@ public class VideoFragment extends Fragment implements FragmentInterface {
 
     private void showPlayerLayout(Video video) {
         if (selectedVideo != null) {
-            Glide.with(this).load(video.coverUrl).centerCrop().placeholder(R.drawable.video_cover_placeholder).crossFade().into(coverImageView);
+            Glide.with(this).load(video.coverUrl).centerCrop().placeholder(R.drawable.video_cover_placeholder).dontAnimate().into(coverImageView);
             titleTextView.setText(video.title);
         }
         selectionLayout.setVisibility(View.GONE);

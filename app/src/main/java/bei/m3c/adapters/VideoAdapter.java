@@ -44,7 +44,7 @@ public class VideoAdapter extends BaseListAdapter<Video> {
 
             if (imageView != null) {
                 Glide.with(layoutInflater.getContext()).load(video.coverUrl).centerCrop()
-                        .placeholder(R.drawable.video_cover_placeholder).crossFade().into(new ImageViewTarget<GlideDrawable>(imageView) {
+                        .placeholder(R.drawable.video_cover_placeholder).dontAnimate().into(new ImageViewTarget<GlideDrawable>(imageView) {
                     @Override
                     protected void setResource(GlideDrawable resource) {
 

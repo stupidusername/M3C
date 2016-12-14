@@ -6,9 +6,9 @@
 
     <ImageView
         android:id="@+id/gridview_row_imageview"
-        android:scaleType="centerCrop"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,15 +21,16 @@
 
         <TextView
             android:id="@+id/gridview_item_title_text"
-            android:textSize="@dimen/textNormal"
+            style="@style/textMarquee"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textNormal" />
 
         <TextView
             android:id="@+id/gridview_item_price_text"
-            android:textSize="@dimen/textNormal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textNormal" />
 
     </LinearLayout>
 </RelativeLayout>

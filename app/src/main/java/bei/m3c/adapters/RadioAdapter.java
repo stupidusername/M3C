@@ -38,6 +38,7 @@ public class RadioAdapter extends BaseListAdapter<Radio> {
 
             if (textView != null) {
                 textView.setText(radio.title);
+                textView.setSelected(true);
             }
         }
 

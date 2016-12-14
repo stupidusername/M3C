@@ -60,6 +60,7 @@ public class VideoAdapter extends BaseListAdapter<Video> {
             }
             if (titleTextView != null) {
                 titleTextView.setText(video.title);
+                titleTextView.setSelected(true);
             }
         }
 

@@ -35,8 +35,8 @@ public class ServiceAdapter extends BaseListAdapter<Service> {
             textView = (TextView) convertView.findViewById(R.id.service_listview_row_textview);
 
             if (textView != null) {
-                String bullet = parent.getContext().getString(R.string.list_bullet);
-                textView.setText(bullet + " " + service.title);
+                textView.setText(service.title);
+                textView.setSelected(true);
             }
         }
 

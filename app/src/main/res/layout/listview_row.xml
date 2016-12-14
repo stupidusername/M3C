@@ -5,10 +5,11 @@
     android:padding="10dp">
 
     <TextView
-        android:textColor="@drawable/selector_text"
-        android:duplicateParentState="true"
         android:id="@+id/listview_row_text"
+        style="@style/textMarquee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:duplicateParentState="true"
+        android:textColor="@drawable/selector_text"
         android:textSize="@dimen/textLarge" />
 </LinearLayout>

@@ -43,6 +43,7 @@ public class ServiceTariffAdapter extends BaseListAdapter<ServiceTariff> {
 
             if (categoryTextView != null) {
                 categoryTextView.setText(serviceTariff.roomCategoryName);
+                categoryTextView.setSelected(true);
             }
             if (priceShiftTextView != null) {
                 priceShiftTextView.setText(FormatHelper.asCurrency(serviceTariff.priceShift));

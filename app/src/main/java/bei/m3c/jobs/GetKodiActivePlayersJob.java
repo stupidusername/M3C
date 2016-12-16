@@ -17,7 +17,7 @@ public class GetKodiActivePlayersJob extends Job {
     public static final String TAG = "GetKodiActivePlayersJob";
     public static final int PRIORITY = 1;
     public static final int DELAY = 0; // delay in millis
-    public static final int INTERVAL = 1000; // interval in millis
+    public static final int INTERVAL = 250; // interval in millis
 
     public GetKodiActivePlayersJob() {
         this(DELAY);

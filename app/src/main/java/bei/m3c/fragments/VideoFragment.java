@@ -386,7 +386,9 @@ public class VideoFragment extends Fragment implements FragmentInterface {
             KodiConnectionHelper.sendMethod(new PlayerGetPropertiesKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid));
             // add subtitles if needed
             if (!subtitlesLoaded && selectedVideo.subtitleUrl != null) {
-                KodiConnectionHelper.sendMethod(new PlayerSetSubtitleKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid, selectedVideo.subtitleUrl));
+                KodiConnectionHelper.sendMethod(
+                        new PlayerSetSubtitleKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid, selectedVideo.subtitleUrl),
+                        SET_SUBTITLE_RETRY_MILLIS, true);
                 subtitlesLoaded = true;
             }
         } else {

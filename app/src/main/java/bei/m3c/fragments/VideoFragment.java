@@ -49,6 +49,7 @@ import bei.m3c.kodiMethods.PlayerOpenKodiMethod;
 import bei.m3c.kodiMethods.PlayerPlayPauseKodiMethod;
 import bei.m3c.kodiMethods.PlayerSeekKodiMethod;
 import bei.m3c.kodiMethods.PlayerSetSpeedKodiMethod;
+import bei.m3c.kodiMethods.PlayerSetSubtitleKodiMethod;
 import bei.m3c.kodiMethods.PlayerStopKodiMethod;
 import bei.m3c.models.GlobalTime;
 import bei.m3c.models.Player;
@@ -62,6 +63,7 @@ import bei.m3c.widgets.ToastWidget;
  */
 public class VideoFragment extends Fragment implements FragmentInterface {
 
+    public static final int SET_SUBTITLE_RETRY_MILLIS = 1000;
     public static final String DEFAULT_VIDEO_TITLE = "";
 
     // views
@@ -95,6 +97,7 @@ public class VideoFragment extends Fragment implements FragmentInterface {
     private Video selectedVideo;
     private boolean updatePlayerTime = true;
     private boolean displayWarning = false;
+    private boolean subtitlesLoaded = false;
     // Toast widget
     private ToastWidget toastWidget;
 
@@ -292,7 +295,9 @@ public class VideoFragment extends Fragment implements FragmentInterface {
 
     private void startVideo(Video video) {
         KodiConnectionHelper.sendMethod(new PlayerOpenKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), video.videoUrl));
+        JobManagerHelper.cancelJobsInBackground(PlayerSetSubtitleKodiMethod.METHOD);
         selectedVideo = video;
+        subtitlesLoaded = false;
     }
 
     private void showSelectionLayout() {
@@ -379,6 +384,11 @@ public class VideoFragment extends Fragment implements FragmentInterface {
         if (player != null) {
             showPlayerLayout(selectedVideo);
             KodiConnectionHelper.sendMethod(new PlayerGetPropertiesKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid));
+            // add subtitles if needed
+            if (!subtitlesLoaded && selectedVideo.subtitleUrl != null) {
+                KodiConnectionHelper.sendMethod(new PlayerSetSubtitleKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid, selectedVideo.subtitleUrl));
+                subtitlesLoaded = true;
+            }
         } else {
             selectedVideo = null;
             showSelectionLayout();

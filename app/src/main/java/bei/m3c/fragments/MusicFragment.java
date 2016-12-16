@@ -275,9 +275,15 @@ public class MusicFragment extends Fragment implements FragmentInterface {
 
     public void updateSong(Song currentSong) {
         // Set text views
-        titleTextView.setText(currentSong.title);
-        artistTextView.setText(currentSong.author);
-        albumTextView.setText(currentSong.album);
+        if (titleTextView.getText() == null || !titleTextView.getText().equals(currentSong.title)) {
+            titleTextView.setText(currentSong.title);
+        }
+        if (artistTextView.getText() == null || !artistTextView.getText().equals(currentSong.author)) {
+            artistTextView.setText(currentSong.author);
+        }
+        if (albumTextView.getText() == null || !albumTextView.getText().equals(currentSong.album)) {
+            albumTextView.setText(currentSong.album);
+        }
         timeRemainingTextView.setText(FormatHelper.asTimer(MusicPlayer.getInstance().getRemainingTime()));
         // Set time seekbar max value
         timeSeekbar.setMax(MusicPlayer.getInstance().getDuration());

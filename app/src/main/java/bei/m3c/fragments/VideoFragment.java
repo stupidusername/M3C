@@ -140,6 +140,8 @@ public class VideoFragment extends Fragment implements FragmentInterface {
         tvVolumeDownButton = (ImageButton) view.findViewById(R.id.video_tv_volume_down_button);
         tvVolumeUpButton = (ImageButton) view.findViewById(R.id.video_tv_volume_up_button);
 
+        titleTextView.setSelected(true);
+
         // Set theme
         ThemeHelper.setProgressBarTheme(categoriesListViewLoadingProgressBar);
         ThemeHelper.setProgressBarTheme(videosGridViewLoadingProgressBar);
@@ -309,10 +311,14 @@ public class VideoFragment extends Fragment implements FragmentInterface {
     private void showPlayerLayout(Video video) {
         if (selectedVideo != null) {
             Glide.with(this).load(video.coverUrl).centerCrop().placeholder(R.drawable.video_cover_placeholder).dontAnimate().into(coverImageView);
-            titleTextView.setText(video.title);
+            if (titleTextView.getText() == null || !titleTextView.getText().equals(video.title)) {
+                titleTextView.setText(video.title);
+            }
         }
-        selectionLayout.setVisibility(View.GONE);
-        playerLayout.setVisibility(View.VISIBLE);
+        if (playerLayout.getVisibility() != View.VISIBLE) {
+            selectionLayout.setVisibility(View.GONE);
+            playerLayout.setVisibility(View.VISIBLE);
+        }
         if (displayWarning) {
             showWarning();
             displayWarning = false;
@@ -342,7 +348,7 @@ public class VideoFragment extends Fragment implements FragmentInterface {
     }
 
     private void showWarning() {
-        if(toastWidget == null && getContext() != null) {
+        if (toastWidget == null && getContext() != null) {
             toastWidget = new ToastWidget(getContext(), getContext().getString(R.string.video_warning), getActivity().findViewById(android.R.id.content));
         }
         toastWidget.flash();
@@ -387,7 +393,6 @@ public class VideoFragment extends Fragment implements FragmentInterface {
 
     @Override
     public void fragmentBecameVisible() {
-        showWarning();
     }
 
     @Override

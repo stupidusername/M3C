@@ -38,7 +38,6 @@ public class BarGroupAdapter extends BaseListAdapter<BarGroup> {
 
             if (textView != null) {
                 textView.setText(barGroup.name);
-                textView.setSelected(true);
             }
         }
 

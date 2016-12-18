@@ -143,8 +143,6 @@ public class VideoFragment extends Fragment implements FragmentInterface {
         tvVolumeDownButton = (ImageButton) view.findViewById(R.id.video_tv_volume_down_button);
         tvVolumeUpButton = (ImageButton) view.findViewById(R.id.video_tv_volume_up_button);
 
-        titleTextView.setSelected(true);
-
         // Set theme
         ThemeHelper.setProgressBarTheme(categoriesListViewLoadingProgressBar);
         ThemeHelper.setProgressBarTheme(videosGridViewLoadingProgressBar);

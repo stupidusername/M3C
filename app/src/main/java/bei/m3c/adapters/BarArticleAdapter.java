@@ -63,7 +63,6 @@ public class BarArticleAdapter extends BaseListAdapter<BarArticle> {
             }
             if (titleTextView != null) {
                 titleTextView.setText(barArticle.name);
-                titleTextView.setSelected(true);
             }
             if (priceTextView != null) {
                 priceTextView.setText(FormatHelper.asCurrency(barArticle.price));

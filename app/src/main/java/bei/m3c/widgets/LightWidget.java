@@ -52,7 +52,6 @@ public class LightWidget extends LinearLayout {
                 nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
             }
             nameTextView.setText(light.name);
-            nameTextView.setSelected(true);
         }
         if (seekBar != null) {
             seekBar.setMax(Light.MAX_VALUE);

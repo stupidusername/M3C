@@ -102,11 +102,6 @@ public class MusicFragment extends Fragment implements FragmentInterface {
         artistTextView = (TextView) view.findViewById(R.id.music_artist_textview);
         albumTextView = (TextView) view.findViewById(R.id.music_album_textview);
 
-        // Enable textview marquees
-        titleTextView.setSelected(true);
-        artistTextView.setSelected(true);
-        albumTextView.setSelected(true);
-
         timeElapsedTextView = (TextView) view.findViewById(R.id.music_time_elapsed_textview);
         timeRemainingTextView = (TextView) view.findViewById(R.id.music_time_remaining_textview);
         timeSeekbar = (SeekBar) view.findViewById(R.id.music_time_seekbar);

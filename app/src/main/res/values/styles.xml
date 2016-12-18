@@ -18,7 +18,7 @@
         <item name="android:layout_margin">10dp</item>
     </style>
 
-    <style name="textMarquee">
+    <style name="textSingleLine">
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:marqueeRepeatLimit">marquee_forever</item>

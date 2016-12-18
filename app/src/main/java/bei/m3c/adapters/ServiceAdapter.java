@@ -36,7 +36,6 @@ public class ServiceAdapter extends BaseListAdapter<Service> {
 
             if (textView != null) {
                 textView.setText(service.title);
-                textView.setSelected(true);
             }
         }
 

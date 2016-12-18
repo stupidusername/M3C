@@ -23,6 +23,7 @@
 
             <TextView
                 android:id="@+id/popup_bar_title"
+                style="@style/textSingleLine"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layoutMargin"
@@ -52,9 +53,9 @@
                     style="@style/scrollview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
                     android:background="@color/gray_transparent"
-                    android:padding="@dimen/layoutMargin"
-                    android:layout_gravity="bottom">
+                    android:padding="@dimen/layoutMargin">
 
                     <TextView
                         android:id="@+id/popup_bar_description_textview"

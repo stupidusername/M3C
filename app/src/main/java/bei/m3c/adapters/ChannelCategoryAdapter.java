@@ -39,7 +39,6 @@ public class ChannelCategoryAdapter extends BaseListAdapter<ChannelCategory> {
 
             if (textView != null) {
                 textView.setText(channelCategory.title);
-                textView.setSelected(true);
             }
         }
 

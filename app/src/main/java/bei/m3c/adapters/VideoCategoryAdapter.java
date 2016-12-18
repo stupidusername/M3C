@@ -38,7 +38,6 @@ public class VideoCategoryAdapter extends BaseListAdapter<VideoCategory> {
 
             if (textView != null) {
                 textView.setText(videoCategory.title);
-                textView.setSelected(true);
             }
         }
 

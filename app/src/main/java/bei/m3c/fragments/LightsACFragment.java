@@ -148,7 +148,7 @@ public class LightsACFragment extends Fragment implements FragmentInterface {
             Light masterLight = new Light(getString(R.string.light_master), Light.TYPE_MASTER);
             LightWidget masterLightWidget = new LightWidget(getContext(), masterLight);
             masterLightWidget.seekBar.setMax(Light.MAX_VALUE * getRealLightsCount());
-            largeLightWidgets.add(0, masterLightWidget);
+            //largeLightWidgets.add(0, masterLightWidget);
         }
 
         // Add light widgets

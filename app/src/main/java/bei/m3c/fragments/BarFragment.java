@@ -48,7 +48,6 @@ import bei.m3c.models.BarGroup;
 public class BarFragment extends Fragment implements FragmentInterface {
 
     public static final int POPUP_MARGIN_DP = 25;
-    public static final String POPUP_TITLE_SEPARATOR = " - ";
 
     // views
     private RelativeLayout activityLayout;
@@ -59,6 +58,7 @@ public class BarFragment extends Fragment implements FragmentInterface {
     private PopupWindow popupWindow;
     private ImageView popupImageView;
     private TextView popupTitleTextView;
+    private TextView popupPriceTextView;
     private ScrollView popupDescriptionLayout;
     private TextView popupDescriptionTextView;
     private Button popupCloseButton;
@@ -120,6 +120,7 @@ public class BarFragment extends Fragment implements FragmentInterface {
         popupWindow.setOutsideTouchable(true);
         popupImageView = (ImageView) popupView.findViewById(R.id.popup_bar_imageview);
         popupTitleTextView = (TextView) popupView.findViewById(R.id.popup_bar_title);
+        popupPriceTextView = (TextView) popupView.findViewById(R.id.popup_bar_price);
         popupDescriptionLayout = (ScrollView) popupView.findViewById(R.id.popup_bar_description_layout);
         popupDescriptionTextView = (TextView) popupView.findViewById(R.id.popup_bar_description_textview);
         popupCloseButton = (Button) popupView.findViewById(R.id.popup_bar_close_button);
@@ -151,8 +152,8 @@ public class BarFragment extends Fragment implements FragmentInterface {
         String articleTitle = barArticle.name != null ? barArticle.name.trim() : "";
         String articlePrice = FormatHelper.asCurrency(barArticle.price);
         String articleDescription = barArticle.description != null ? barArticle.description.trim() : "";
-        String title = articleTitle + POPUP_TITLE_SEPARATOR + articlePrice;
-        popupTitleTextView.setText(title);
+        popupTitleTextView.setText(articleTitle);
+        popupPriceTextView.setText(articlePrice);
         if (articleDescription.isEmpty()) {
             popupDescriptionLayout.setVisibility(View.GONE);
         } else {

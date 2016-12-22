@@ -133,10 +133,16 @@ public class MusicFragment extends Fragment implements FragmentInterface {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Change selected radio if no previous one was selected or if the radio id is different
-                Radio selectedRadio = radioAdapter.getItem(position);
+                final Radio selectedRadio = radioAdapter.getItem(position);
                 Radio currentRadio = MusicPlayer.getInstance().getRadio();
                 if (currentRadio == null || selectedRadio.id != currentRadio.id) {
-                    MusicPlayer.getInstance().selectRadio(selectedRadio);
+                    (new Runnable() {
+                        @Override
+                        public void run() {
+                            MusicPlayer.getInstance().selectRadio(selectedRadio);
+                        }
+                    }).run();
+
                 }
             }
         });

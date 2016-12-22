@@ -62,6 +62,7 @@ public final class ThemeHelper {
     public static void setProgressBarTheme(ProgressBar progressBar) {
         progressBar.setProgressTintList(ColorStateList.valueOf(getAccentColor()));
         progressBar.setIndeterminateTintList(ColorStateList.valueOf(getAccentColor()));
+        progressBar.setIndeterminateTintMode(PorterDuff.Mode.SRC_IN);
     }
 
     /**

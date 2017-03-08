@@ -23,6 +23,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import bei.m3c.R;
 import bei.m3c.adapters.VideoAdapter;
@@ -65,6 +67,8 @@ public class VideoFragment extends Fragment implements FragmentInterface {
 
     public static final int SET_SUBTITLE_RETRY_MILLIS = 1000;
     public static final String DEFAULT_VIDEO_TITLE = "";
+    public static final int ENABLE_UPDATE_PLAYER_DELAY_MILLIS = 1500;
+    public static final int RESUME_PLAYER_DELAY_MILLIS = 500;
 
     // views
     private LinearLayout selectionLayout;
@@ -95,11 +99,14 @@ public class VideoFragment extends Fragment implements FragmentInterface {
     private Player player; // Kodi video player
     private PlayerProperties properties;
     private Video selectedVideo;
-    private boolean updatePlayerTime = true;
+    private boolean updatePlayer = true;
     private boolean displayWarning = false;
     private boolean subtitlesLoaded = false;
     // Toast widget
     private ToastWidget toastWidget;
+    // Timers
+    private Timer enableUpdatePlayerTimer = null;
+    private Timer resumePlayerTimer = null;
 
     @Override
     public void onDestroyView() {
@@ -191,6 +198,7 @@ public class VideoFragment extends Fragment implements FragmentInterface {
             @Override
             public void onClick(View v) {
                 KodiConnectionHelper.sendMethod(new PlayerPlayPauseKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid));
+                updatePlayer = true;
             }
         });
         rewindButton.setOnClickListener(new View.OnClickListener() {
@@ -205,12 +213,14 @@ public class VideoFragment extends Fragment implements FragmentInterface {
                     }
                 }
                 KodiConnectionHelper.sendMethod(new PlayerSetSpeedKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid, speed));
+                updatePlayer = true;
             }
         });
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 KodiConnectionHelper.sendMethod(new PlayerStopKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid));
+                updatePlayer = true;
             }
         });
         fastForwardButton.setOnClickListener(new View.OnClickListener() {
@@ -225,6 +235,7 @@ public class VideoFragment extends Fragment implements FragmentInterface {
                     }
                 }
                 KodiConnectionHelper.sendMethod(new PlayerSetSpeedKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid, speed));
+                updatePlayer = true;
             }
         });
         tvPowerButton.setOnClickListener(new View.OnClickListener() {
@@ -260,13 +271,40 @@ public class VideoFragment extends Fragment implements FragmentInterface {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekbar) {
-                updatePlayerTime = false;
+                updatePlayer = false;
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekbar) {
                 KodiConnectionHelper.sendMethod(new PlayerSeekKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid, new GlobalTime(seekbar.getProgress())));
-                updatePlayerTime = true;
+                // Avoid Kodi bug when seeking on a paused video
+                if (properties.speed == 0) {
+                    KodiConnectionHelper.sendMethod(new PlayerPlayPauseKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid));
+                    if (resumePlayerTimer != null) {
+                        resumePlayerTimer.cancel();
+                    }
+                    resumePlayerTimer = new Timer();
+                    resumePlayerTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            // Avoid job tag duplication
+                            KodiConnectionHelper.sendMethod(new PlayerSetSpeedKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid, 0));
+                            resumePlayerTimer = null;
+                        }
+                    }, RESUME_PLAYER_DELAY_MILLIS);
+                }
+                if (enableUpdatePlayerTimer != null) {
+                    enableUpdatePlayerTimer.cancel();
+                }
+                enableUpdatePlayerTimer = new Timer();
+                enableUpdatePlayerTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        updatePlayer = true;
+                        enableUpdatePlayerTimer = null;
+                    }
+                }, ENABLE_UPDATE_PLAYER_DELAY_MILLIS);
+
             }
         });
     }
@@ -339,13 +377,13 @@ public class VideoFragment extends Fragment implements FragmentInterface {
     }
 
     private void updatePlayer() {
-        if (properties.speed == 1) {
-            showPauseButton();
-        } else {
-            showPlayButton();
-        }
-        timeSeekbar.setMax(properties.totalTime.toMilliseconds());
-        if (updatePlayerTime) {
+        if (updatePlayer) {
+            if (properties.speed == 1) {
+                showPauseButton();
+            } else {
+                showPlayButton();
+            }
+            timeSeekbar.setMax(properties.totalTime.toMilliseconds());
             timeSeekbar.setProgress(properties.time.toMilliseconds());
         }
     }

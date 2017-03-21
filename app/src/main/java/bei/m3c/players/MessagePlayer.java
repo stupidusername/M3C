@@ -105,8 +105,8 @@ public class MessagePlayer extends android.media.MediaPlayer {
         ready = false;
         reset();
         VolumeHelper.setVolume(previousVolume);
-        EventBus.getDefault().post(new MessagePlayerStopEvent());
         PICConnectionHelper.sendCommand(new TRCStartAudioMessageCommand(false, currentMessage.key));
+        EventBus.getDefault().post(new MessagePlayerStopEvent());
         currentMessage = null;
         playNext();
     }

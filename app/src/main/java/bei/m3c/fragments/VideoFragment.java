@@ -392,7 +392,9 @@ public class VideoFragment extends Fragment implements FragmentInterface {
         if (toastWidget == null && getContext() != null) {
             toastWidget = new ToastWidget(getContext(), getContext().getString(R.string.video_warning), getActivity().findViewById(android.R.id.content));
         }
-        toastWidget.flash();
+        if (toastWidget != null) {
+            toastWidget.flash();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

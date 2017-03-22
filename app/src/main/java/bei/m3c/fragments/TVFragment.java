@@ -12,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -251,7 +250,9 @@ public class TVFragment extends Fragment implements FragmentInterface {
         if (toastWidget == null && getContext() != null) {
             toastWidget = new ToastWidget(getContext(), getContext().getString(R.string.tv_warning), getActivity().findViewById(android.R.id.content));
         }
-        toastWidget.flash();
+        if (toastWidget != null) {
+            toastWidget.flash();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

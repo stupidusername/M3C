@@ -78,13 +78,13 @@
                     android:layout_marginBottom="30dp"
                     android:src="@drawable/src" />
 
-                <ImageButton
+                <bei.m3c.widgets.HoldAndRepeatImageButton
                     android:id="@+id/tv_plus_button"
                     style="@style/imageButtonNormal"
                     android:layout_gravity="center"
                     android:src="@drawable/plus" />
 
-                <ImageButton
+                <bei.m3c.widgets.HoldAndRepeatImageButton
                     android:id="@+id/tv_up_button"
                     style="@style/imageButtonNormal"
                     android:layout_gravity="center"
@@ -106,13 +106,13 @@
                     android:textAllCaps="true"
                     android:textSize="@dimen/textNormal" />
 
-                <ImageButton
+                <bei.m3c.widgets.HoldAndRepeatImageButton
                     android:id="@+id/tv_minus_button"
                     style="@style/imageButtonNormal"
                     android:layout_gravity="center"
                     android:src="@drawable/minus" />
 
-                <ImageButton
+                <bei.m3c.widgets.HoldAndRepeatImageButton
                     android:id="@+id/tv_down_button"
                     style="@style/imageButtonNormal"
                     android:layout_gravity="center"

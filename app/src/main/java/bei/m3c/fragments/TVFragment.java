@@ -43,6 +43,7 @@ import bei.m3c.jobs.GetChannelCategoriesJob;
 import bei.m3c.jobs.GetChannelsJob;
 import bei.m3c.models.Channel;
 import bei.m3c.models.ChannelCategory;
+import bei.m3c.widgets.HoldAndRepeatImageButton;
 import bei.m3c.widgets.ToastWidget;
 
 /**
@@ -59,10 +60,10 @@ public class TVFragment extends Fragment implements FragmentInterface {
     private ProgressBar listViewLoadingProgressBar;
     private ImageButton powerButton;
     private ImageButton srcButton;
-    private ImageButton plusButton;
-    private ImageButton upButton;
-    private ImageButton minusButton;
-    private ImageButton downButton;
+    private HoldAndRepeatImageButton plusButton;
+    private HoldAndRepeatImageButton upButton;
+    private HoldAndRepeatImageButton minusButton;
+    private HoldAndRepeatImageButton downButton;
     private ImageButton muteButton;
     private Button infoButton;
     private GridLayout numberGridLayout;
@@ -104,10 +105,10 @@ public class TVFragment extends Fragment implements FragmentInterface {
         listViewLoadingProgressBar = (ProgressBar) view.findViewById(R.id.tv_listview_loading_progress_bar);
         powerButton = (ImageButton) view.findViewById(R.id.tv_power_button);
         srcButton = (ImageButton) view.findViewById(R.id.tv_src_button);
-        plusButton = (ImageButton) view.findViewById(R.id.tv_plus_button);
-        upButton = (ImageButton) view.findViewById(R.id.tv_up_button);
-        minusButton = (ImageButton) view.findViewById(R.id.tv_minus_button);
-        downButton = (ImageButton) view.findViewById(R.id.tv_down_button);
+        plusButton = (HoldAndRepeatImageButton) view.findViewById(R.id.tv_plus_button);
+        upButton = (HoldAndRepeatImageButton) view.findViewById(R.id.tv_up_button);
+        minusButton = (HoldAndRepeatImageButton) view.findViewById(R.id.tv_minus_button);
+        downButton = (HoldAndRepeatImageButton) view.findViewById(R.id.tv_down_button);
         muteButton = (ImageButton) view.findViewById(R.id.tv_mute_button);
         infoButton = (Button) view.findViewById(R.id.tv_info_button);
         numberGridLayout = (GridLayout) view.findViewById(R.id.tv_number_gridlayout);
@@ -168,15 +169,15 @@ public class TVFragment extends Fragment implements FragmentInterface {
                 PICConnectionHelper.sendCommand(new TRCVideoSourceCommand());
             }
         });
-        plusButton.setOnClickListener(new View.OnClickListener() {
+        plusButton.setRepeatableAction(new Runnable() {
             @Override
-            public void onClick(View v) {
+            public void run() {
                 PICConnectionHelper.sendCommand(new TRCVolumeUpCommand());
             }
         });
-        minusButton.setOnClickListener(new View.OnClickListener() {
+        minusButton.setRepeatableAction(new Runnable() {
             @Override
-            public void onClick(View v) {
+            public void run() {
                 PICConnectionHelper.sendCommand(new TRCVolumeDownCommand());
             }
         });
@@ -186,15 +187,15 @@ public class TVFragment extends Fragment implements FragmentInterface {
                 // Command not implemented
             }
         });
-        upButton.setOnClickListener(new View.OnClickListener() {
+        upButton.setRepeatableAction(new Runnable() {
             @Override
-            public void onClick(View v) {
+            public void run() {
                 PICConnectionHelper.sendCommand(new TRCChannelUpCommand());
             }
         });
-        downButton.setOnClickListener(new View.OnClickListener() {
+        downButton.setRepeatableAction(new Runnable() {
             @Override
-            public void onClick(View v) {
+            public void run() {
                 PICConnectionHelper.sendCommand(new TRCChannelDownCommand());
             }
         });

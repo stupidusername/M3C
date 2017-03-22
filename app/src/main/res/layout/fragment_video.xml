@@ -209,13 +209,13 @@
                         android:layout_marginBottom="30dp"
                         android:src="@drawable/src" />
 
-                    <ImageButton
+                    <bei.m3c.widgets.HoldAndRepeatImageButton
                         android:id="@+id/video_tv_volume_down_button"
                         style="@style/imageButtonNormal"
                         android:layout_gravity="center"
                         android:src="@drawable/volume_low" />
 
-                    <ImageButton
+                    <bei.m3c.widgets.HoldAndRepeatImageButton
                         android:id="@+id/video_tv_volume_up_button"
                         style="@style/imageButtonNormal"
                         android:layout_gravity="center"

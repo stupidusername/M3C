@@ -58,6 +58,7 @@ import bei.m3c.models.Player;
 import bei.m3c.models.PlayerProperties;
 import bei.m3c.models.Video;
 import bei.m3c.models.VideoCategory;
+import bei.m3c.widgets.HoldAndRepeatImageButton;
 import bei.m3c.widgets.ToastWidget;
 
 /**
@@ -89,8 +90,8 @@ public class VideoFragment extends Fragment implements FragmentInterface {
     private LinearLayout tvControlsLayout;
     private ImageButton tvPowerButton;
     private ImageButton tvSrcButton;
-    private ImageButton tvVolumeDownButton;
-    private ImageButton tvVolumeUpButton;
+    private HoldAndRepeatImageButton tvVolumeDownButton;
+    private HoldAndRepeatImageButton tvVolumeUpButton;
 
     // adapters
     private VideoCategoryAdapter videoCategoryAdapter;
@@ -147,8 +148,8 @@ public class VideoFragment extends Fragment implements FragmentInterface {
         tvControlsLayout = (LinearLayout) view.findViewById(R.id.video_tv_controls_layout);
         tvPowerButton = (ImageButton) view.findViewById(R.id.video_tv_power_button);
         tvSrcButton = (ImageButton) view.findViewById(R.id.video_tv_src_button);
-        tvVolumeDownButton = (ImageButton) view.findViewById(R.id.video_tv_volume_down_button);
-        tvVolumeUpButton = (ImageButton) view.findViewById(R.id.video_tv_volume_up_button);
+        tvVolumeDownButton = (HoldAndRepeatImageButton) view.findViewById(R.id.video_tv_volume_down_button);
+        tvVolumeUpButton = (HoldAndRepeatImageButton) view.findViewById(R.id.video_tv_volume_up_button);
 
         // Set theme
         ThemeHelper.setProgressBarTheme(categoriesListViewLoadingProgressBar);
@@ -250,15 +251,15 @@ public class VideoFragment extends Fragment implements FragmentInterface {
                 PICConnectionHelper.sendCommand(new TRCVideoSourceCommand());
             }
         });
-        tvVolumeDownButton.setOnClickListener(new View.OnClickListener() {
+        tvVolumeDownButton.setRepeatableAction(new Runnable() {
             @Override
-            public void onClick(View v) {
+            public void run() {
                 PICConnectionHelper.sendCommand(new TRCVolumeDownCommand());
             }
         });
-        tvVolumeUpButton.setOnClickListener(new View.OnClickListener() {
+        tvVolumeUpButton.setRepeatableAction(new Runnable() {
             @Override
-            public void onClick(View v) {
+            public void run() {
                 PICConnectionHelper.sendCommand(new TRCVolumeUpCommand());
             }
         });

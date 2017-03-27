@@ -100,6 +100,7 @@ public class VideoFragment extends Fragment implements FragmentInterface {
     private Player player; // Kodi video player
     private PlayerProperties properties;
     private Video selectedVideo;
+    private boolean playerShowed = false;
     private boolean updatePlayer = true;
     private boolean displayWarning = false;
     private boolean videoLoaded = false;
@@ -340,6 +341,7 @@ public class VideoFragment extends Fragment implements FragmentInterface {
     }
 
     private void showSelectionLayout() {
+        playerShowed = false;
         // Clear player layout
         Glide.with(this).load(R.drawable.video_cover_placeholder).centerCrop().dontAnimate().into(coverImageView);
         titleTextView.setText(DEFAULT_VIDEO_TITLE);
@@ -353,6 +355,7 @@ public class VideoFragment extends Fragment implements FragmentInterface {
     }
 
     private void showPlayerLayout(Video video) {
+        playerShowed = true;
         if (selectedVideo != null) {
             Glide.with(this).load(video.coverUrl).centerCrop().placeholder(R.drawable.video_cover_placeholder).dontAnimate().into(coverImageView);
             if (titleTextView.getText() == null || !titleTextView.getText().equals(video.title)) {
@@ -423,7 +426,9 @@ public class VideoFragment extends Fragment implements FragmentInterface {
         }
         player = foundPlayer;
         if (player != null) {
-            showPlayerLayout(selectedVideo);
+            if (!playerShowed) {
+                showPlayerLayout(selectedVideo);
+            }
             KodiConnectionHelper.sendMethod(new PlayerGetPropertiesKodiMethod(new Timestamp(System.currentTimeMillis()).toString(), player.playerid));
             // add subtitles if needed
             if (!subtitlesLoaded && selectedVideo != null && selectedVideo.subtitleUrl != null) {
@@ -433,7 +438,7 @@ public class VideoFragment extends Fragment implements FragmentInterface {
                 subtitlesLoaded = true;
             }
             videoLoaded = true;
-        } else {
+        } else if (playerShowed){
             if (videoLoaded) {
                 selectedVideo = null;
                 videoLoaded = false;

@@ -2,9 +2,6 @@ package bei.m3c.connections;
 
 import android.util.Log;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -14,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
+import bei.m3c.activities.MainActivity;
 import bei.m3c.helpers.FormatHelper;
 import bei.m3c.helpers.JobManagerHelper;
 import bei.m3c.jobs.ConnectKodiJob;
@@ -124,23 +122,17 @@ public class KodiConnection {
         String readString = FormatHelper.asString(readChars);
         Log.d(TAG, "Received message: " + readString);
         // find id on method qeue
-        JSONObject jsonObject = null;
-        try {
-            jsonObject = new JSONObject(readString);
-            BaseKodiResult result = new BaseKodiResult(jsonObject);
-            if(result.id != null) {
-                for (Iterator iterator = methodQeue.iterator(); iterator.hasNext(); ) {
-                    BaseKodiMethod method = (BaseKodiMethod) iterator.next();
-                    if (result.id.equals(method.id)) {
-                        Log.d(TAG, "Result id found: " + method.id);
-                        method.processResult(jsonObject);
-                        methodQeue.remove(method);
-                        break;
-                    }
+        BaseKodiResult result = MainActivity.getInstance().getGson().fromJson(readString, BaseKodiResult.class);
+        if(result.id != null) {
+            for (Iterator iterator = methodQeue.iterator(); iterator.hasNext(); ) {
+                BaseKodiMethod method = (BaseKodiMethod) iterator.next();
+                if (result.id.equals(method.id)) {
+                    Log.d(TAG, "Result id found: " + method.id);
+                    method.processResult(readString);
+                    methodQeue.remove(method);
+                    break;
                 }
             }
-        } catch (JSONException e) {
-            Log.e(TAG, "Error creating JSONObject", e);
         }
     }
 }

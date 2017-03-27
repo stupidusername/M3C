@@ -36,6 +36,6 @@ public abstract class BaseKodiMethod {
     /**
      * This method does nothings but an implementation can be done on child classes
      */
-    public void processResult(JSONObject jsonObject) {
+    public void processResult(String readString) {
     }
 }

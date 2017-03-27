@@ -1,10 +1,10 @@
 package bei.m3c.kodiMethods;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import bei.m3c.activities.MainActivity;
 import bei.m3c.events.PlayerPropertiesEvent;
 import bei.m3c.kodiResults.PlayerGetPropertiesKodiResult;
 
@@ -31,8 +31,8 @@ public class PlayerGetPropertiesKodiMethod extends BaseKodiMethod {
         return params;
     }
 
-    public void processResult(JSONObject jsonObject) {
-        PlayerGetPropertiesKodiResult result = new PlayerGetPropertiesKodiResult(jsonObject);
+    public void processResult(String readString) {
+        PlayerGetPropertiesKodiResult result = MainActivity.getInstance().getGson().fromJson(readString, PlayerGetPropertiesKodiResult.class);
         EventBus.getDefault().post(new PlayerPropertiesEvent(result.result));
     }
 }

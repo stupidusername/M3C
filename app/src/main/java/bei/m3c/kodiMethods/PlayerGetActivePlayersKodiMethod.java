@@ -1,8 +1,8 @@
 package bei.m3c.kodiMethods;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONObject;
 
+import bei.m3c.activities.MainActivity;
 import bei.m3c.events.ActiveVideoPlayersEvent;
 import bei.m3c.kodiResults.PlayerGetActivePlayersKodiResult;
 
@@ -14,8 +14,8 @@ public class PlayerGetActivePlayersKodiMethod extends BaseKodiMethod {
         super(id, METHOD);
     }
 
-    public void processResult(JSONObject jsonObject) {
-        PlayerGetActivePlayersKodiResult result = new PlayerGetActivePlayersKodiResult(jsonObject);
+    public void processResult(String readString) {
+        PlayerGetActivePlayersKodiResult result = MainActivity.getInstance().getGson().fromJson(readString, PlayerGetActivePlayersKodiResult.class);
         EventBus.getDefault().post(new ActiveVideoPlayersEvent(result.result));
     }
 }

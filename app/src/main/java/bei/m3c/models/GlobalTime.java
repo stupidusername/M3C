@@ -1,15 +1,9 @@
 package bei.m3c.models;
 
-import android.util.Log;
-
-import org.json.JSONObject;
-
 /**
  * Kodi global time model
  */
 public class GlobalTime {
-
-    public static final String TAG = "GlobalTime";
 
     public int hours;
     public int minutes;
@@ -31,16 +25,5 @@ public class GlobalTime {
 
     public int toMilliseconds() {
         return ((hours * 60 + minutes) * 60 + seconds) * 1000 + milliseconds;
-    }
-
-    public GlobalTime(JSONObject jsonObject) {
-        try {
-            hours = jsonObject.getInt("hours");
-            minutes = jsonObject.getInt("minutes");
-            seconds = jsonObject.getInt("seconds");
-            milliseconds = jsonObject.getInt("milliseconds");
-        } catch (Exception e) {
-            Log.e(TAG, "Error creating from JSONObject", e);
-        }
     }
 }

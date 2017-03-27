@@ -32,7 +32,7 @@ import bei.m3c.players.MessagePlayer;
 import bei.m3c.players.MusicPlayer;
 import bei.m3c.services.M3SService;
 import bei.m3c.services.MonitorService;
-import retrofit2.GsonConverterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Retrofit;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;

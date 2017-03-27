@@ -1,8 +1,7 @@
 package bei.m3c.kodiMethods;
 
-import com.google.gson.Gson;
-
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -32,9 +31,8 @@ public class PlayerGetPropertiesKodiMethod extends BaseKodiMethod {
         return params;
     }
 
-    public void processResult(String readString) {
-        Gson gson = new Gson();
-        PlayerGetPropertiesKodiResult result = gson.fromJson(readString, PlayerGetPropertiesKodiResult.class);
+    public void processResult(JSONObject jsonObject) {
+        PlayerGetPropertiesKodiResult result = new PlayerGetPropertiesKodiResult(jsonObject);
         EventBus.getDefault().post(new PlayerPropertiesEvent(result.result));
     }
 }

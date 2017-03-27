@@ -3,6 +3,8 @@ package bei.m3c.kodiMethods;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +36,6 @@ public abstract class BaseKodiMethod {
     /**
      * This method does nothings but an implementation can be done on child classes
      */
-    public void processResult(String readString) {
+    public void processResult(JSONObject jsonObject) {
     }
 }

@@ -40,7 +40,6 @@ import rx.schedulers.Schedulers;
 
 import android.os.Handler;
 import android.os.PowerManager;
-import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -56,6 +55,7 @@ import android.widget.Toast;
 import com.birbit.android.jobqueue.JobManager;
 import com.birbit.android.jobqueue.config.Configuration;
 import com.github.pwittchen.reactivewifi.ReactiveWifi;
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     public static MainActivity instance;
     private static JobManager jobManager = null;
     private static Retrofit retrofit = null;
+    private static Gson gson = null;
     private static M3SService m3sService = null;
     private static MessagePlayer messagePlayer = null;
     private static MusicPlayer musicPlayer = null;
@@ -337,6 +338,13 @@ public class MainActivity extends AppCompatActivity {
             configureJobManager();
         }
         return jobManager;
+    }
+
+    public synchronized Gson getGson() {
+        if (gson == null) {
+            gson = (new GsonBuilder()).create();
+        }
+        return gson;
     }
 
     public synchronized M3SService getM3SService() {

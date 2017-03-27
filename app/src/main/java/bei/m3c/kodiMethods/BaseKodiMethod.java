@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import bei.m3c.activities.MainActivity;
 import bei.m3c.kodiResults.BaseKodiResult;
 
 public abstract class BaseKodiMethod {
@@ -29,8 +30,7 @@ public abstract class BaseKodiMethod {
     }
 
     public String getJsonRPCString() {
-        Gson gson = new GsonBuilder().create();
-        return gson.toJson(this);
+        return MainActivity.getInstance().getGson().toJson(this);
     }
 
     /**

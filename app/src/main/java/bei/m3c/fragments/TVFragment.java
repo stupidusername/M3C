@@ -28,6 +28,7 @@ import bei.m3c.commands.TRCDigitCommand;
 import bei.m3c.commands.TRCInfoCommand;
 import bei.m3c.commands.TRCMacroCommand;
 import bei.m3c.commands.TRCSetVideoTypeCommand;
+import bei.m3c.commands.TRCVideoMuteCommand;
 import bei.m3c.commands.TRCVideoOnOffCommand;
 import bei.m3c.commands.TRCVideoSourceCommand;
 import bei.m3c.commands.TRCVolumeDownCommand;
@@ -184,7 +185,7 @@ public class TVFragment extends Fragment implements FragmentInterface {
         muteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Command not implemented
+                PICConnectionHelper.sendCommand(new TRCVideoMuteCommand());
             }
         });
         upButton.setRepeatableAction(new Runnable() {

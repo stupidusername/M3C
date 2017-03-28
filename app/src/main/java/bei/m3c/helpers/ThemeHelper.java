@@ -29,6 +29,7 @@ public final class ThemeHelper {
      * the fraction from the accent color to black
      */
     public static final float DARK_ACCENT_FACTOR = 0.625f;
+    public static final float DARKER_ACCENT_FACTOR = 0.75f;
 
     // Used for view color state list background shape
     public static final int ROW_CORNER_RADIUS_DIP = 5;
@@ -54,6 +55,17 @@ public final class ThemeHelper {
         ArgbEvaluator evaluator = new ArgbEvaluator();
         int darkAccentColor = (int) evaluator.evaluate(DARK_ACCENT_FACTOR, getAccentColor(), Color.BLACK);
         return darkAccentColor;
+    }
+
+    /**
+     * Calculates and returns a color that sits between the accent color and black
+     *
+     * @return darker accent color
+     */
+    public static int getDarkerAccentColor() {
+        ArgbEvaluator evaluator = new ArgbEvaluator();
+        int darkerAccentColor = (int) evaluator.evaluate(DARKER_ACCENT_FACTOR, getAccentColor(), Color.BLACK);
+        return darkerAccentColor;
     }
 
     /**

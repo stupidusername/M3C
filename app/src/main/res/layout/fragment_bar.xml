@@ -38,18 +38,11 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <GridView
-                android:id="@+id/bar_gridview"
+            <ListView
+                android:id="@+id/bar_article_listview"
+                style="@style/listview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnWidth="175dp"
-                android:gravity="center"
-                android:horizontalSpacing="25dp"
-                android:numColumns="auto_fit"
-                android:overScrollMode="never"
-                android:scrollbars="none"
-                android:stretchMode="columnWidth"
-                android:verticalSpacing="25dp" />
+                android:dividerHeight="2dp"/>
 
             <ProgressBar
                 android:id="@+id/bar_gridview_loading_progress_bar"

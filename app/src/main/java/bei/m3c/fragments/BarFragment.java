@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -53,7 +52,7 @@ public class BarFragment extends Fragment implements FragmentInterface {
     private RelativeLayout activityLayout;
     private ListView groupsListView;
     private ProgressBar groupsListViewLoadingProgressBar;
-    private GridView articlesGridView;
+    private ListView articlesListView;
     private ProgressBar articlesGridViewLoadingProgressBar;
     private PopupWindow popupWindow;
     private ImageView popupImageView;
@@ -88,18 +87,18 @@ public class BarFragment extends Fragment implements FragmentInterface {
         activityLayout = (RelativeLayout) getActivity().findViewById(R.id.activity_layout);
         groupsListView = (ListView) view.findViewById(R.id.bar_listview);
         groupsListViewLoadingProgressBar = (ProgressBar) view.findViewById(R.id.bar_listview_loading_progress_bar);
-        articlesGridView = (GridView) view.findViewById(R.id.bar_gridview);
+        articlesListView = (ListView) view.findViewById(R.id.bar_article_listview);
         articlesGridViewLoadingProgressBar = (ProgressBar) view.findViewById(R.id.bar_gridview_loading_progress_bar);
 
         groupsListView.setEmptyView(groupsListViewLoadingProgressBar);
-        articlesGridView.setEmptyView(articlesGridViewLoadingProgressBar);
+        articlesListView.setEmptyView(articlesGridViewLoadingProgressBar);
 
         barGroupAdapter = new BarGroupAdapter(getLayoutInflater(savedInstanceState));
         groupsListView.setAdapter(barGroupAdapter);
         groupsListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
         barArticleAdapter = new BarArticleAdapter(getLayoutInflater(savedInstanceState));
-        articlesGridView.setAdapter(barArticleAdapter);
+        articlesListView.setAdapter(barArticleAdapter);
 
         // Set UI theme
         ThemeHelper.setProgressBarTheme(groupsListViewLoadingProgressBar);
@@ -133,10 +132,10 @@ public class BarFragment extends Fragment implements FragmentInterface {
                 loadSelectedBarGroupArticles();
             }
         });
-        articlesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        barArticleAdapter.setOnClickListener(new BarArticleAdapter.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BarArticle barArticle = (BarArticle) parent.getItemAtPosition(position);
+            public void onClick(int position) {
+                BarArticle barArticle = (BarArticle) articlesListView.getItemAtPosition(position);
                 showPopup(barArticle);
             }
         });

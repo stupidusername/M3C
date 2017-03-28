@@ -268,6 +268,9 @@ public class VideoFragment extends Fragment implements FragmentInterface {
         timeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
+                if (progress != seekbar.getMax()) {
+                    progress = progress - progress % 1000;
+                }
                 timeRemainingTextView.setText(FormatHelper.asTimer(seekbar.getMax() - progress));
                 timeElapsedTextView.setText(FormatHelper.asTimer(progress));
             }

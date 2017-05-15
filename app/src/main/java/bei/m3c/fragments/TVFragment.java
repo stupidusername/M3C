@@ -114,6 +114,11 @@ public class TVFragment extends Fragment implements FragmentInterface {
         infoButton = (Button) view.findViewById(R.id.tv_info_button);
         numberGridLayout = (GridLayout) view.findViewById(R.id.tv_number_gridlayout);
 
+        // Hide source button if not needed
+        if (!PreferencesHelper.showVideoControls()) {
+            srcButton.setVisibility(View.GONE);
+        }
+
         // Set up number buttons
         numberButtons = new Button[NUMBER_MAX + 1];
         for (int number = 0; number <= NUMBER_MAX; number++) {

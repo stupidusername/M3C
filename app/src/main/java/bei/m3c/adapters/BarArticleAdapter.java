@@ -41,33 +41,38 @@ public class BarArticleAdapter extends BaseListAdapter<BarArticle> {
 
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.bar_article_listview_row, parent, false);
+            // This goes here to avoid changing the view
+            infoImageButton = (ImageButton) convertView.findViewById(R.id.bar_article_listview_row_info_button);
+            if (infoImageButton != null) {
+                ThemeHelper.setImageButtonTheme(infoImageButton);
+            }
+        }
 
-            BarArticle barArticle = getItem(position);
+        BarArticle barArticle = getItem(position);
 
-            if (barArticle != null) {
-                titleTextView = (TextView) convertView.findViewById(R.id.bar_article_listview_row_title_textview);
-                priceTextView = (TextView) convertView.findViewById(R.id.bar_article_listview_row_price_textview);
-                infoImageButton = (ImageButton) convertView.findViewById(R.id.bar_article_listview_row_info_button);
+        if (barArticle != null) {
+            titleTextView = (TextView) convertView.findViewById(R.id.bar_article_listview_row_title_textview);
+            priceTextView = (TextView) convertView.findViewById(R.id.bar_article_listview_row_price_textview);
+            infoImageButton = (ImageButton) convertView.findViewById(R.id.bar_article_listview_row_info_button);
 
-                if (titleTextView != null) {
-                    titleTextView.setText(barArticle.name);
-                }
-                if (priceTextView != null) {
-                    priceTextView.setText(FormatHelper.asCurrency(barArticle.price));
-                }
-                if (infoImageButton != null) {
-                    ThemeHelper.setImageButtonTheme(infoImageButton);
-                    if (clickListener != null) {
-                        infoImageButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                clickListener.onClick(position);
-                            }
-                        });
-                    }
+            if (titleTextView != null) {
+                titleTextView.setText(barArticle.name);
+            }
+            if (priceTextView != null) {
+                priceTextView.setText(FormatHelper.asCurrency(barArticle.price));
+            }
+            if (infoImageButton != null) {
+                if (clickListener != null) {
+                    infoImageButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            clickListener.onClick(position);
+                        }
+                    });
                 }
             }
         }
+
 
         if (position % 2 == 0) {
             convertView.setBackgroundColor(ThemeHelper.getDarkAccentColor());

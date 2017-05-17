@@ -411,7 +411,7 @@ public class LightsACFragment extends Fragment implements FragmentInterface {
 
     private void setBright() {
         byte[] lightValues = new byte[Light.MAX_LIGHTS];
-        for (int i = 0; i < Light.MAX_LIGHTS; i++) {
+        for (int i = 0; i < lights.size(); i++) {
             lightValues[i] = lights.get(i).getValue();
         }
         PICConnectionHelper.sendCommand(new TRCSetBrightCommand(lightValues));

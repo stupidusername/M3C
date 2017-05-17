@@ -34,7 +34,7 @@ public class UpdateRebootJob extends Job {
     public static final String PLACEHOLDER_PACKAGE = "{package_placeholder}";
     public static final String PLACEHOLDER_CLASS = "{class_placeholder}";
     public static final String PACKAGE_INSTALL_PATH = "/sdcard/" + PACKAGE_NAME;
-    public static final String UPDATE_COMMAND = "mv " + PLACEHOLDER_PATH + " " + PACKAGE_INSTALL_PATH + "; pm install -r " + PACKAGE_INSTALL_PATH;
+    public static final String UPDATE_COMMAND = "mv " + PLACEHOLDER_PATH + " " + PACKAGE_INSTALL_PATH + "; pm install -r -d " + PACKAGE_INSTALL_PATH;
     public static final String UPDATE_REBOOT_COMMAND = "(" + UPDATE_COMMAND + "; " + REBOOT_COMMAND + ") &";
     // Sleep 3 secs before launching app (android sucks)
     public static final String LAUNCH_APP_COMMAND = "sleep 3; am start -n \"" + PLACEHOLDER_PACKAGE + "/" + PLACEHOLDER_CLASS + "\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER";

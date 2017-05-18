@@ -35,6 +35,8 @@ public class MusicPlayer extends MediaPlayer {
     private List<Song> songs = new ArrayList<>();
     private int songPosition = 0;
     private boolean ready = false;
+    private boolean preparing = false;
+    private boolean songChanged = false;
     private boolean resumeAfterMessagePlayed;
 
     public MusicPlayer() {
@@ -44,6 +46,12 @@ public class MusicPlayer extends MediaPlayer {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 ready = true;
+                preparing = false;
+                if (songChanged) {
+                    changeSong();
+                    songChanged = false;
+                    return;
+                }
                 EventBus.getDefault().post(new MusicPlayerSongChangedEvent(getCurrentSong()));
                 play();
             }
@@ -78,7 +86,9 @@ public class MusicPlayer extends MediaPlayer {
         radio = null;
         songs = new ArrayList<>();
         songPosition = 0;
-        stop();
+        if (!preparing) {
+            stop();
+        }
     }
 
     public Radio getRadio() {
@@ -108,9 +118,13 @@ public class MusicPlayer extends MediaPlayer {
                 try {
                     setDataSource(getCurrentSong().songUrl);
                     setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    prepareAsync();
+                    if (!preparing) {
+                        preparing = true;
+                        prepareAsync();
+                    }
                 } catch (Exception e) {
                     Log.e(TAG, "Error setting data source. Playing next song.", e);
+                    preparing = false;
                     playNext();
                 }
             } else {
@@ -126,23 +140,30 @@ public class MusicPlayer extends MediaPlayer {
     }
 
     public void playNext() {
-        stop();
         if (songPosition < songs.size() - 1) {
             songPosition++;
         } else {
             songPosition = 0;
         }
-        play();
+        changeSong();
     }
 
     public void playPrevious() {
-        stop();
         if (songPosition > 0) {
             songPosition--;
         } else {
             songPosition = songs.size() - 1;
         }
-        play();
+        changeSong();
+    }
+
+    public void changeSong() {
+        if (!preparing) {
+            stop();
+            play();
+        } else {
+            songChanged = true;
+        }
     }
 
     @Override
@@ -170,7 +191,11 @@ public class MusicPlayer extends MediaPlayer {
     public void onEvent(GetRadioSongsEvent event) {
         songs = event.songs;
         Collections.shuffle(songs);
-        play();
+        if (preparing) {
+            songChanged = true;
+        } else {
+            play();
+        }
     }
 
     @Subscribe

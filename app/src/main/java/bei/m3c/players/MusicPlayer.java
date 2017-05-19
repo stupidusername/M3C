@@ -7,6 +7,8 @@ import android.util.Log;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -65,7 +67,8 @@ public class MusicPlayer extends MediaPlayer {
         this.setOnErrorListener(new OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
-                Log.e(TAG, "Playback error. Playing next song.");
+                Log.e(TAG, "Playback error (what: " + what + ", extra: " + extra + "). Playing next song.");
+                preparing = false;
                 playNext();
                 return true;
             }
@@ -115,17 +118,23 @@ public class MusicPlayer extends MediaPlayer {
     public void play() {
         if (!ready) {
             if (songs.size() > 0) {
-                try {
-                    setDataSource(getCurrentSong().songUrl);
-                    setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    if (!preparing) {
-                        preparing = true;
-                        prepareAsync();
+                if (!preparing) {
+                    try {
+                        String urlStr = getCurrentSong().songUrl;
+                        URL url = new URL(urlStr);
+                        URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
+                        url = uri.toURL();
+                        setAudioStreamType(AudioManager.STREAM_MUSIC);
+                        setDataSource(url.toString());
+                        if (!preparing) {
+                            preparing = true;
+                            prepareAsync();
+                        }
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error setting data source. Playing next song.", e);
+                        preparing = false;
+                        playNext();
                     }
-                } catch (Exception e) {
-                    Log.e(TAG, "Error setting data source. Playing next song.", e);
-                    preparing = false;
-                    playNext();
                 }
             } else {
                 Log.i(TAG, "Song list is empty.");

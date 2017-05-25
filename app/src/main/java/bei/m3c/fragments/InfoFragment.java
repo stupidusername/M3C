@@ -156,8 +156,8 @@ public class InfoFragment extends Fragment implements FragmentInterface {
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setOutsideTouchable(true);
         popupImageView = (ImageView) popupView.findViewById(R.id.popup_info_imageview);
-        Glide.with(this).load(M3SHelper.getServicesImageUrl()).signature(new StringSignature((new Timestamp(System.currentTimeMillis()))
-                .toString())).centerCrop().dontAnimate().into(popupImageView);
+        Glide.with(this).load(M3SHelper.getServicesImageUrl()).signature(new StringSignature((new Timestamp(System.currentTimeMillis())).toString()))
+                .centerCrop().dontAnimate().into(popupImageView);
         popupTitleTextView = (TextView) popupView.findViewById(R.id.popup_info_title);
         popupTariffListViewHeaderLayout = (LinearLayout) popupView.findViewById(R.id.popup_info_tariff_listview_header_layout);
         popupListView = (ListView) popupView.findViewById(R.id.popup_info_listview);

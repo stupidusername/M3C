@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import bei.m3c.R;
@@ -54,6 +55,7 @@ import android.widget.Toast;
 
 import com.birbit.android.jobqueue.JobManager;
 import com.birbit.android.jobqueue.config.Configuration;
+import com.bumptech.glide.Glide;
 import com.github.pwittchen.reactivewifi.ReactiveWifi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -140,6 +142,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Clear glide cache
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Glide.get(getBaseContext()).clearDiskCache();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Glide.get(getBaseContext()).clearMemory();
+                    }
+                });
+            }
+        });
 
         startService(new Intent(getBaseContext(), MonitorService.class));
         getJobManager();

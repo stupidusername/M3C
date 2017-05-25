@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                         if (supplicantState == SupplicantState.DISCONNECTED && wifiWasConnected) {
                             Log.w(TAG, "Wi-Fi disconnected. Restarting adapter.");
                             wifiWasConnected = false;
-                            WifiManager wifiManager = (WifiManager) getBaseContext().getSystemService(Context.WIFI_SERVICE);
+                            WifiManager wifiManager = (WifiManager) getBaseContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                             wifiManager.setWifiEnabled(false);
                             wifiManager.setWifiEnabled(true);
                         } else if (supplicantState == SupplicantState.COMPLETED) {

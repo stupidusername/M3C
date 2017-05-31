@@ -17,9 +17,7 @@ public class TRCMacroCommand extends BaseCommand {
 
     private static byte[] getMacro(byte[] number) {
         byte[] macro = new byte[MACRO_LENGTH];
-        for (int i = 0; i < MACRO_LENGTH; i++) {
-            macro[MACRO_LENGTH - i - 1] = number.length > i ? number[i] : 0;
-        }
+        System.arraycopy(number, 0, macro, MACRO_LENGTH - number.length, number.length);
         return macro;
     }
 }

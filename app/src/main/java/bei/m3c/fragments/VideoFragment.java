@@ -131,6 +131,9 @@ public class VideoFragment extends Fragment implements FragmentInterface {
     public void onViewCreated(View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Player is not loaded yet
+        playerShowed = false;
+
         // Find views
         selectionLayout = (LinearLayout) view.findViewById(R.id.video_selection_layout);
         playerLayout = (LinearLayout) view.findViewById(R.id.video_player_layout);

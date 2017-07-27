@@ -15,6 +15,7 @@ import bei.m3c.activities.MainActivity;
 public class MonitorService extends Service {
 
     public static final int CHECK_INTERVAL_MILLIS = 1000;
+    public static final int SLEEP_UNTIL_RELAUNCH_MILLIS = 5000;
 
     public static Timer timer = null;
     private Context context;
@@ -34,6 +35,11 @@ public class MonitorService extends Service {
                 @Override
                 public void run() {
                     if (!isRunning()) {
+                        try {
+                            Thread.sleep(SLEEP_UNTIL_RELAUNCH_MILLIS);
+                        } catch (Exception e) {
+                            // Go ahead and relaunch the app
+                        }
                         Intent intent = new Intent(context, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);

@@ -44,12 +44,14 @@ public class HoldAndRepeatImageButton extends ImageButton {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (mHandler != null) return true;
                         mHandler = new Handler();
                         mHandler.post(mAction);
                         break;
+                    case MotionEvent.ACTION_CANCEL:
                     case MotionEvent.ACTION_UP:
                         if (mHandler == null) return true;
                         mHandler.removeCallbacks(mAction);

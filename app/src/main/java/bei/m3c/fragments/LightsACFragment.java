@@ -54,7 +54,7 @@ public class LightsACFragment extends Fragment implements FragmentInterface {
     public static final int LAYOUT_LARGE_LIGHT_COLUMNS = 6;
     public static final int LAYOUT_SMALL_WIDGETS_ROW_BOTTOM_MARGIN_DP = 10;
     public static final int GET_STATUS_DELAY_MILLIS = 5000;
-    public static final int REENABLE_UPDATE_DELAY_MILLIS = 2500;
+    public static final int REENABLE_UPDATE_DELAY_MILLIS = 5000;
     public static final int LIGHT_TYPES_RECORD_RETRY_INTERVAL_MILLIS = 1000;
 
     private List<Light> lights;

@@ -53,6 +53,7 @@ public abstract class BaseConnection {
             JobManagerHelper.cancelJobsInBackground(this.tag);
             JobManagerHelper.getJobManager().addJobInBackground(new SendKeepAliveCommandJob(this));
             Log.v(tag, "Connected.");
+            onConnected();
             byte[] message;
             byte readByte = 0;
             while (readByte != END_OF_STREAM) {
@@ -156,6 +157,8 @@ public abstract class BaseConnection {
         byte[] command = Arrays.copyOfRange(message, messageStartLenght, messageStartLenght + commandLenght);
         readCommand(command);
     }
+
+    public abstract void onConnected();
 
     public abstract void readCommand(byte[] command);
 

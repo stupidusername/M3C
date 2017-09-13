@@ -50,6 +50,11 @@ public class SGHConnection extends BaseConnection {
     }
 
     @Override
+    public void onConnected() {
+        // Do nothing
+    }
+
+    @Override
     public void readCommand(byte[] command) {
         Log.v(TAG, "Received command: " + FormatHelper.asHexString(command));
         if (command.length > 0) {

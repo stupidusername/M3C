@@ -167,7 +167,7 @@ public final class M3SHelper {
 
     public static AudioMessage getAudioMessage(TPCStartAudioMessageCommand command) {
         try {
-            Call<AudioMessage> call = getM3SService().getAudioMessage(command.getTidName(), "" + command.roomNumber, command.getSuffix());
+            Call<AudioMessage> call = getM3SService().getAudioMessage(command.audioMessageKey, "" + command.roomNumber, command.getSuffix());
             return call.execute().body();
         } catch (IOException e) {
             Log.e(TAG, "Error getting audio message.", e);

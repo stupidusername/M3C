@@ -23,7 +23,7 @@ public class PlayMessageJob extends Job {
     private TPCStartAudioMessageCommand command;
 
     public PlayMessageJob(TPCStartAudioMessageCommand command) {
-        super(new Params(PRIORITY).requireNetwork().singleInstanceBy(command.getTidName()).addTags(command.getTidName()));
+        super(new Params(PRIORITY).requireNetwork().singleInstanceBy(Integer.toString(command.audioMessageKey)).addTags(Integer.toString(command.audioMessageKey)));
         this.command = command;
     }
 

@@ -61,6 +61,8 @@ public class MessagePlayer extends android.media.MediaPlayer {
     public void addAudioMessage(AudioMessage message) {
         messageQueue.add(message);
         if (currentMessage == null) {
+            // Message queue is stared
+            EventBus.getDefault().post(new MessagePlayerPlayEvent());
             playNext();
         }
     }
@@ -87,7 +89,6 @@ public class MessagePlayer extends android.media.MediaPlayer {
                 }, currentMessage.delay * 1000);
             }
         } else {
-            EventBus.getDefault().post(new MessagePlayerPlayEvent());
             PICConnectionHelper.sendCommand(new TRCStartAudioMessageCommand(true, currentMessage.key));
             previousVolume = VolumeHelper.getVolume();
             int newVolume = Math.round((float) (PreferencesHelper.getMessageVolumePercentage() * VolumeHelper.getMaxVolume()) / 100);
@@ -100,6 +101,9 @@ public class MessagePlayer extends android.media.MediaPlayer {
         getNextMessage();
         if (currentMessage != null) {
             play();
+        } else {
+            // All messages are finished
+            EventBus.getDefault().post(new MessagePlayerStopEvent());
         }
     }
 
@@ -112,7 +116,6 @@ public class MessagePlayer extends android.media.MediaPlayer {
         reset();
         VolumeHelper.setVolume(previousVolume);
         PICConnectionHelper.sendCommand(new TRCStartAudioMessageCommand(false, currentMessage.key));
-        EventBus.getDefault().post(new MessagePlayerStopEvent());
         currentMessage = null;
         playNext();
     }

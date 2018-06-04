@@ -8,8 +8,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayDeque;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import bei.m3c.activities.MainActivity;
 import bei.m3c.commands.TRCStartAudioMessageCommand;
@@ -70,23 +68,18 @@ public class MessagePlayer extends android.media.MediaPlayer {
     private void play() {
         if (!ready) {
             if (currentMessage != null) {
-                (new Timer()).schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        try {
-                            String urlStr = currentMessage.audioMessageUrl;
-                            URL url = new URL(urlStr);
-                            URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
-                            url = uri.toURL();
-                            setAudioStreamType(AudioManager.STREAM_MUSIC);
-                            setDataSource(url.toString());
-                            prepareAsync();
-                        } catch (Exception e) {
-                            Log.e(TAG, "Error setting data source. Playing next message.", e);
-                            playNext();
-                        }
-                    }
-                }, currentMessage.delay * 1000);
+                try {
+                    String urlStr = currentMessage.audioMessageUrl;
+                    URL url = new URL(urlStr);
+                    URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
+                    url = uri.toURL();
+                    setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    setDataSource(url.toString());
+                    prepareAsync();
+                } catch (Exception e) {
+                    Log.e(TAG, "Error setting data source. Playing next message.", e);
+                    playNext();
+                }
             }
         } else {
             PICConnectionHelper.sendCommand(new TRCStartAudioMessageCommand(true, currentMessage.key));

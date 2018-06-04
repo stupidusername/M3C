@@ -6,7 +6,6 @@ public class TPCStartAudioMessageCommand extends BaseCommand {
 
     public static final String TAG = "TPCAccountInfoCommand";
     public static final byte VALUE = 4;
-    public static final String ALARM_TID_NAME = "EventWakeUp";
 
     public int audioMessageKey;
     public int roomNumber;

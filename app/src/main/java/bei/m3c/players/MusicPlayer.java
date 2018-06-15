@@ -54,8 +54,12 @@ public class MusicPlayer extends MediaPlayer {
                     songChanged = false;
                     return;
                 }
-                EventBus.getDefault().post(new MusicPlayerSongChangedEvent(getCurrentSong()));
-                play();
+                if (songs.size() > 0) {
+                    EventBus.getDefault().post(new MusicPlayerSongChangedEvent(getCurrentSong()));
+                    play();
+                } else {
+                    clearSelectedRadio();
+                }
             }
         });
         this.setOnCompletionListener(new OnCompletionListener() {

@@ -89,9 +89,7 @@ public class MusicPlayer extends MediaPlayer {
         radio = null;
         songs = new ArrayList<>();
         songPosition = 0;
-        if (!preparing) {
-            stop();
-        }
+        stop();
     }
 
     public Radio getRadio() {
@@ -178,6 +176,7 @@ public class MusicPlayer extends MediaPlayer {
     @Override
     public void stop() {
         ready = false;
+        preparing = false;
         JobManagerHelper.cancelJobsInBackground(UpdateMusicPlayerJob.TAG);
         EventBus.getDefault().post(new MusicPlayerStopEvent());
         // Send stop audio command only if the player is playing. Otherwise it would be sent already.

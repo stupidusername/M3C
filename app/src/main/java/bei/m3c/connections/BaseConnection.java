@@ -87,8 +87,11 @@ public abstract class BaseConnection {
                     readMessage(message);
                 }
             }
+            Log.i(tag, "Received end of stream.");
+            disconnect(true);
         } catch (Exception e) {
             Log.e(tag, "Error during connection.", e);
+            disconnect(true);
         }
     }
 

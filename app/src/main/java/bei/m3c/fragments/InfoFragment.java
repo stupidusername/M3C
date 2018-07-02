@@ -61,7 +61,7 @@ public class InfoFragment extends Fragment implements FragmentInterface {
     public static final int UPDATE_DATE_TIME_INTERVAL_MILLIS = 60000;
 
     private TPCAccountInfoCommand accountInfo;
-    private Date date;
+    private Date datetime;
     private Time time;
     private Timer dateTimeUpdateTimer;
     private long lastDateTimeUpdateTimeMillis;
@@ -193,15 +193,15 @@ public class InfoFragment extends Fragment implements FragmentInterface {
         JobManagerHelper.getJobManager().addJobInBackground(new GetServiceTariffsJob());
         SGHConnectionHelper.sendCommand(new TPCGetAccountInfoCommand(), GET_ACCOUNT_INFO_DELAY_MILLIS);
 
-        if (date == null) {
-            date = Calendar.getInstance().getTime();
+        if (datetime == null) {
+            datetime = Calendar.getInstance().getTime();
         }
         if (time == null) {
-            time = new Time(date.getTime());
+            time = new Time(datetime.getTime());
         }
         updateDateTime();
 
-        // Update date and time periodically
+        // Update datetime and time periodically
         if (dateTimeUpdateTimer == null) {
             dateTimeUpdateTimer = new Timer();
             dateTimeUpdateTimer.schedule(new TimerTask() {
@@ -212,7 +212,7 @@ public class InfoFragment extends Fragment implements FragmentInterface {
                         public void run() {
                             long timeDelta = System.currentTimeMillis() - lastDateTimeUpdateTimeMillis;
                             time = new Time(time.getTime() + timeDelta);
-                            date = time;
+                            datetime = new Time(datetime.getTime() + timeDelta);
                             updateDateTime();
                         }
                     });
@@ -243,7 +243,7 @@ public class InfoFragment extends Fragment implements FragmentInterface {
 
     private void updateDateTime() {
         lastDateTimeUpdateTimeMillis = System.currentTimeMillis();
-        dateTextView.setText(FormatHelper.asLongDate(date));
+        dateTextView.setText(FormatHelper.asLongDate(datetime));
         timeTextView.setText(FormatHelper.asTime(time));
     }
 
@@ -297,8 +297,8 @@ public class InfoFragment extends Fragment implements FragmentInterface {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(TPCAccountInfoCommandEvent event) {
         accountInfo = event.command;
-        date = accountInfo.date;
         time = accountInfo.time;
+        datetime = new Time(accountInfo.date.getTime() + time.getTime());
         updateInfo();
         updateDateTime();
     }

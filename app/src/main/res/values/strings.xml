@@ -26,7 +26,7 @@
     <string name="list_bullet">-</string>
     <string name="back">Volver</string>
     <string name="format_time">HH:mm</string>
-    <string name="format_date_long">d MMMM, yyyy</string>
+    <string name="format_date_long">d \'de\' MMMM, yyyy</string>
 
     <!--Music-->
     <string name="artist">Artista</string>

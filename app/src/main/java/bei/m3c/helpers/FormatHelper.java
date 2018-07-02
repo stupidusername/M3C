@@ -7,11 +7,11 @@ import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import bei.m3c.Application;
 import bei.m3c.R;
 import bei.m3c.activities.MainActivity;
-import bei.m3c.models.GlobalTime;
 
 /**
  * This class contains static methods that formats data to be displayed in the UI
@@ -23,15 +23,15 @@ public final class FormatHelper {
     public static final char SEPARATOR_GROUPING = ' ';
 
     public static String asCurrency(BigDecimal number) {
-        String formated = Application.getInstance().getBaseContext().getString(R.string.no_value);
+        String formatted = Application.getInstance().getBaseContext().getString(R.string.no_value);
         if (number != null) {
             DecimalFormatSymbols symbols = new DecimalFormatSymbols();
             symbols.setDecimalSeparator(SEPARATOR_DECIMAL);
             symbols.setGroupingSeparator(SEPARATOR_GROUPING);
             DecimalFormat currency = new DecimalFormat("#,##0.00", symbols);
-            formated = SYMBOL_CURRENCY + currency.format(number);
+            formatted = SYMBOL_CURRENCY + currency.format(number);
         }
-        return formated;
+        return formatted;
     }
 
     public static String asTimerWithHours(int timeInMillis) {
@@ -62,7 +62,8 @@ public final class FormatHelper {
     public static String asLongDate(Date date) {
         if (date != null) {
             String longDateFormat = MainActivity.getInstance().getString(R.string.format_date_long);
-            return (new SimpleDateFormat(longDateFormat)).format(date);
+            Locale locale = Application.getInstance().getBaseContext().getResources().getConfiguration().locale;
+            return (new SimpleDateFormat(longDateFormat, locale)).format(date);
         } else {
             return MainActivity.getInstance().getString(R.string.no_value);
         }

@@ -35,7 +35,7 @@ public class SGHConnection extends BaseConnection {
     @Override
     public boolean sendCommand(BaseCommand command) {
         boolean success = super.sendCommand(command);
-        if (ackTimer == null) {
+        if (success && ackTimer == null) {
             ackTimer = new Timer();
             ackTimer.schedule(new TimerTask() {
                 @Override
@@ -55,17 +55,25 @@ public class SGHConnection extends BaseConnection {
     }
 
     @Override
+    public void disconnect(boolean reconnect) {
+        cancelAckTimer();
+        super.disconnect(reconnect);
+    }
+
+    private void cancelAckTimer() {
+        if (ackTimer != null) {
+            ackTimer.cancel();
+            ackTimer = null;
+        }
+    }
+
+    @Override
     public void readCommand(byte[] command) {
         Log.v(TAG, "Received command: " + FormatHelper.asHexString(command));
+        cancelAckTimer();
         if (command.length > 0) {
             byte value = command[0];
             switch (value) {
-                case TPCKeepAliveCommand.VALUE:
-                    if (ackTimer != null) {
-                        ackTimer.cancel();
-                        ackTimer = null;
-                    }
-                    break;
                 case TPCPCStatusCommand.VALUE:
                     // App can be updated or the device can be rebooted
                     TPCPCStatusCommand tpcpcStatusCommand = new TPCPCStatusCommand(command);

@@ -8,7 +8,7 @@ android {
         applicationId "bei.m3c"
         minSdkVersion 21
         targetSdkVersion 23
-        versionCode 22
+        versionCode 23
     }
     buildTypes {
         release {

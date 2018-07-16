@@ -35,8 +35,11 @@ public class ConnectKodiJob extends Job {
 
     @Override
     public void onRun() throws Throwable {
-        connection.connect();
-        JobManagerHelper.getJobManager().addJobInBackground(new ConnectKodiJob(connection, INTERVAL));
+        try {
+            connection.connect();
+        } catch (Exception e) {
+            JobManagerHelper.getJobManager().addJobInBackground(new ConnectKodiJob(connection, INTERVAL));
+        }
     }
 
     @Override

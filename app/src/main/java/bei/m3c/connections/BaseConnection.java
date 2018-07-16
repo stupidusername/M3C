@@ -7,8 +7,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import bei.m3c.commands.BaseCommand;
 import bei.m3c.helpers.FormatHelper;
@@ -22,7 +20,6 @@ public abstract class BaseConnection {
     public static final byte MESSAGE_START = 0x29;
     public static final byte[] MESSAGE_CRC = {0x00, 0x00};
     public static final int END_OF_STREAM = -1;
-    public static final int MESSAGE_MAX_TIME_MILLIS = 1000;
 
     private String address;
     private int port;
@@ -32,8 +29,6 @@ public abstract class BaseConnection {
     private InputStream inputStream;
     private OutputStream outputStream;
     public boolean isConnected = false;
-    private boolean messageInTime;
-    private Timer messageTimer;
 
     public BaseConnection(String address, int port, int commandLenght, String tag) {
         this.address = address;
@@ -65,16 +60,7 @@ public abstract class BaseConnection {
                 message = new byte[getMessageLenght()];
                 message[i] = readByte;
                 i++;
-                messageInTime = true;
-                messageTimer = new Timer();
-                messageTimer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        messageInTime = false;
-                        messageTimer.cancel();
-                    }
-                }, MESSAGE_MAX_TIME_MILLIS);
-                while (i < getMessageLenght() && messageInTime) {
+                while (i < getMessageLenght()) {
                     readByte = (byte) inputStream.read();
                     if (readByte == END_OF_STREAM) {
                         break;
@@ -83,7 +69,6 @@ public abstract class BaseConnection {
                     i++;
                 }
                 if (i == getMessageLenght()) {
-                    messageTimer.cancel();
                     readMessage(message);
                 }
             }
@@ -112,11 +97,11 @@ public abstract class BaseConnection {
                 outputStream = null;
             }
         } catch (Exception e) {
-            Log.e(tag, "Error during disconnection", e);
+            Log.e(tag, "Error during disconnection.", e);
         }
         if (reconnect) {
             JobManagerHelper.cancelJobsInBackground(getKeepAliveCommand().tag);
-            JobManagerHelper.getJobManager().addJobInBackground(new ConnectJob(this));
+            JobManagerHelper.getJobManager().addJobInBackground(new ConnectJob(this, ConnectJob.INTERVAL));
         }
     }
 
@@ -137,7 +122,7 @@ public abstract class BaseConnection {
             outputStream.write(message);
             success = true;
         } catch (Exception e) {
-            Log.e(tag, "Error sending command", e);
+            Log.e(tag, "Error sending command.", e);
             disconnect(true);
         }
         return success;

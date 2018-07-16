@@ -249,14 +249,12 @@ public class MainActivity extends AppCompatActivity {
             public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
                 if (key.equals(PreferencesHelper.KEY_SGH_ADDRESS) || key.equals(PreferencesHelper.KEY_SGH_ADDRESS)) {
                     if (sghConnection != null) {
-                        JobManagerHelper.cancelJobsInBackground(sghConnection.tag);
                         sghConnection.disconnect(false);
                         sghConnection = null;
                         getSGHConnection();
                     }
                 } else if (key.equals(PreferencesHelper.KEY_PIC_ADDRESS) || key.equals(PreferencesHelper.KEY_PIC_ADDRESS)) {
                     if (picConnection != null) {
-                        JobManagerHelper.cancelJobsInBackground(picConnection.tag);
                         picConnection.disconnect(false);
                         picConnection = null;
                         getPICConnection();

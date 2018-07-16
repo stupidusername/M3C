@@ -64,6 +64,8 @@ public class KodiConnection {
                     readChars = new ArrayList<>();
                 }
             }
+            Log.i(TAG, "Received end of stream.");
+            disconnect(true);
         } catch (Exception e) {
             Log.e(TAG, "Error during connection.", e);
         }
@@ -89,7 +91,7 @@ public class KodiConnection {
             Log.e(TAG, "Error during disconnection", e);
         }
         if (reconnect) {
-            JobManagerHelper.getJobManager().addJobInBackground(new ConnectKodiJob(this));
+            JobManagerHelper.getJobManager().addJobInBackground(new ConnectKodiJob(this, ConnectKodiJob.INTERVAL));
         }
     }
 

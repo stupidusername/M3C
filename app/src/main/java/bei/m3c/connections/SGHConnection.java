@@ -9,7 +9,6 @@ import java.util.TimerTask;
 
 import bei.m3c.commands.BaseCommand;
 import bei.m3c.commands.TPCAccountInfoCommand;
-import bei.m3c.commands.TPCKeepAliveCommand;
 import bei.m3c.commands.TPCPCStatusCommand;
 import bei.m3c.commands.TPCStartAudioMessageCommand;
 import bei.m3c.commands.TPCTabStatusCommand;

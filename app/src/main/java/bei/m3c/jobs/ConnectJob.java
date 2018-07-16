@@ -33,8 +33,11 @@ public class ConnectJob extends Job {
 
     @Override
     public void onRun() throws Throwable {
-        connection.connect();
-        JobManagerHelper.getJobManager().addJobInBackground(new ConnectJob(connection, INTERVAL));
+        try {
+            connection.connect();
+        } catch (Exception e) {
+            JobManagerHelper.getJobManager().addJobInBackground(new ConnectJob(connection, INTERVAL));
+        }
     }
 
     @Override

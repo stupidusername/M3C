@@ -32,7 +32,7 @@ public class SGHConnection extends BaseConnection {
     }
 
     @Override
-    public boolean sendCommand(BaseCommand command) {
+    public synchronized boolean sendCommand(BaseCommand command) {
         boolean success = super.sendCommand(command);
         if (success && ackTimer == null) {
             ackTimer = new Timer();

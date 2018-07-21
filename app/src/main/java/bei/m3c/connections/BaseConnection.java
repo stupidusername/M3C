@@ -81,31 +81,33 @@ public abstract class BaseConnection {
     }
 
     public void disconnect(boolean reconnect) {
-        Log.v(tag, "Disconnecting.");
-        isConnected = false;
-        try {
-            if (socket != null) {
-                socket.close();
-                socket = null;
+        if (isConnected) {
+            Log.v(tag, "Disconnecting.");
+            JobManagerHelper.cancelJobsInBackground(getKeepAliveCommand().tag);
+            isConnected = false;
+            try {
+                if (socket != null) {
+                    socket.close();
+                    socket = null;
+                }
+                if (inputStream != null) {
+                    inputStream.close();
+                    inputStream = null;
+                }
+                if (outputStream != null) {
+                    outputStream = null;
+                    outputStream = null;
+                }
+            } catch (Exception e) {
+                Log.e(tag, "Error during disconnection.", e);
             }
-            if (inputStream != null) {
-                inputStream.close();
-                inputStream = null;
-            }
-            if (outputStream != null) {
-                outputStream = null;
-                outputStream = null;
-            }
-        } catch (Exception e) {
-            Log.e(tag, "Error during disconnection.", e);
         }
         if (reconnect) {
-            JobManagerHelper.cancelJobsInBackground(getKeepAliveCommand().tag);
             JobManagerHelper.getJobManager().addJobInBackground(new ConnectJob(this, ConnectJob.INTERVAL));
         }
     }
 
-    public boolean sendCommand(BaseCommand command) {
+    public synchronized boolean sendCommand(BaseCommand command) {
         boolean success = false;
         byte[] messageBody = new byte[commandLenght];
         messageBody[0] = command.value;

@@ -72,30 +72,32 @@ public class KodiConnection {
     }
 
     public void disconnect(boolean reconnect) {
-        Log.v(TAG, "Disconnecting.");
-        isConnected = false;
-        try {
-            if (socket != null) {
-                socket.close();
-                socket = null;
+        if (isConnected) {
+            Log.v(TAG, "Disconnecting.");
+            isConnected = false;
+            try {
+                if (socket != null) {
+                    socket.close();
+                    socket = null;
+                }
+                if (inputStream != null) {
+                    inputStream.close();
+                    inputStream = null;
+                }
+                if (outputStream != null) {
+                    outputStream = null;
+                    outputStream = null;
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Error during disconnection", e);
             }
-            if (inputStream != null) {
-                inputStream.close();
-                inputStream = null;
-            }
-            if (outputStream != null) {
-                outputStream = null;
-                outputStream = null;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Error during disconnection", e);
         }
         if (reconnect) {
             JobManagerHelper.getJobManager().addJobInBackground(new ConnectKodiJob(this, ConnectKodiJob.INTERVAL));
         }
     }
 
-    public boolean sendMethod(BaseKodiMethod method) {
+    public synchronized boolean sendMethod(BaseKodiMethod method) {
         boolean success = false;
         try {
             String methodString = method.getJsonRPCString();

@@ -22,7 +22,7 @@ import bei.m3c.jobs.UpdateRebootJob;
 public class SGHConnection extends BaseConnection {
 
     public static final int COMMAND_LENGTH = 200;
-    public static final int ACK_MAX_DELAY_MILLIS = 5000;
+    public static final int ACK_MAX_DELAY_MILLIS = 15000;
     public static final String TAG = "SGHConnection";
 
     private Timer ackTimer;

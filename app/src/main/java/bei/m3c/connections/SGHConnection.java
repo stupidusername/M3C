@@ -4,9 +4,6 @@ import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import bei.m3c.commands.BaseCommand;
 import bei.m3c.commands.TPCAccountInfoCommand;
 import bei.m3c.commands.TPCPCStatusCommand;
@@ -22,30 +19,10 @@ import bei.m3c.jobs.UpdateRebootJob;
 public class SGHConnection extends BaseConnection {
 
     public static final int COMMAND_LENGTH = 200;
-    public static final int ACK_MAX_DELAY_MILLIS = 15000;
     public static final String TAG = "SGHConnection";
-
-    private Timer ackTimer;
 
     public SGHConnection(String address, int port) {
         super(address, port, COMMAND_LENGTH, TAG);
-    }
-
-    @Override
-    public synchronized boolean sendCommand(BaseCommand command) {
-        boolean success = super.sendCommand(command);
-        if (success && ackTimer == null) {
-            ackTimer = new Timer();
-            ackTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    Log.d(TAG, "ACK not received.");
-                    disconnect(true);
-                    ackTimer = null;
-                }
-            }, ACK_MAX_DELAY_MILLIS);
-        }
-        return success;
     }
 
     @Override
@@ -55,21 +32,12 @@ public class SGHConnection extends BaseConnection {
 
     @Override
     public void disconnect(boolean reconnect) {
-        cancelAckTimer();
         super.disconnect(reconnect);
-    }
-
-    private void cancelAckTimer() {
-        if (ackTimer != null) {
-            ackTimer.cancel();
-            ackTimer = null;
-        }
     }
 
     @Override
     public void readCommand(byte[] command) {
         Log.v(TAG, "Received command: " + FormatHelper.asHexString(command));
-        cancelAckTimer();
         if (command.length > 0) {
             byte value = command[0];
             switch (value) {

@@ -18,6 +18,11 @@ public class Light {
     public static final byte CODE_INTRO_INIT = 0;
     public static final byte CODE_INTRO_END = 1;
     public static final byte CODE_CLEAN = 2;
+    public static final byte CODE_SPECIAL_1 = 3;
+    public static final byte CODE_SPECIAL_2 = 4;
+    public static final byte CODE_SPECIAL_3 = 5;
+    public static final byte CODE_SPECIAL_4 = 6;
+
 
     public String name;
     public int type;
@@ -59,6 +64,10 @@ public class Light {
         typeNames.add(CODE_INTRO_INIT, Application.getInstance().getString(R.string.light_scene_intro_init));
         typeNames.add(CODE_INTRO_END, Application.getInstance().getString(R.string.light_scene_intro_end));
         typeNames.add(CODE_CLEAN, Application.getInstance().getString(R.string.light_scene_clean));
+        typeNames.add(CODE_SPECIAL_1, Application.getInstance().getString(R.string.light_scene_special) + " 1");
+        typeNames.add(CODE_SPECIAL_2, Application.getInstance().getString(R.string.light_scene_special) + " 2");
+        typeNames.add(CODE_SPECIAL_3, Application.getInstance().getString(R.string.light_scene_special) + " 3");
+        typeNames.add(CODE_SPECIAL_4, Application.getInstance().getString(R.string.light_scene_special) + " 4");
         return typeNames;
     }
 }

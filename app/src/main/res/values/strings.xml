@@ -64,6 +64,7 @@
     <string name="light_scene_intro_init">Comienzo intro</string>
     <string name="light_scene_intro_end">Final intro</string>
     <string name="light_scene_clean">Limpieza</string>
+    <string name="light_scene_special">Especial</string>
 
     <!--AC-->
     <string name="ac_temp_unit">°C</string>

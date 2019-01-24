@@ -46,11 +46,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.birbit.android.jobqueue.JobManager;
@@ -69,6 +71,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int CONSUMER_LOAD_FACTOR = 1; //1 jobs per consumer
     public static final int CONSUMER_KEEP_ALIVE = 120; //wait 2 minutes
     public static final int POSITION_MUSIC_TAB = 0;
+    public static final int SHOW_INFO_TAB_DELAY= 30000; //time of inactivity until the info tab is shown
 
     public static MainActivity instance;
     private static JobManager jobManager = null;
@@ -95,11 +100,15 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences.OnSharedPreferenceChangeListener prefListener;
 
     // Views
+    private LinearLayout touchDetectLayout;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private Button preferencesButton;
 
     private AlertDialog preferencesAlertDialog;
+
+    // Info tab timer
+    private Timer infoTabTimer = null;
 
     // Integer to boolean adapter for Gson
     private static final TypeAdapter<Boolean> booleanAsIntAdapter = new TypeAdapter<Boolean>() {
@@ -177,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Add tabs
         tabLayout.setupWithViewPager(viewPager);
+        startInfoTabTimer();
 
         // Set up preferences alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -273,6 +283,24 @@ public class MainActivity extends AppCompatActivity {
         PreferencesHelper.getSharedPreferences().registerOnSharedPreferenceChangeListener(prefListener);
     }
 
+    // Show the info tab when the device was not used for a while
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (infoTabTimer != null) {
+                    infoTabTimer.cancel();
+                    infoTabTimer = null;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                startInfoTabTimer();
+                break;
+        }
+
+        return super.dispatchTouchEvent(ev);
+    }
+
     // Use immersive mode
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -304,6 +332,23 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         releaseWakeLock();
         getApplicationContext().getContentResolver().unregisterContentObserver(settingsContentObserver);
+    }
+
+    private void startInfoTabTimer() {
+        if (infoTabTimer == null) {
+            infoTabTimer = new Timer();
+            infoTabTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            viewPager.setCurrentItem(viewPager.getAdapter().getCount());
+                        }
+                    });
+                }
+            }, SHOW_INFO_TAB_DELAY);
+        }
     }
 
     private void setupViewPager(final ViewPager viewPager) {

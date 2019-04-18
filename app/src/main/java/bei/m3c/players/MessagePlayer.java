@@ -5,8 +5,6 @@ import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayDeque;
 
 import bei.m3c.activities.MainActivity;
@@ -69,12 +67,8 @@ public class MessagePlayer extends android.media.MediaPlayer {
         if (!ready) {
             if (currentMessage != null) {
                 try {
-                    String urlStr = currentMessage.audioMessageUrl;
-                    URL url = new URL(urlStr);
-                    URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
-                    url = uri.toURL();
                     setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    setDataSource(url.toString());
+                    setDataSource(currentMessage.audioMessageUrl);
                     prepareAsync();
                 } catch (Exception e) {
                     Log.e(TAG, "Error setting data source. Playing next message.", e);

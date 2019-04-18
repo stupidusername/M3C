@@ -1,14 +1,11 @@
 package bei.m3c.players;
 
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -122,12 +119,7 @@ public class MusicPlayer extends MediaPlayer {
             if (songs.size() > 0) {
                 if (!preparing) {
                     try {
-                        String urlStr = getCurrentSong().songUrl;
-                        URL url = new URL(urlStr);
-                        URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
-                        url = uri.toURL();
-                        setAudioStreamType(AudioManager.STREAM_MUSIC);
-                        setDataSource(url.toString());
+                        setDataSource(getCurrentSong().songUrl);
                         if (!preparing) {
                             preparing = true;
                             prepareAsync();

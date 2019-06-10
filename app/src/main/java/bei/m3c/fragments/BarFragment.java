@@ -159,7 +159,7 @@ public class BarFragment extends Fragment implements FragmentInterface {
             popupDescriptionLayout.setVisibility(View.VISIBLE);
             popupDescriptionTextView.setText(articleDescription);
         }
-        Glide.with(getContext()).load(barArticle.pictureUrl).centerCrop()
+        Glide.with(getContext()).load(barArticle.pictureUrl)
                 .placeholder(R.drawable.bar_article_placeholder).dontAnimate().into(popupImageView);
         popupWindow.showAtLocation(activityLayout, Gravity.CENTER, 0, 0);
     }

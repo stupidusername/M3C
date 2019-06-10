@@ -39,6 +39,8 @@ public class BarArticleAdapter extends BaseListAdapter<BarArticle> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
+        BarArticle barArticle = getItem(position);
+
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.bar_article_listview_row, parent, false);
             // This goes here to avoid changing the view
@@ -46,9 +48,13 @@ public class BarArticleAdapter extends BaseListAdapter<BarArticle> {
             if (infoImageButton != null) {
                 ThemeHelper.setImageButtonTheme(infoImageButton);
             }
-        }
 
-        BarArticle barArticle = getItem(position);
+            if (barArticle != null) {
+                if (barArticle.pictureUrl == null && barArticle.description == null) {
+                    infoImageButton.setVisibility(View.INVISIBLE);
+                }
+            }
+        }
 
         if (barArticle != null) {
             titleTextView = (TextView) convertView.findViewById(R.id.bar_article_listview_row_title_textview);

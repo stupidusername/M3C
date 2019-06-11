@@ -340,6 +340,7 @@ public class MusicFragment extends Fragment implements FragmentInterface {
         // play radio if needed
         if (playOnCreate) {
             playIntro();
+            playOnCreate = false;
         }
     }
 
@@ -379,11 +380,6 @@ public class MusicFragment extends Fragment implements FragmentInterface {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(IntroEvent event) {
-        playIntro();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(VolumeChangedEvent event) {
         updateVolumeSeekbar();
         updateVolumeButton();
@@ -394,7 +390,6 @@ public class MusicFragment extends Fragment implements FragmentInterface {
     }
 
     public void playIntro() {
-        playOnCreate = false;
         int volume = Math.round((float) (PreferencesHelper.getIntroVolumePercentage() * VolumeHelper.getMaxVolume()) / 100);
         VolumeHelper.setVolume(volume);
         updateVolumeButton();

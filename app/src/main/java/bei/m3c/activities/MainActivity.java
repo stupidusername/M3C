@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int CONSUMER_KEEP_ALIVE = 120; //wait 2 minutes
     public static final int POSITION_MUSIC_TAB = 0;
     public static final int SHOW_INFO_TAB_DELAY= 30000; //time of inactivity until the info tab is shown
+    public static final int MAX_DELAY_TO_PLAY_INTRO = 10000;
 
     public static MainActivity instance;
     private static JobManager jobManager = null;
@@ -517,8 +518,15 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(IntroEvent event) {
         ViewPagerAdapter viewPagerAdapter = (ViewPagerAdapter) viewPager.getAdapter();
-        MusicFragment musicFragment = (MusicFragment) viewPagerAdapter.getItem(POSITION_MUSIC_TAB);
+        final MusicFragment musicFragment = (MusicFragment) viewPagerAdapter.getItem(POSITION_MUSIC_TAB);
         musicFragment.setPlayOnCreate(true);
         viewPager.setCurrentItem(POSITION_MUSIC_TAB);
+        musicFragment.playIntro();
+        (new Timer()).schedule(new TimerTask() {
+            @Override
+            public void run() {
+                musicFragment.setPlayOnCreate(false);
+            }
+        }, MAX_DELAY_TO_PLAY_INTRO);
     }
 }
